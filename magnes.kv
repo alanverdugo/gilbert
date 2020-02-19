@@ -1,12 +1,14 @@
 #:kivy 1.11.1
 
 
-<MenuScreen>
-    orientation: "vertical"
-
-<MenuScreenButton>
+<MenuScreenButton@Button>
     # Yellow text color:
     color: 1,1,0,1
     # Purple background color:
     background_color: 0.41,0.05,0.67,1
     font_size: 40
+    text: self.text
+
+
+<MenuScreen>
+    orientation: "vertical"
