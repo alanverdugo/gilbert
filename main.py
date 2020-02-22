@@ -7,6 +7,7 @@ from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
+from kivy.uix.popup import Popup
 #kivy.require("1.11.1")
 
 class MenuScreenButton(Button):
@@ -53,7 +54,22 @@ class MenuScreen(BoxLayout):
 
 
     def say_hello(self, event):
-        print("Hello!")
+        layout = GridLayout(cols=1, padding=10)
+
+        popup_label = Label(text="Hello")
+        close_button = Button(text="Close")
+
+        layout.add_widget(popup_label)
+        layout.add_widget(close_button)
+
+        # Instantiate the modal popup and display.
+        popup = Popup(title='Message',
+                      content=layout,
+                      size_hint=(None, None), size=(200, 200))
+        popup.open()
+
+        # Attach close button press with popup.dismiss action.
+        close_button.bind(on_press=popup.dismiss)
 
 
 if __name__ == "__main__":
