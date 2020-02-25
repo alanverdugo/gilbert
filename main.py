@@ -20,7 +20,7 @@ class MenuScreenButton(Button):
     pass
 
 
-class Magnes(App):
+class Gilbert(App):
     """Main class."""
 
     def build(self):
@@ -73,4 +73,4 @@ class MenuScreen(BoxLayout):
 
 
 if __name__ == "__main__":
-    Magnes().run()
+    Gilbert().run()
