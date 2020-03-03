@@ -1,6 +1,7 @@
 #:kivy 1.11.1
 
 
+
 <MenuScreenButton@Button>
     # Yellow text color:
     color: 1,1,0,1
@@ -9,6 +10,11 @@
     font_size: 40
     text: self.text
 
+<SettingsButton@MenuScreenButton>
+    text: 'Configuración (F1)'
+    font_size: self.font_size
+    on_release: app.open_settings()
 
 <MenuScreen>
     orientation: "vertical"
+
