@@ -1,4 +1,4 @@
-    #!/usr/bin/env python
+#!/usr/bin/env python
 """A mobile application that helps learn about electricity and magnetism."""
 
 from kivy.app import App
@@ -10,7 +10,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.popup import Popup
 from kivy.logger import Logger
 #from kivy.lang import Builder
-#from kivy.uix.settings import SettingsWithSidebar
+from kivy.uix.settings import SettingsWithTabbedPanel
 
 
 class MenuScreenButton(Button):
@@ -53,7 +53,7 @@ class Gilbert(App):
         # The line below is optional. You could leave it out or use one of the
         # standard options, such as SettingsWithSidebar, SettingsWithSpinner
         # etc.
-        self.settings_cls = SettingsWithSidebar
+        self.settings_cls = SettingsWithTabbedPanel
 
         # We apply the saved configuration settings or the defaults
         #root = Builder.load_string(kv)
@@ -76,7 +76,7 @@ class Gilbert(App):
         # We use the string defined above for our config JSON, but it could also be
         # loaded from a file as follows:
         #     settings.add_json_panel('My Label', self.config, 'settings.json')
-        settings.add_json_panel('Configuraciones varias', self.config, data=CONFIG)
+        settings.add_json_panel('Configuración', self.config, data=CONFIG)
 
     def on_config_change(self, config, section, key, value):
         """
@@ -108,38 +108,57 @@ class MenuScreen(BoxLayout):
         button1 = MenuScreenButton(text="Study")
         #button1.bind(on_press=self.callback)
         self.add_widget(button1)
-        button1.bind(on_press=self.say_hello)
+        button1.bind(on_press=open_study_section)
 
         # Create one of our custom "Menu-screen buttons".
         button2 = MenuScreenButton(text="Quiz")
         #button2.bind(on_press=self.callback)
         self.add_widget(button2)
-        button2.bind(on_press=self.say_hello)
+        button2.bind(on_press=open_quiz_section)
 
         # Create our custom "Settings button".
         button3 = SettingsButton()
-        #button3.bind(on_press=self.callback)
         self.add_widget(button3)
-        #button3.bind(on_press=app.open_settings())
 
 
-    def say_hello(self, event):
-        layout = GridLayout(cols=1, padding=10)
+def open_study_section(event):
+    layout = GridLayout(cols=1, padding=10)
 
-        popup_label = Label(text="Hello")
-        close_button = Button(text="Close")
+    popup_label = Label(text="Study section")
+    close_button = Button(text="Close")
 
-        layout.add_widget(popup_label)
-        layout.add_widget(close_button)
+    layout.add_widget(popup_label)
+    layout.add_widget(close_button)
 
-        # Instantiate the modal popup and display.
-        popup = Popup(title='Message',
-                      content=layout,
-                      size_hint=(None, None), size=(200, 200))
-        popup.open()
+    # Instantiate the modal popup and display.
+    popup = Popup(title='Redirecting to...',
+                  content=layout,
+                  size_hint=(None, None),
+                  size=(400, 400))
+    popup.open()
 
-        # Attach close button press with popup.dismiss action.
-        close_button.bind(on_press=popup.dismiss)
+    # Attach close button press with popup.dismiss action.
+    close_button.bind(on_press=popup.dismiss)
+
+
+def open_quiz_section(event):
+    layout = GridLayout(cols=1, padding=10)
+
+    popup_label = Label(text="Quiz section")
+    close_button = Button(text="Close")
+
+    layout.add_widget(popup_label)
+    layout.add_widget(close_button)
+
+    # Instantiate the modal popup and display.
+    popup = Popup(title='Redirecting to...',
+                  content=layout,
+                  size_hint=(None, None),
+                  size=(400, 400))
+    popup.open()
+
+    # Attach close button press with popup.dismiss action.
+    close_button.bind(on_press=popup.dismiss)
 
 
 if __name__ == "__main__":
