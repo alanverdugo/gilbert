@@ -6,12 +6,12 @@ from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.widget import Widget
+#from kivy.uix.widget import Widget
 from kivy.uix.popup import Popup
 from kivy.logger import Logger
-from kivy.lang import Builder
-from kivy.uix.settings import SettingsWithSidebar
-#kivy.require("1.11.1")
+#from kivy.lang import Builder
+#from kivy.uix.settings import SettingsWithSidebar
+
 
 class MenuScreenButton(Button):
     """
@@ -30,7 +30,7 @@ class SettingsButton(MenuScreenButton):
     pass
 
 
-config = '''
+CONFIG = '''
 [
     {
         "type": "numeric",
@@ -42,7 +42,6 @@ config = '''
 ]
 '''
 
-Logger.critical(SettingsButton.font_size)
 
 class Gilbert(App):
     """Main class."""
@@ -77,14 +76,14 @@ class Gilbert(App):
         # We use the string defined above for our config JSON, but it could also be
         # loaded from a file as follows:
         #     settings.add_json_panel('My Label', self.config, 'settings.json')
-        settings.add_json_panel('Configuraciones varias', self.config, data=config)
+        settings.add_json_panel('Configuraciones varias', self.config, data=CONFIG)
 
     def on_config_change(self, config, section, key, value):
         """
         Respond to changes in the configuration.
         """
-        Logger.info("main.py: App.on_config_change: {0}, {1}, {2}, {3}".format(
-            config, section, key, value))
+        Logger.info("main.py: App.on_config_change: %s, %s, %s, %s,",
+                    config, section, key, value)
 
         if section == "MenuScreenButton":
             if key == 'font_size':
@@ -95,7 +94,7 @@ class Gilbert(App):
         """
         The settings panel has been closed.
         """
-        Logger.info("main.py: App.close_settings: {0}".format(settings))
+        Logger.info("main.py: App.close_settings: %s", settings)
         super(Gilbert, self).close_settings(settings)
 
 
