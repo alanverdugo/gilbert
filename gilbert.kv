@@ -1,3 +1,47 @@
+<MenuScreen@Screen>
+    BoxLayout:
+        orientation: "vertical"
+        MenuScreenButton:
+            text: "Study"
+            on_press:
+                # You can define the duration of the change
+                # and the direction of the slide
+                root.manager.transition.direction = 'left'
+                root.manager.transition.duration = .3
+                root.manager.current = 'study_screen'
+        MenuScreenButton:
+            text: "Quiz"
+            on_press:
+                # You can define the duration of the change
+                # and the direction of the slide
+                root.manager.transition.direction = 'left'
+                root.manager.transition.duration = .3
+                root.manager.current = 'quiz_screen'
+        SettingsButton
+
+<StudyScreen@Screen>:
+    BoxLayout:
+        Button:
+            text: "This is the study screen. Go back to menu."
+            on_press:
+                # You can define the duration of the change
+                # and the direction of the slide
+                root.manager.transition.direction = 'right'
+                root.manager.transition.duration = .3
+                root.manager.current = 'menu_screen'
+
+<QuizScreen@Screen>:
+    BoxLayout:
+        Button:
+            text: "This is the quiz screen. Go back to menu."
+            on_press:
+                # You can define the duration of the change
+                # and the direction of the slide
+                root.manager.transition.direction = 'right'
+                root.manager.transition.duration = .3
+                root.manager.current = 'menu_screen'
+
+
 <MenuScreenButton@Button>
     # Yellow text color:
     color: 1,1,0,1
@@ -10,7 +54,4 @@
     text: 'Configuración (F1)'
     font_size: self.font_size
     on_release: app.open_settings()
-
-<MenuScreen>
-    orientation: "vertical"
 
