@@ -46,7 +46,7 @@
     BoxLayout:
         orientation: "vertical"
         Label:
-            text: "Made by: Alan Verdugo Muñoz\nIcons: Material design by Google (https://material.io/resources/icons)"
+            text: "Made by: Alan Verdugo Muñoz\nIcons: Material design by Google"
         BackToMenuButton
 
 <MenuScreenButton@Button>
@@ -71,12 +71,21 @@
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
         Label:
             text: "Configuración"
-    
 
 <BackToMenuButton>
-    text: 'Back to menu'
     font_size: self.font_size
     on_press:
         app.screen_manager.transition.direction = 'right'
         app.screen_manager.transition.duration = .3
         app.screen_manager.current = 'menu_screen'
+    BoxLayout:
+        pos: self.parent.pos
+        size: self.parent.size
+        orientation: 'vertical'
+        Image:
+            source: 'icons/ic_home_white_48dp.png'
+            size_hint_x: None
+            width: 100
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        Label:
+            text: "Menu"
