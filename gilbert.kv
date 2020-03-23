@@ -1,5 +1,6 @@
 <MenuScreen@Screen>
     BoxLayout:
+        id: menu_screen_layout
         orientation: "vertical"
         MenuScreenButton:
             text: "Study"
@@ -17,30 +18,36 @@
                 root.manager.transition.direction = 'left'
                 root.manager.transition.duration = .3
                 root.manager.current = 'quiz_screen'
+        MenuScreenButton:
+            text: "About"
+            on_press:
+                # You can define the duration of the change
+                # and the direction of the slide
+                root.manager.transition.direction = 'left'
+                root.manager.transition.duration = .3
+                root.manager.current = 'about_screen'
         SettingsButton
 
 <StudyScreen@Screen>:
     BoxLayout:
-        Button:
-            text: "This is the study screen. Go back to menu."
-            on_press:
-                # You can define the duration of the change
-                # and the direction of the slide
-                root.manager.transition.direction = 'right'
-                root.manager.transition.duration = .3
-                root.manager.current = 'menu_screen'
+        orientation: "vertical"
+        Label:
+            text: "This is the Study screen"
+        BackToMenuButton
 
 <QuizScreen@Screen>:
     BoxLayout:
-        Button:
-            text: "This is the quiz screen. Go back to menu."
-            on_press:
-                # You can define the duration of the change
-                # and the direction of the slide
-                root.manager.transition.direction = 'right'
-                root.manager.transition.duration = .3
-                root.manager.current = 'menu_screen'
+        orientation: "vertical"
+        Label:
+            text: "This is the Quiz Screen"
+        BackToMenuButton
 
+<AboutScreen@Screen>:
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: "Made by: Alan Verdugo Muñoz\nIcons: Material design by Google (https://material.io/resources/icons)"
+        BackToMenuButton
 
 <MenuScreenButton@Button>
     # Yellow text color:
@@ -51,7 +58,25 @@
     text: self.text
 
 <SettingsButton@MenuScreenButton>
-    text: 'Configuración (F1)'
     font_size: self.font_size
     on_release: app.open_settings()
+    BoxLayout:
+        pos: self.parent.pos
+        size: self.parent.size
+        orientation: 'vertical'
+        Image:
+            source: 'icons/ic_settings_applications_white_48dp.png'
+            size_hint_x: None
+            width: 100
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        Label:
+            text: "Configuración"
+    
 
+<BackToMenuButton>
+    text: 'Back to menu'
+    font_size: self.font_size
+    on_press:
+        app.screen_manager.transition.direction = 'right'
+        app.screen_manager.transition.duration = .3
+        app.screen_manager.current = 'menu_screen'
