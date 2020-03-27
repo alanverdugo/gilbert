@@ -6,6 +6,7 @@ from kivy.uix.button import Button
 from kivy.logger import Logger
 from kivy.uix.settings import SettingsWithTabbedPanel
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.base import EventLoop
 
 class MenuScreen(Screen):
     """
@@ -110,7 +111,28 @@ class Gilbert(App):
         #MenuScreenButton.font_size = float(self.config.get('MenuScreenButton', 'font_size'))
         #return root
 
+        # Bind to catch the "back" Android button.
+        self.bind(on_start=self.post_build_init)
+
         return self.screen_manager
+
+    def post_build_init(self, ev):
+        EventLoop.window.bind(on_keyboard=self.hook_keyboard)
+
+
+    def hook_keyboard(self, window, key, *largs):
+        # Key 27 is "Esc" in the Keyboard, or "Back" on Android.
+        if key == 27:
+            print(self.screen_manager.current)
+            if self.screen_manager.current == 'menu_screen':
+                print("Can't go further back!")
+                Gilbert.get_running_app().stop()
+            if isinstance(self.screen_manager.previous, str):
+                self.screen_manager.current = self.screen_manager.previous
+            else:
+                self.screen_manager.current = self.screen_manager.previous()
+            return True
+
 
     def build_config(self, config):
         """
