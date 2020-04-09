@@ -58,6 +58,14 @@ class QuizScreen(Screen):
     """
     pass
 
+class OhmScreen(Screen):
+    """
+    Custom Screen Class for the Ohm's law simulator section.
+
+    It inherits from Screen.
+    """
+    pass
+
 class AboutScreen(Screen):
     """
     Custom Screen Class for the About section.
@@ -102,6 +110,7 @@ class Gilbert(App):
         self.screen_manager.add_widget(MenuScreen(name="menu_screen"))
         self.screen_manager.add_widget(StudyScreen(name="study_screen"))
         self.screen_manager.add_widget(QuizScreen(name="quiz_screen"))
+        self.screen_manager.add_widget(OhmScreen(name="ohm_screen"))
         self.screen_manager.add_widget(AboutScreen(name="about_screen"))
 
         # We apply the saved configuration settings or the defaults
