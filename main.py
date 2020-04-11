@@ -95,9 +95,6 @@ CONFIG = '''
 '''
 
 
-
-
-
 class Gilbert(App):
     """Main class."""
 
@@ -134,10 +131,16 @@ class Gilbert(App):
         return self.screen_manager
 
     def post_build_init(self, ev):
+        """
+        Hook the keyboard to listen to its behaviour.
+        """
         EventLoop.window.bind(on_keyboard=self.hook_keyboard)
 
 
     def hook_keyboard(self, window, key, *largs):
+        """
+        Capture behaviour for the "back" button in Android.
+        """
         # Key 27 is "Esc" in the Keyboard, or "Back" on Android.
         if key == 27:
             print(self.screen_manager.current)
