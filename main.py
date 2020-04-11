@@ -32,6 +32,14 @@ class BackToMenuButton(Button):
     """
     pass
 
+class ResetOhmButton(Button):
+    """
+    Custom button reset the Ohm simulator.
+
+    It inherits from kivy.uix.button.
+    """
+    pass
+
 class SettingsButton(MenuScreenButton):
     """
     Custom Settings button style for the Menu Screen.

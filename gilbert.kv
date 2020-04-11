@@ -71,53 +71,63 @@
             rows: 3
             cols: 3
             pos_hint: {"center_x":0.5, "bottom":0}
-            size_hint: 0.5,0.3
+            size_hint: 0.5,0.7
             # Show the current value of the sliders in labels.
             Label:
-                text: str(round(resistance_slider.value, 2))
+                id: current_label
+                #text: str(round(current_slider.value, 2)) + " mA"
+                text: str(round((voltage_slider.value / resistance_slider.value) * 1000, 2)) + " mA"
                 size_hint: 0.1, 0.1
             Label:
-                text: str(round(current_slider.value, 2))
+                id: voltage_label
+                text: str(round(voltage_slider.value, 2)) + " V"
                 size_hint: 0.1, 0.1
             Label:
-                text: str(round(voltage_slider.value, 2))
+                id: resistance_label
+                text: str(round(resistance_slider.value, 2)) + " Ohms"
                 size_hint: 0.1, 0.1
             # Sliders
-            Slider:
-                id: resistance_slider
-                min: 0
-                max: 100
-                step: 0.1
-                orientation: 'vertical'
-                pos_hint: {"x":0.3, "top":0.3}
-                size_hint: 0.1, 0.7
-            Slider:
-                id: current_slider
-                min: 0
-                max: 100
-                step: 0.1
-                orientation: 'vertical'
-                pos_hint: {"x":0.5, "top":0.3}
-                size_hint: 0.1, 0.7
+            Label:
+                text: "Placeholder"
+                size_hint: 0.1, 0.1
+            #Slider:
+            #    id: current_slider
+            #    min: 1
+            #    max: 10
+            #    step: 0.1
+            #    orientation: 'vertical'
+            #    pos_hint: {"x":0.5, "top":0.3}
+            #    size_hint: 0.1, 0.7
+            #    value: (voltage_slider.value / resistance_slider.value) * 1000
             Slider:
                 id: voltage_slider
-                min: 0
-                max: 100
+                min: 0.1
+                max: 9
                 step: 0.1
                 orientation: 'vertical'
                 pos_hint: {"x":0.7, "top":0.3}
                 size_hint: 0.1, 0.7
+                #value: current_slider.value * resistance_slider.value
+            Slider:
+                id: resistance_slider
+                min: 10
+                max: 1000
+                step: 0.1
+                orientation: 'vertical'
+                pos_hint: {"x":0.3, "top":0.3}
+                size_hint: 0.1, 0.7
+                #value: voltage_slider.value / current_slider.value
             # Informative labels.
-            Label:
-                text: "Resistencia"
-                size_hint: 0.1, 0.1
             Label:
                 text: "Amperage"
                 size_hint: 0.1, 0.1
             Label:
                 text: "Voltage"
                 size_hint: 0.1, 0.1
-        BackToMenuButton
+            Label:
+                text: "Resistencia"
+                size_hint: 0.1, 0.1
+        ResetOhmButton
             pos_hint: {"right":1, "bottom":1}
             size_hint: 0.1, 0.1
 
@@ -168,3 +178,17 @@
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
         Label:
             text: "Menu"
+
+<ResetOhmButton>
+    font_size: self.font_size
+    BoxLayout:
+        pos: self.parent.pos
+        size: self.parent.size
+        orientation: 'vertical'
+        Image:
+            source: 'icons/ic_home_white_48dp.png'
+            size_hint_x: None
+            width: 100
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        Label:
+            text: "Reset"
