@@ -54,145 +54,9 @@
             text: "This is the Quiz Screen"
         BackToMenuButton
 
-<OhmScreen@Screen>:
-    FloatLayout:
-        Label:
-            text: "Simulador de la ley de Ohm"
-            pos_hint: {"x":0.5, "top":1}
-            size_hint: 0.1,0.5
-        BackToMenuButton
-            pos_hint: {"left":0, "bottom":1}
-            size_hint: 0.1, 0.1
-        Label:
-            text: "Simulador de la ley de Ohm"
-            pos_hint: {"x":0.5, "top":1}
-            size_hint: 0.1,0.5
-        GridLayout:
-            rows: 5
-            cols: 3
-            pos_hint: {"center_x":0.5, "bottom":0}
-            size_hint: 0.5,0.7
-            # Activate/de-activate buttons.
-            CheckBox:
-                id: checkbox_current
-                group: "checkboxes"
-                allow_no_selection: False
-                size_hint: 0.1, 0.1
-                active: True
-            CheckBox:
-                id: checkbox_voltage
-                group: "checkboxes"
-                allow_no_selection: False
-                size_hint: 0.1, 0.1
-            CheckBox:
-                id: checkbox_resistance
-                group: "checkboxes"
-                allow_no_selection: False
-                size_hint: 0.1, 0.1
-            #ToggleButton:
-            #    id: toggle_button_current
-            #    text: "Calcular\namperage"
-            #    group: "togglebuttons"
-            #    allow_no_selection: False
-            #    size_hint: 0.1, 0.1
-            #    state: 'down'
-            #    on_release:
-            #        current_slider.disabled = not current_slider.disabled
-            #        voltage_slider.disabled = not voltage_slider.disabled
-            #        resistance_slider.disabled = not resistance_slider.disabled
-            #ToggleButton:
-            #    id: toggle_button_voltage
-            #    text: "Calcular\nvoltage"
-            #    group: "togglebuttons"
-            #    allow_no_selection: False
-            #    size_hint: 0.1, 0.1
-            #    on_release:
-            #        current_slider.disabled = not current_slider.disabled
-            #        voltage_slider.disabled = not voltage_slider.disabled
-            #        resistance_slider.disabled = not resistance_slider.disabled
-            #ToggleButton:
-            #    id: toggle_button_resistance
-            #    text: "Calcular\nresistencia"
-            #    group: "togglebuttons"
-            #    allow_no_selection: False
-            #    size_hint: 0.1, 0.1
-            #    on_release:
-            #        current_slider.disabled = not current_slider.disabled
-            #        voltage_slider.disabled = not voltage_slider.disabled
-            #        resistance_slider.disabled = not resistance_slider.disabled
-            # Show the current value of the sliders in labels.
-            Label:
-                id: current_label
-                text: str(round(current_slider.value, 2)) + " mA"
-                #text: str(round((voltage_slider.value / resistance_slider.value) * 1000, 2)) + " mA"
-                size_hint: 0.1, 0.1
-            Label:
-                id: voltage_label
-                text: str(round(voltage_slider.value, 2)) + " V"
-                size_hint: 0.1, 0.1
-            Label:
-                id: resistance_label
-                text: str(round(resistance_slider.value, 2)) + " Ohms"
-                size_hint: 0.1, 0.1
-            # Sliders
-            Slider:
-                id: current_slider
-                min: 0.1
-                max: 900
-                step: 0.1
-                orientation: 'vertical'
-                pos_hint: {"x":0.5, "top":0.3}
-                size_hint: 0.1, 0.6
-                value: (voltage_slider.value / resistance_slider.value) * 1000
-                disabled: checkbox_current.active
-            Slider:
-                id: voltage_slider
-                min: 0.1
-                max: 9
-                step: 0.1
-                orientation: 'vertical'
-                pos_hint: {"x":0.7, "top":0.3}
-                size_hint: 0.1, 0.6
-                #value: current_slider.value * resistance_slider.value
-                disabled: checkbox_voltage.active
-            Slider:
-                id: resistance_slider
-                min: 10
-                max: 1000
-                step: 0.1
-                orientation: 'vertical'
-                pos_hint: {"x":0.3, "top":0.3}
-                size_hint: 0.1, 0.6
-                #value: voltage_slider.value / current_slider.value
-                disabled: checkbox_resistance.active
-            # Informative labels.
-            Label:
-                text: "Amperage"
-                size_hint: 0.1, 0.1
-            Label:
-                text: "Voltage"
-                size_hint: 0.1, 0.1
-            Label:
-                text: "Resistencia"
-                size_hint: 0.1, 0.1
-        ResetOhmButton
-            font_size: self.font_size
-            pos_hint: {"right":1, "bottom":1}
-            size_hint: 0.1, 0.1
-            on_press:
-                voltage_slider.value = voltage_slider.min
-                resistance_slider.value = resistance_slider.min
-            BoxLayout:
-                pos: self.parent.pos
-                size: self.parent.size
-                orientation: 'vertical'
-                Image:
-                    source: 'icons/ic_settings_backup_restore_white_48dp.png'
-                    size_hint_x: None
-                    width: 100
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                Label:
-                    text: "Reset"
+
+
+
 
 <AboutScreen@Screen>:
     BoxLayout:
@@ -241,3 +105,17 @@
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
         Label:
             text: "Menu"
+
+<ResetOhmButton@Button>
+    font_size: self.font_size
+    BoxLayout:
+        pos: self.parent.pos
+        size: self.parent.size
+        orientation: 'vertical'
+        Image:
+            source: 'icons/ic_settings_backup_restore_white_48dp.png'
+            size_hint_x: None
+            width: 100
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        Label:
+            text: "Reset"

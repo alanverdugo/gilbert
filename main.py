@@ -3,10 +3,19 @@
 
 from kivy.app import App
 from kivy.uix.button import Button
-from kivy.logger import Logger
+from kivy.uix.label import Label
+from kivy.uix.checkbox import CheckBox
+from kivy.uix.image import Image
+from kivy.uix.slider import Slider
 from kivy.uix.settings import SettingsWithTabbedPanel
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.boxlayout import BoxLayout
+from kivy.logger import Logger
 from kivy.base import EventLoop
+from kivy.properties import ObjectProperty
+
 
 class MenuScreen(Screen):
     """
@@ -32,13 +41,21 @@ class BackToMenuButton(Button):
     """
     pass
 
+
 class ResetOhmButton(Button):
     """
     Custom button reset the Ohm simulator.
 
     It inherits from kivy.uix.button.
     """
-    pass
+    def on_press(self):
+        """
+        Set the Sliders values to their defaults.
+        """
+        self.parent.parent.current_slider.value = self.parent.parent.current_slider.min
+        self.parent.parent.voltage_slider.value = self.parent.parent.voltage_slider.min
+        self.parent.parent.resistance_slider.value = self.parent.parent.resistance_slider.min
+
 
 class SettingsButton(MenuScreenButton):
     """
@@ -72,7 +89,148 @@ class OhmScreen(Screen):
 
     It inherits from Screen.
     """
-    pass
+    def __init__(self, **kwargs):
+        super(OhmScreen, self).__init__(**kwargs)
+
+        active_checkbox = ObjectProperty()
+
+        # Create a float layout.
+        self.float_layout = FloatLayout()
+        self.add_widget(self.float_layout)
+
+        # Title label
+        self.title_label = Label(text="Simulador de la ley de Ohm",
+                                 size_hint=(0.1, 0.5),
+                                 pos_hint={"x": 0.5, "top": 1})
+        self.float_layout.add_widget(self.title_label)
+
+        # Back to menu button.
+        self.back_to_menu_button = BackToMenuButton(pos_hint={"left":0, "bottom":1},
+                                                    size_hint=(0.1, 0.1))
+        self.float_layout.add_widget(self.back_to_menu_button)
+
+        # Create a grid layout inside the float layout.
+        self.grid_layout = GridLayout(rows=5,
+                                      cols=3,
+                                      pos_hint={"center_x":0.5, "bottom":0},
+                                      size_hint=(0.5, 0.7))
+        self.float_layout.add_widget(self.grid_layout)
+
+        # Inside the grid layout, create the checkboxes.
+        self.current_checkbox = CheckBox(id="current_checkbox",
+                                         group="checkboxes",
+                                         allow_no_selection=False,
+                                         size_hint=(0.1, 0.1),
+                                         active=True)
+        self.current_checkbox.bind(active=self.deactivate_checkboxes)
+
+        self.grid_layout.add_widget(self.current_checkbox)
+        self.voltage_checkbox = CheckBox(id="voltage_checkbox",
+                                         group="checkboxes",
+                                         allow_no_selection=False,
+                                         size_hint=(0.1, 0.1))
+        self.grid_layout.add_widget(self.voltage_checkbox)
+        self.voltage_checkbox.bind(active=self.deactivate_checkboxes)
+
+        self.resistance_checkbox = CheckBox(id="resistance_checkbox",
+                                            group="checkboxes",
+                                            allow_no_selection=False,
+                                            size_hint=(0.1, 0.1))
+        self.grid_layout.add_widget(self.resistance_checkbox)
+        self.resistance_checkbox.bind(active=self.deactivate_checkboxes)
+
+        # Inside the grid layout, create the sliders.
+        self.current_slider = Slider(id="current_slider",
+                                     min=0.1,
+                                     max=900,
+                                     step=0.1,
+                                     orientation='vertical',
+                                     pos_hint={"x":0.5, "top":0.3},
+                                     size_hint=(0.1, 0.6),
+                                     value=9,
+                                     disabled=True)
+        self.current_slider.bind(value=self.calculate_ohm_values)
+
+        self.grid_layout.add_widget(self.current_slider)
+        self.voltage_slider = Slider(id="voltage_slider",
+                                     min=0.1,
+                                     max=9,
+                                     step=0.1,
+                                     orientation='vertical',
+                                     pos_hint={"x":0.5, "top":0.3},
+                                     size_hint=(0.1, 0.6),
+                                     value=4.5)
+        self.grid_layout.add_widget(self.voltage_slider)
+        self.voltage_slider.bind(value=self.calculate_ohm_values)
+
+        self.resistance_slider = Slider(id="resistance_slider",
+                                        min=10,
+                                        max=1000,
+                                        step=0.1,
+                                        orientation='vertical',
+                                        pos_hint={"x":0.5, "top":0.3},
+                                        size_hint=(0.1, 0.6),
+                                        value=500)
+        self.grid_layout.add_widget(self.resistance_slider)
+        self.resistance_slider.bind(value=self.calculate_ohm_values)
+
+        # Inside the grid layout, create the labels.
+        self.current_label = Label(text=str(self.current_slider.value),
+                                   size_hint=(0.1, 0.1))
+        self.grid_layout.add_widget(self.current_label)
+        self.voltage_label = Label(size_hint=(0.1, 0.1))
+        self.grid_layout.add_widget(self.voltage_label)
+        self.resistance_label = Label(size_hint=(0.1, 0.1))
+        self.grid_layout.add_widget(self.resistance_label)
+
+        # Outside the grid layout (but inside the float layour), add the reset button.
+        self.reset_ohm_button = ResetOhmButton(pos_hint={"right":1, "bottom":1},
+                                               size_hint=(0.1, 0.1))
+        self.float_layout.add_widget(self.reset_ohm_button)
+
+        #self.float_layout.add_widget(ResetOhmButton)
+
+
+    def reset_ohm(self):
+        self.current_slider.value = self.current_slider.min
+        self.voltage_slider.value = self.voltage_slider.min
+        self.resistance_slider.value = self.resistance_slider.min
+
+
+    def deactivate_checkboxes(self, instance, value):
+        """
+        Deactivate the corresponding slider to the checkbox.
+        """
+        if instance.id == "current_checkbox":
+            self.current_slider.disabled = True
+            self.voltage_slider.disabled = False
+            self.resistance_slider.disabled = False
+        elif instance.id == "voltage_checkbox":
+            self.current_slider.disabled = False
+            self.voltage_slider.disabled = True
+            self.resistance_slider.disabled = False
+        elif instance.id == "resistance_checkbox":
+            self.current_slider.disabled = False
+            self.voltage_slider.disabled = False
+            self.resistance_slider.disabled = True
+
+    def calculate_ohm_values(self, instance, value):
+        #print(str(self.active_checkbox))
+        if self.current_checkbox.active:
+            print("calculating current")
+            self.current_slider.value = (self.voltage_slider.value / self.resistance_slider.value) * 1000
+        elif self.voltage_checkbox.active:
+            print("calculating voltage")
+            self.voltage_slider.value = (self.current_slider.value / 1000) * self.resistance_slider.value
+        elif self.resistance_checkbox.active:
+            print("calculating resistance")
+            self.resistance_slider.value = self.voltage_slider.value / self.current_slider.value * 1000
+
+        # Update the text in the labels to show the current value(s).
+        self.current_label.text = str(round(self.current_slider.value, 2)) + "\nmA"
+        self.voltage_label.text = str(round(self.voltage_slider.value, 2)) + "\nV"
+        self.resistance_label.text = str(round(self.resistance_slider.value, 2)) + "\nOhms"
+
 
 class AboutScreen(Screen):
     """
@@ -187,7 +345,6 @@ class Gilbert(App):
         """
         Logger.info("main.py: App.close_settings: %s", settings)
         super(Gilbert, self).close_settings(settings)
-
 
 if __name__ == "__main__":
     Gilbert().run()
