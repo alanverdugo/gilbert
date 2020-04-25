@@ -40,12 +40,7 @@
                 root.manager.current = 'about_screen'
         SettingsButton
 
-<StudyScreen@Screen>:
-    BoxLayout:
-        orientation: "vertical"
-        Label:
-            text: "This is the Study screen"
-        BackToMenuButton
+
 
 <QuizScreen@Screen>:
     BoxLayout:
@@ -53,9 +48,6 @@
         Label:
             text: "This is the Quiz Screen"
         BackToMenuButton
-
-
-
 
 
 <AboutScreen@Screen>:
@@ -81,7 +73,7 @@
         size: self.parent.size
         orientation: 'vertical'
         Image:
-            source: 'icons/ic_settings_applications_white_48dp.png'
+            source: 'assets/icons/ic_settings_applications_white_48dp.png'
             size_hint_x: None
             width: 100
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
@@ -99,7 +91,7 @@
         size: self.parent.size
         orientation: 'vertical'
         Image:
-            source: 'icons/ic_home_white_48dp.png'
+            source: 'assets/icons/ic_home_white_48dp.png'
             size_hint_x: None
             width: 100
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
@@ -113,7 +105,7 @@
         size: self.parent.size
         orientation: 'vertical'
         Image:
-            source: 'icons/ic_settings_backup_restore_white_48dp.png'
+            source: 'assets/icons/ic_settings_backup_restore_white_48dp.png'
             size_hint_x: None
             width: 100
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}

@@ -5,16 +5,18 @@ from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.checkbox import CheckBox
-from kivy.uix.image import Image
 from kivy.uix.slider import Slider
+from kivy.uix.dropdown import DropDown
 from kivy.uix.settings import SettingsWithTabbedPanel
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.rst import RstDocument
+
+# Layouts
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.boxlayout import BoxLayout
+
 from kivy.logger import Logger
 from kivy.base import EventLoop
-from kivy.properties import ObjectProperty
 
 
 class MenuScreen(Screen):
@@ -40,7 +42,6 @@ class BackToMenuButton(Button):
     It inherits from kivy.uix.button.
     """
     pass
-
 
 class ResetOhmButton(Button):
     """
@@ -72,7 +73,61 @@ class StudyScreen(Screen):
 
     It inherits from Screen.
     """
-    pass
+    def __init__(self, **kwargs):
+        super(StudyScreen, self).__init__(**kwargs)
+
+        # Create a float layout.
+        self.float_layout = FloatLayout()
+        self.add_widget(self.float_layout)
+
+        # Add the right side of the screen, where we will show the text.
+        self.rst_document = RstDocument(source="assets/study_chapters/chapter01.rst",
+                                        show_errors=True,
+                                        size_hint=(0.8, 1),
+                                        pos_hint={"right":1, "top":1})
+        self.float_layout.add_widget(self.rst_document)
+
+        # Add the dropdown "menu" at the left of the screen.
+        self.dropdown = DropDown()
+        for chapter in ['01', '02', '03', '04']:
+            # when adding widgets, we need to specify the height manually (disabling
+            # the size_hint_y) so the dropdown can calculate the area it needs.
+            btn = Button(text='%r' % chapter,
+                         height=50,
+                         size_hint_y=None)
+
+            # For each button, attach a callback that will call the select() method
+            # on the dropdown. We'll pass the text of the button as the data of the
+            # selection.
+            btn.bind(on_release=lambda btn: self.dropdown.select(btn.text))
+            # Add another bind so the RST document is updated according to the selection.
+            btn.bind(on_press=lambda btn: self.update_study_text(btn.text))
+
+            # Add the button inside the dropdown.
+            self.dropdown.add_widget(btn)
+
+        # Create a big main button to open the dropdown.
+        self.mainbutton = Button(text='Lecciones',
+                                 size_hint=(0.2, 0.2),
+                                 pos_hint={"left":0, "top":1})
+
+        # Show the dropdown menu when the main button is released
+        # note: all the bind() calls pass the instance of the caller (here, the
+        # mainbutton instance) as the first argument of the callback (here,
+        # dropdown.open).
+        self.mainbutton.bind(on_release=self.dropdown.open)
+
+        # Listen for the selection in the dropdown list and
+        # assign the data to the button text.
+        self.dropdown.bind(on_select=lambda instance, x: setattr(self.mainbutton, 'text', x))
+
+        self.float_layout.add_widget(self.mainbutton)
+
+    def update_study_text(self, chapter):
+        """
+        Update the text in the RST widget according to the dropdown selection.
+        """
+        self.rst_document.source = "assets/study_chapters/chapter" + chapter.replace("'", "") + ".rst"
 
 
 class QuizScreen(Screen):
@@ -91,8 +146,6 @@ class OhmScreen(Screen):
     """
     def __init__(self, **kwargs):
         super(OhmScreen, self).__init__(**kwargs)
-
-        active_checkbox = ObjectProperty()
 
         # Create a float layout.
         self.float_layout = FloatLayout()
@@ -187,15 +240,6 @@ class OhmScreen(Screen):
         self.reset_ohm_button = ResetOhmButton(pos_hint={"right":1, "bottom":1},
                                                size_hint=(0.1, 0.1))
         self.float_layout.add_widget(self.reset_ohm_button)
-
-        #self.float_layout.add_widget(ResetOhmButton)
-
-
-    def reset_ohm(self):
-        self.current_slider.value = self.current_slider.min
-        self.voltage_slider.value = self.voltage_slider.min
-        self.resistance_slider.value = self.resistance_slider.min
-
 
     def deactivate_checkboxes(self, instance, value):
         """
