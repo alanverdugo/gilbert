@@ -13,7 +13,7 @@ package.domain = net.kippel
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas
+source.include_exts = py,png,jpg,kv,atlas,rst
 
 # (list) List of inclusions using pattern matching
 #source.include_patterns = assets/*,images/*.png
@@ -36,7 +36,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy
+requirements = python3,kivy,pil,pygments,docutils
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -132,7 +132,7 @@ fullscreen = 0
 #android.apptheme = "@android:style/Theme.NoTitleBar"
 
 # (list) Pattern to whitelist for the whole project
-#android.whitelist =
+android.whitelist = '*.rst'
 
 # (str) Path to a custom whitelist file
 #android.whitelist_src =

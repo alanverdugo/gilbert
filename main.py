@@ -18,6 +18,8 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.logger import Logger
 from kivy.base import EventLoop
 
+import kivy
+kivy.require('1.11.1')
 
 class MenuScreen(Screen):
     """
@@ -81,7 +83,7 @@ class StudyScreen(Screen):
         self.add_widget(self.float_layout)
 
         # Add the right side of the screen, where we will show the text.
-        self.rst_document = RstDocument(source="assets/study_chapters/chapter01.rst",
+        self.rst_document = RstDocument(source="assets/chapters/chapter01.rst",
                                         show_errors=True,
                                         size_hint=(0.8, 1),
                                         pos_hint={"right":1, "top":1})
@@ -127,7 +129,7 @@ class StudyScreen(Screen):
         """
         Update the text in the RST widget according to the dropdown selection.
         """
-        self.rst_document.source = "assets/study_chapters/chapter" + chapter.replace("'", "") + ".rst"
+        self.rst_document.source = "assets/chapters/chapter" + chapter.replace("'", "") + ".rst"
 
 
 class QuizScreen(Screen):
