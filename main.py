@@ -4,6 +4,7 @@
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.label import Label
+from kivy.uix.image import Image
 from kivy.uix.checkbox import CheckBox
 from kivy.uix.slider import Slider
 from kivy.uix.dropdown import DropDown
@@ -155,9 +156,16 @@ class OhmScreen(Screen):
 
         # Title label
         self.title_label = Label(text="Simulador de la ley de Ohm",
-                                 size_hint=(0.1, 0.5),
-                                 pos_hint={"x": 0.5, "top": 1})
+                                 size_hint=(0.5, 0.05),
+                                 pos_hint={"center_x": 0.5, "top": 1})
         self.float_layout.add_widget(self.title_label)
+
+        # Circuit image.
+        circuit_image = Image(source="assets/images/basic_circuit_white.PNG",
+                              keep_ratio=False,
+                              size_hint=(0.3, 0.3),
+                              pos_hint={"center_x": 0.5, "top": 0.97})
+        self.float_layout.add_widget(circuit_image)
 
         # Back to menu button.
         self.back_to_menu_button = BackToMenuButton(pos_hint={"left":0, "bottom":1},
@@ -238,9 +246,9 @@ class OhmScreen(Screen):
         self.resistance_label = Label(size_hint=(0.1, 0.1))
         self.grid_layout.add_widget(self.resistance_label)
 
-        # Outside the grid layout (but inside the float layour), add the reset button.
+        # Outside the grid layout (but inside the float layout), add the reset button.
         self.reset_ohm_button = ResetOhmButton(pos_hint={"right":1, "bottom":1},
-                                               size_hint=(0.1, 0.1))
+                                               size_hint=(0.2, 0.1))
         self.float_layout.add_widget(self.reset_ohm_button)
 
     def deactivate_checkboxes(self, instance, value):
