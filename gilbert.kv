@@ -1,11 +1,35 @@
 #:kivy 1.11.1
 
 <MenuScreen@Screen>
+    # Set background color for main menu.
+    canvas.before:
+        Color:
+            rgba: (0.2, 0.2, 0.4, 1)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    # Main menu logo.
+    BoxLayout:
+        size_hint: (1, 0.2)
+        pos_hint: {'top': 1, 'center_x': 0.5}
+        orientation: "vertical"
+        Label:
+            text: "Gilbert"    
+        Image:
+            source: "assets/icons/icons8-magnet-80.png"
+    # Box layout for menu buttons.
     BoxLayout:
         id: menu_screen_layout
+        # Spacing between children, in pixels.
+        spacing: 10
+        # Padding between layout box and children.
+        padding: 10
         orientation: "vertical"
+        size_hint: (0.9, 0.8)
+        pos_hint: {'top': 0.8, 'bottom': 0, 'center_x': 0.5}
         MenuScreenButton:
-            text: "Study"
+            text: "Estudio"
+            icon: 'assets/icons/icons8-book-shelf-64.png'
             on_press:
                 # You can define the duration of the change
                 # and the direction of the slide
@@ -14,7 +38,8 @@
                 root.manager.previous = 'menu_screen'
                 root.manager.current = 'study_screen'
         MenuScreenButton:
-            text: "Quiz"
+            text: "Preguntas"
+            icon: "assets/icons/icons8-test-100.png"
             on_press:
                 # You can define the duration of the change
                 # and the direction of the slide
@@ -24,6 +49,7 @@
                 root.manager.current = 'quiz_screen'
         MenuScreenButton:
             text: "Simulador Ω"
+            icon: "assets/icons/icons8-voltmeter-100.png"
             on_press:
                 # You can define the duration of the change
                 # and the direction of the slide
@@ -32,7 +58,8 @@
                 root.manager.previous = 'menu_screen'
                 root.manager.current = 'ohm_screen'
         MenuScreenButton:
-            text: "About"
+            text: "Acerca de..."
+            icon: "assets/icons/icons8-octocat-100.png"
             on_press:
                 # You can define the duration of the change
                 # and the direction of the slide
@@ -42,15 +69,12 @@
                 root.manager.current = 'about_screen'
         SettingsButton
 
-
-
 <QuizScreen@Screen>:
     BoxLayout:
         orientation: "vertical"
         Label:
             text: "This is the Quiz Screen"
         BackToMenuButton
-
 
 <AboutScreen@Screen>:
     BoxLayout:
@@ -60,27 +84,36 @@
         BackToMenuButton
 
 <MenuScreenButton@Button>
-    # Yellow text color:
-    color: 1,1,0,1
-    # Purple background color:
-    background_color: 0.41,0.05,0.67,1
-    font_size: 40
-    text: self.text
+    id: menu_screen_button
+    # Make the button "invisible", since we are going to manipulate its canvas.
+    background_color: (0, 0, 0, 0)
+    background_normal: ""
+    # Custom properties.
+    back_color: 0.404, 0.227, 0.718, 1.0
+    border_radius: [18]
+    icon: self.icon
+    # Manipulate the canvas.
+    canvas.before:
+        Color:
+            rgba: self.back_color
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: self.border_radius
+    canvas:
+        Rectangle:
+            # We want the icons to be squares, so we use the button's height for both X and Y.
+            size: self.height*0.5, self.height*0.5
+            pos: self.pos[0] + (self.height*0.5), self.pos[1] + (self.height/4)
+            source: self.icon
+
 
 <SettingsButton@MenuScreenButton>
     font_size: self.font_size
     on_release: app.open_settings()
-    BoxLayout:
-        pos: self.parent.pos
-        size: self.parent.size
-        orientation: 'vertical'
-        Image:
-            source: 'assets/icons/ic_settings_applications_white_48dp.png'
-            size_hint_x: None
-            width: 100
-            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        Label:
-            text: "Configuración"
+    id: settings_button_boxlayout
+    icon: "assets/icons/icons8-job-64.png"
+    text: "Configuración"
 
 <BackToMenuButton>
     font_size: self.font_size

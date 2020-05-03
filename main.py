@@ -22,6 +22,7 @@ from kivy.base import EventLoop
 import kivy
 kivy.require('1.11.1')
 
+
 class MenuScreen(Screen):
     """
     Custom Menu Screen.
@@ -69,6 +70,13 @@ class SettingsButton(MenuScreenButton):
     """
     pass
 
+class AboutButton(MenuScreenButton):
+    """
+    Custom "About" button style for the Menu Screen.
+
+    It inherits from MenuScreenButton, which inherits from kivy.uix.button.
+    """
+    pass
 
 class StudyScreen(Screen):
     """
@@ -125,6 +133,12 @@ class StudyScreen(Screen):
         self.dropdown.bind(on_select=lambda instance, x: setattr(self.mainbutton, 'text', x))
 
         self.float_layout.add_widget(self.mainbutton)
+
+        # Outside the grid layout (but inside the float layout), add the back button.
+        self.back_to_menu_button = BackToMenuButton(pos_hint={"left":0, "bottom":1},
+                                                    size_hint=(0.2, 0.1))
+        self.float_layout.add_widget(self.back_to_menu_button)
+
 
     def update_study_text(self, chapter):
         """
@@ -251,6 +265,7 @@ class OhmScreen(Screen):
                                                size_hint=(0.2, 0.1))
         self.float_layout.add_widget(self.reset_ohm_button)
 
+
     def deactivate_checkboxes(self, instance, value):
         """
         Deactivate the corresponding slider to the checkbox.
@@ -351,7 +366,7 @@ class Gilbert(App):
 
     def hook_keyboard(self, window, key, *largs):
         """
-        Capture behaviour for the "back" button in Android.
+        Capture behavior for the "back" button in Android.
         """
         # Key 27 is "Esc" in the Keyboard, or "Back" on Android.
         if key == 27:
@@ -364,7 +379,6 @@ class Gilbert(App):
             else:
                 self.screen_manager.current = self.screen_manager.previous()
             return True
-
 
     def build_config(self, config):
         """
