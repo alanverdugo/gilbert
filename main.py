@@ -12,6 +12,8 @@ from kivy.uix.settings import SettingsWithTabbedPanel
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.rst import RstDocument
 
+from kivy.graphics import Color, Rectangle
+
 # Layouts
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
@@ -89,6 +91,9 @@ class StudyScreen(Screen):
 
         # Create a float layout.
         self.float_layout = FloatLayout()
+        with self.float_layout.canvas.before:
+            Color(rgba=(0.2, 0.2, 0.4, 1))
+            Rectangle(size=self.float_layout.size, pos=self.float_layout.pos)
         self.add_widget(self.float_layout)
 
         # Add the right side of the screen, where we will show the text.
@@ -104,7 +109,7 @@ class StudyScreen(Screen):
             # when adding widgets, we need to specify the height manually (disabling
             # the size_hint_y) so the dropdown can calculate the area it needs.
             btn = Button(text='%r' % chapter,
-                         height=50,
+                         height=100,
                          size_hint_y=None)
 
             # For each button, attach a callback that will call the select() method

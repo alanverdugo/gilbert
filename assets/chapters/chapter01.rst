@@ -1,5 +1,5 @@
 ************************************
-BREVE HISTORIA DEL ELECTROMAGNETISMO
+Breve historia del electromagnetismo
 ************************************
 
 El Electromagnetismo abarca tanto la Electricidad como el Magnetismo, y su alcance e importancia se hacen evidentes mediante la siguiente cronología:

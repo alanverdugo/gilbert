@@ -73,14 +73,17 @@
     BoxLayout:
         orientation: "vertical"
         Label:
-            text: "This is the Quiz Screen"
+            text: "This is the quiz screen"
         BackToMenuButton
 
 <AboutScreen@Screen>:
+
     BoxLayout:
         orientation: "vertical"
-        Label:
-            text: "Made by: Alan Verdugo Muñoz\nIcons: Material design by Google"
+        RstDocument:
+            source: "assets/chapters/about.rst"
+        #Label:
+        #    text: "Made by: Alan Verdugo Muñoz\nIcons: Material design by Google"
         BackToMenuButton
 
 <MenuScreenButton@Button>
