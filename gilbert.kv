@@ -77,14 +77,30 @@
         BackToMenuButton
 
 <AboutScreen@Screen>:
-
     BoxLayout:
         orientation: "vertical"
         RstDocument:
             source: "assets/chapters/about.rst"
-        #Label:
-        #    text: "Made by: Alan Verdugo Muñoz\nIcons: Material design by Google"
-        BackToMenuButton
+
+<StudyScreen@Screen>
+    # Set background color for the study screen.
+    canvas.before:
+        Color:
+            rgba: (0.2, 0.2, 0.4, 1)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+
+<OhmScreen@Screen>
+    # Set background color for the Ohm simulator.
+    canvas.before:
+        Color:
+            rgba: (0.2, 0.2, 0.4, 1)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
 
 <MenuScreenButton@Button>
     id: menu_screen_button

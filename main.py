@@ -91,9 +91,11 @@ class StudyScreen(Screen):
 
         # Create a float layout.
         self.float_layout = FloatLayout()
-        with self.float_layout.canvas.before:
-            Color(rgba=(0.2, 0.2, 0.4, 1))
-            Rectangle(size=self.float_layout.size, pos=self.float_layout.pos)
+        #with self.canvas.before:
+        #   self.color_widget = Color(1, 0, 0, 1)  # red  
+        #    self._rectangle = Rectangle(pos=self.pos, size=self.size)
+        #    #Color(rgba=(0.2, 0.2, 0.4, 1))
+        #    #Rectangle(pos=self.pos, size=self.size)
         self.add_widget(self.float_layout)
 
         # Add the right side of the screen, where we will show the text.
