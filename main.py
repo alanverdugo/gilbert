@@ -185,7 +185,7 @@ class OhmScreen(Screen):
         self.float_layout.add_widget(title_label)
 
         # Circuit image.
-        circuit_image = Image(source="assets/images/python-logo.png",
+        circuit_image = Image(source="assets/images/basic_circuit_white_transparent.PNG",
                               keep_ratio=False,
                               size_hint=(0.3, 0.3),
                               pos_hint={"center_x": 0.5, "top": 0.97})
