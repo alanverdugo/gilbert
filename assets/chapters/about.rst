@@ -13,6 +13,3 @@ Gilbert es código libre y abierto, liberado bajo la licencia Apache 2.0 (https:
 GitHub: https://github.com/alanverdugo/gilbert
 
 Nombrada en honor a William Gilbert. Considerado uno de los pioneros del estudio científico del magnetismo.
-
-.. math::
-    n_{\mathrm{offset}} = \sum_{k=0}^{N-1} s_k n_k
