@@ -185,9 +185,13 @@ class OhmScreen(Screen):
         self.float_layout.add_widget(title_label)
 
         # Circuit image.
-        circuit_image = Image(source="assets/images/basic_circuit_white_transparent.PNG",
+        circuit_image = Image(source="assets/images/318px-law_triangle.svg.png",
                               keep_ratio=False,
-                              size_hint=(0.3, 0.3),
+                              #size_hint=(0.3, 0.3),
+                              size_hint=(None, None),
+                              width=300,
+                              height=200,
+                              allow_stretch=True,
                               pos_hint={"center_x": 0.5, "top": 0.97})
         self.float_layout.add_widget(circuit_image)
 
@@ -235,6 +239,8 @@ class OhmScreen(Screen):
                                      pos_hint={"x":0.5, "top":0.3},
                                      size_hint=(0.1, 0.6),
                                      value=0.1,
+                                     value_track=True,
+                                     value_track_color=[0.404, 0.227, 0.718, 1.0],
                                      disabled=True)
         self.current_slider.bind(value=self.calculate_ohm_values)
 
@@ -246,6 +252,8 @@ class OhmScreen(Screen):
                                      orientation='vertical',
                                      pos_hint={"x":0.5, "top":0.3},
                                      size_hint=(0.1, 0.6),
+                                     value_track=True,
+                                     value_track_color=[0.404, 0.227, 0.718, 1.0],
                                      value=0.05)
         self.grid_layout.add_widget(self.voltage_slider)
         self.voltage_slider.bind(value=self.calculate_ohm_values)
@@ -257,6 +265,8 @@ class OhmScreen(Screen):
                                         orientation='vertical',
                                         pos_hint={"x":0.5, "top":0.3},
                                         size_hint=(0.1, 0.6),
+                                        value_track=True,
+                                        value_track_color=[0.404, 0.227, 0.718, 1.0],
                                         value=500)
         self.grid_layout.add_widget(self.resistance_slider)
         self.resistance_slider.bind(value=self.calculate_ohm_values)
