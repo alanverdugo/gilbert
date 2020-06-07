@@ -5,7 +5,6 @@ from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.image import Image
-from kivy.uix.checkbox import CheckBox
 from kivy.uix.slider import Slider
 from kivy.uix.dropdown import DropDown
 from kivy.uix.settings import SettingsWithTabbedPanel
@@ -41,7 +40,15 @@ class MenuScreenButton(Button):
     """
     pass
 
-class BackToMenuButton(Button):
+class CenteredIconButton(Button):
+    """
+    Custom button style for the "back to menu" and "reset" buttons.
+
+    It inherits from kivy.uix.button.
+    """
+    pass
+
+class BackToMenuButton(CenteredIconButton):
     """
     Custom button style to go back to the Menu Screen.
 
@@ -49,7 +56,7 @@ class BackToMenuButton(Button):
     """
     pass
 
-class ResetOhmButton(Button):
+class ResetOhmButton(CenteredIconButton):
     """
     Custom button reset the Ohm simulator.
 
@@ -59,18 +66,25 @@ class ResetOhmButton(Button):
         """
         Set the Sliders values to their defaults.
         """
-        # Reset checkboxes
-        self.parent.parent.current_checkbox.active = True
-        self.parent.parent.voltage_checkbox.active = False
-        self.parent.parent.resistance_checkbox.active = False
+        # Reset to the default image.
+        self.parent.parent.triangle_image.source = "assets/images/I_318px-law_triangle.png"
+        self.parent.parent.selected = "current"
         # Reset sliders' status.
         self.parent.parent.current_slider.disabled = True
         self.parent.parent.voltage_slider.disabled = False
         self.parent.parent.resistance_slider.disabled = False
         # Reset sliders' values.
         self.parent.parent.current_slider.value = 0.2
+        self.parent.parent.current_slider.min = 0.1
+        self.parent.parent.current_slider.max = 900
+
         self.parent.parent.voltage_slider.value = 0.1
+        self.parent.parent.voltage_slider.min = 0.1
+        self.parent.parent.voltage_slider.max = 9
+
         self.parent.parent.resistance_slider.value = 500
+        self.parent.parent.resistance_slider.min = 10
+        self.parent.parent.resistance_slider.max = 1000
 
 class SettingsButton(MenuScreenButton):
     """
@@ -174,6 +188,9 @@ class OhmScreen(Screen):
     def __init__(self, **kwargs):
         super(OhmScreen, self).__init__(**kwargs)
 
+        # Default value to be calculated.
+        self.selected = "current"
+
         # Create a float layout.
         self.float_layout = FloatLayout()
         self.add_widget(self.float_layout)
@@ -184,51 +201,66 @@ class OhmScreen(Screen):
                             pos_hint={"center_x": 0.5, "top": 1})
         self.float_layout.add_widget(title_label)
 
-        # Circuit image.
-        circuit_image = Image(source="assets/images/318px-law_triangle.svg.png",
-                              keep_ratio=False,
-                              #size_hint=(0.3, 0.3),
-                              size_hint=(None, None),
-                              width=300,
-                              height=200,
-                              allow_stretch=True,
-                              pos_hint={"center_x": 0.5, "top": 0.97})
-        self.float_layout.add_widget(circuit_image)
+        # Triangle image.
+        self.triangle_image = Image(source="assets/images/I_318px-law_triangle.png",
+                                    keep_ratio=False,
+                                    #size_hint=(0.3, 0.3),
+                                    size_hint=(None, None),
+                                    width=400,
+                                    height=400,
+                                    allow_stretch=True,
+                                    pos_hint={"center_x": 0.5, "top": 0.97})
+        self.float_layout.add_widget(self.triangle_image)
+
+        # Invisible grid layout and buttons for the triangle image.
+        triangle_grid_layout = GridLayout(rows=2, cols=2,
+                                          pos_hint={'center_x':0.5, "top": 0.97},
+                                          size=(400, 400),
+                                          size_hint=(None, None))
+        triangle_top_left_button = Button(id="triangle_top_left_button",
+                                          size_hint_x=None, width=200,
+                                          size_hint_y=None, height=200,
+                                          opacity=0)
+        triangle_top_left_button.bind(on_press=self.deactivate_sliders)
+        triangle_grid_layout.add_widget(triangle_top_left_button)
+
+        triangle_top_right_button = Button(id="triangle_top_right_button",
+                                           size_hint_x=None, width=200,
+                                           size_hint_y=None, height=200,
+                                           background_color=(0, 0, 0, 0),
+                                           background_normal="")
+        triangle_top_right_button.bind(on_press=self.deactivate_sliders)
+        triangle_grid_layout.add_widget(triangle_top_right_button)
+
+        triangle_bottom_left_button = Button(id="triangle_bottom_left_button",
+                                             size_hint_x=None, width=200,
+                                             size_hint_y=None, height=200,
+                                             background_color=(0, 0, 0, 0),
+                                             background_normal="")
+        triangle_bottom_left_button.bind(on_press=self.deactivate_sliders)
+        triangle_grid_layout.add_widget(triangle_bottom_left_button)
+
+        triangle_bottom_right_button = Button(id="triangle_bottom_right_button",
+                                              size_hint_x=None, width=200,
+                                              size_hint_y=None, height=200,
+                                              background_color=(0, 0, 0, 0),
+                                              background_normal="")
+        triangle_bottom_right_button.bind(on_press=self.deactivate_sliders)
+        triangle_grid_layout.add_widget(triangle_bottom_right_button)
+
+        self.float_layout.add_widget(triangle_grid_layout)
 
         # Back to menu button.
         self.back_to_menu_button = BackToMenuButton(pos_hint={"left":0, "bottom":1},
-                                                    size_hint=(0.1, 0.1))
+                                                    size_hint=(0.2, 0.1))
         self.float_layout.add_widget(self.back_to_menu_button)
 
         # Create a grid layout inside the float layout.
-        self.grid_layout = GridLayout(rows=5,
+        self.grid_layout = GridLayout(rows=4,
                                       cols=3,
                                       pos_hint={"center_x":0.5, "bottom":0},
                                       size_hint=(0.5, 0.7))
         self.float_layout.add_widget(self.grid_layout)
-
-        # Inside the grid layout, create the checkboxes.
-        self.current_checkbox = CheckBox(id="current_checkbox",
-                                         group="checkboxes",
-                                         allow_no_selection=False,
-                                         size_hint=(0.1, 0.1),
-                                         active=True)
-        self.current_checkbox.bind(active=self.deactivate_checkboxes)
-
-        self.grid_layout.add_widget(self.current_checkbox)
-        self.voltage_checkbox = CheckBox(id="voltage_checkbox",
-                                         group="checkboxes",
-                                         allow_no_selection=False,
-                                         size_hint=(0.1, 0.1))
-        self.grid_layout.add_widget(self.voltage_checkbox)
-        self.voltage_checkbox.bind(active=self.deactivate_checkboxes)
-
-        self.resistance_checkbox = CheckBox(id="resistance_checkbox",
-                                            group="checkboxes",
-                                            allow_no_selection=False,
-                                            size_hint=(0.1, 0.1))
-        self.grid_layout.add_widget(self.resistance_checkbox)
-        self.resistance_checkbox.bind(active=self.deactivate_checkboxes)
 
         # Inside the grid layout, create the sliders.
         self.current_slider = Slider(id="current_slider",
@@ -243,8 +275,8 @@ class OhmScreen(Screen):
                                      value_track_color=[0.404, 0.227, 0.718, 1.0],
                                      disabled=True)
         self.current_slider.bind(value=self.calculate_ohm_values)
-
         self.grid_layout.add_widget(self.current_slider)
+
         self.voltage_slider = Slider(id="voltage_slider",
                                      min=0.1,
                                      max=9,
@@ -291,11 +323,14 @@ class OhmScreen(Screen):
         self.float_layout.add_widget(reset_ohm_button)
 
 
-    def deactivate_checkboxes(self, instance, value):
+    def deactivate_sliders(self, instance):
         """
-        Deactivate the corresponding slider to the checkbox.
+        Deactivate the slider corresponding to the selection option.
         """
-        if instance.id == "current_checkbox":
+        if instance.id == "triangle_bottom_left_button":
+            # Change the background image of the triangle.
+            self.triangle_image.source = "assets/images/I_318px-law_triangle.png"
+            self.selected = "current"
             # Activate and deactivate sliders accordingly.
             self.current_slider.disabled = True
             self.voltage_slider.disabled = False
@@ -308,7 +343,11 @@ class OhmScreen(Screen):
             self.voltage_slider.min = 0.1
             self.resistance_slider.max = 1000
             self.resistance_slider.min = 10
-        elif instance.id == "voltage_checkbox":
+        elif instance.id == "triangle_top_left_button" or \
+        instance.id == "triangle_top_right_button":
+            # Change the background image of the triangle.
+            self.triangle_image.source = "assets/images/V_318px-law_triangle.png"
+            self.selected = "voltage"
             # Activate and deactivate sliders accordingly.
             self.current_slider.disabled = False
             self.voltage_slider.disabled = True
@@ -321,7 +360,10 @@ class OhmScreen(Screen):
             self.voltage_slider.min = 0
             self.resistance_slider.max = 1000
             self.resistance_slider.min = 10
-        elif instance.id == "resistance_checkbox":
+        elif instance.id == "triangle_bottom_right_button":
+            # Change the background image of the triangle.
+            self.triangle_image.source = "assets/images/R_318px-law_triangle.png"
+            self.selected = "resistance"
             # Activate and deactivate sliders accordingly.
             self.current_slider.disabled = False
             self.voltage_slider.disabled = False
@@ -336,13 +378,16 @@ class OhmScreen(Screen):
             self.resistance_slider.min = 1
 
     def calculate_ohm_values(self, instance, value):
-        #print(str(self.active_checkbox))
-        if self.current_checkbox.active:
-            self.current_slider.value = (self.voltage_slider.value / self.resistance_slider.value) * 1000
-        elif self.voltage_checkbox.active:
-            self.voltage_slider.value = (self.current_slider.value / 1000) * self.resistance_slider.value
-        elif self.resistance_checkbox.active:
-            self.resistance_slider.value = self.voltage_slider.value / self.current_slider.value * 1000
+        """Calculate values according to the currently selected option."""
+        if self.selected == "current":
+            self.current_slider.value = \
+                (self.voltage_slider.value / self.resistance_slider.value) * 1000
+        elif self.selected == "voltage":
+            self.voltage_slider.value = \
+                (self.current_slider.value / 1000) * self.resistance_slider.value
+        elif self.selected == "resistance":
+            self.resistance_slider.value = \
+                self.voltage_slider.value / self.current_slider.value * 1000
 
         # Update the text in the labels to show the current value(s).
         self.current_label.text = str(round(self.current_slider.value, 2)) + "\nmA"

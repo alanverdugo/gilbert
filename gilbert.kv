@@ -102,9 +102,37 @@
             size: self.size
             pos: self.pos
 
-
 <MenuScreenButton@Button>
     id: menu_screen_button
+    # Make the button "invisible", since we are going to manipulate its canvas.
+    background_color: (0, 0, 0, 0)
+    background_normal: ""
+    # Custom properties.
+    # Purle color: in (0...255)=103, 57.8, 183
+    back_color: 0.404, 0.227, 0.718, 1.0
+    border_radius: [18]
+    icon: self.icon
+    # Manipulate the canvas.
+    canvas.before:
+        Color:
+            rgba: self.back_color
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: self.border_radius
+    canvas:
+        # Inside this rectangle, we will place the icon.
+        Rectangle:
+            # We want the icons to be squares, so we use the button's height for both X and Y.
+            size: self.height * 0.5, self.height * 0.5
+            pos: self.pos[0] + (self.height * 0.5), self.pos[1] + (self.height / 4)
+            source: self.icon
+
+<CenteredIconButton@Button>
+    # This custom button is very similar to "MenuScreenButton"
+    # but the icon is arranged differently so it can be used
+    # for small and squared buttons.
+    id: centered_icon_button
     # Make the button "invisible", since we are going to manipulate its canvas.
     background_color: (0, 0, 0, 0)
     background_normal: ""
@@ -120,49 +148,23 @@
             size: self.size
             pos: self.pos
             radius: self.border_radius
-    canvas:
-        Rectangle:
-            # We want the icons to be squares, so we use the button's height for both X and Y.
-            size: self.height*0.5, self.height*0.5
-            pos: self.pos[0] + (self.height*0.5), self.pos[1] + (self.height/4)
-            source: self.icon
 
-
-<SettingsButton@MenuScreenButton>
+<SettingsButton@CenteredIconButton>
     font_size: self.font_size
     on_release: app.open_settings()
     id: settings_button_boxlayout
     icon: "assets/icons/icons8-job-64.png"
     text: "Configuración"
 
-<BackToMenuButton>
+<BackToMenuButton@MenuScreenButton>
     font_size: self.font_size
     on_press:
         app.screen_manager.transition.direction = 'right'
         app.screen_manager.transition.duration = .3
         app.screen_manager.current = 'menu_screen'
-    BoxLayout:
-        pos: self.parent.pos
-        size: self.parent.size
-        orientation: 'vertical'
-        Image:
-            source: 'assets/icons/ic_home_white_48dp.png'
-            size_hint_x: None
-            width: 200
-            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        Label:
-            text: "Menu"
+    icon: 'assets/icons/ic_home_white_48dp.png'
+    text: "Back"
 
-<ResetOhmButton@Button>
+<ResetOhmButton@CenteredIconButton>
     font_size: self.font_size
-    BoxLayout:
-        pos: self.parent.pos
-        size: self.parent.size
-        orientation: 'vertical'
-        Image:
-            source: 'assets/icons/ic_settings_backup_restore_white_48dp.png'
-            size_hint_x: None
-            width: 100
-            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        Label:
-            text: "Reset"
+    text: "Reset"
