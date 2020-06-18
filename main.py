@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 """A mobile application that helps learn about electricity and magnetism."""
 
+# Operating System functionality.
+import os
+
+# SQLite connections and retrieval.
+import sqlite3
+
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.label import Label
@@ -10,8 +16,6 @@ from kivy.uix.dropdown import DropDown
 from kivy.uix.settings import SettingsWithTabbedPanel
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.rst import RstDocument
-
-from kivy.graphics import Color, Rectangle
 
 # Layouts
 from kivy.uix.floatlayout import FloatLayout
@@ -177,7 +181,106 @@ class QuizScreen(Screen):
 
     It inherits from Screen.
     """
-    pass
+    def __init__(self, **kwargs):
+        super(QuizScreen, self).__init__(**kwargs)
+
+        # Create a float layout.
+        self.float_layout = FloatLayout()
+        self.add_widget(self.float_layout)
+
+        # Title label
+        title_label = Label(text="QuizScreen",
+                            size_hint=(0.5, 0.05),
+                            pos_hint={"center_x": 0.5, "top": 1})
+        self.float_layout.add_widget(title_label)
+
+        # Question label
+        self.question_label = Label(text="Question",
+                                    size_hint=(0.5, 0.05),
+                                    pos_hint={"center_x": 0.5, "top": 0.8})
+        self.float_layout.add_widget(self.question_label)
+
+        # Back to menu button.
+        self.back_to_menu_button = BackToMenuButton(pos_hint={"left":0, "bottom":1},
+                                                    size_hint=(0.2, 0.1))
+        self.float_layout.add_widget(self.back_to_menu_button)
+
+        # Create a grid layout inside the float layout.
+        self.grid_layout = GridLayout(rows=2,
+                                      cols=2,
+                                      pos_hint={"center_x":0.5, "bottom":0},
+                                      size_hint=(0.5, 0.7))
+        self.float_layout.add_widget(self.grid_layout)
+
+        # Inside the grid layout, create the answer buttons.
+        self.top_left_answer_button = Button(text="1",
+                                             size_hint=(0.1, 0.1),
+                                             halign='center')
+        self.grid_layout.add_widget(self.top_left_answer_button)
+
+        self.top_right_answer_button = Button(text="2",
+                                              size_hint=(0.1, 0.1),
+                                              halign='center')
+        self.grid_layout.add_widget(self.top_right_answer_button)
+
+        self.bottom_left_answer_button = Button(text="3",
+                                                size_hint=(0.1, 0.1),
+                                                halign='center')
+        self.grid_layout.add_widget(self.bottom_left_answer_button)
+
+        self.bottom_right_answer_button = Button(text="4",
+                                                 size_hint=(0.1, 0.1),
+                                                 halign='center')
+        self.grid_layout.add_widget(self.bottom_right_answer_button)
+
+        # Outside the grid layout (but inside the float layout), add the reset button.
+        reset_quiz_button = ResetOhmButton(pos_hint={"right":1, "bottom":1},
+                                           size_hint=(0.2, 0.1))
+        self.float_layout.add_widget(reset_quiz_button)
+
+        # Connect to the SQLite DB and create a cursor.
+        project_dir = os.path.dirname(os.path.realpath(__file__))
+
+        connection = sqlite3.connect(os.path.join(os.sep, project_dir, "db", "questions.db"))
+        self.cursor = connection.cursor()
+
+
+        self.question_id = ""
+        self.question_text = ""
+        self.get_random_question()
+
+    def get_random_question(self):
+        """
+        Retrieve data from the SQLite DB.
+        """
+
+        # Get a random question.
+        self.cursor.execute("SELECT * FROM questions ORDER BY RANDOM() LIMIT 1")
+        # Fetch all returns a list with a tuple.
+        question = self.cursor.fetchall()
+
+        # Show the question text into the question label.
+        self.question_label.text = question[0][1]
+
+        # Get answers to this question.
+        self.get_answers()
+
+    def get_answers(self):
+        """
+        Get the corresponding answers for the current question.
+        """
+        # Execute the query to get the answers to the current question.
+        self.cursor.execute("SELECT * FROM answers "
+                            "INNER JOIN questions "
+                            "ON questions.question_id = answers.question_id "
+                            f"WHERE questions.question_text = '{self.question_label.text}'")
+        # Fetch all returns a list with a tuple.
+        answers = self.cursor.fetchall()
+        print(answers)
+
+        # Create the answer buttons.
+
+
 
 class OhmScreen(Screen):
     """
