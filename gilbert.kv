@@ -70,12 +70,14 @@
         SettingsButton
         
 
-#<QuizScreen@Screen>:
-#    BoxLayout:
-#        orientation: "vertical"
-#        Label:
-#            text: "This is the quiz screen"
-#        BackToMenuButton
+<QuizScreen@Screen>:
+    # Set background color for the quiz screen.
+    canvas.before:
+        Color:
+            rgba: (0.2, 0.2, 0.4, 1)
+        Rectangle:
+            size: self.size
+            pos: self.pos
 
 <AboutScreen@Screen>:
     BoxLayout:

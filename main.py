@@ -4,6 +4,9 @@
 # Operating System functionality.
 import os
 
+# Shuffle answers in quizzes to confuse students.
+import random
+
 # SQLite connections and retrieval.
 import sqlite3
 
@@ -16,9 +19,11 @@ from kivy.uix.dropdown import DropDown
 from kivy.uix.settings import SettingsWithTabbedPanel
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.rst import RstDocument
+from kivy.uix.popup import Popup
 
 # Layouts
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 
 from kivy.logger import Logger
@@ -184,6 +189,11 @@ class QuizScreen(Screen):
     def __init__(self, **kwargs):
         super(QuizScreen, self).__init__(**kwargs)
 
+        # Place holders for questions' data.
+        self.question_id = ""
+        self.question_text = ""
+        self.correct_answer = ""
+
         # Create a float layout.
         self.float_layout = FloatLayout()
         self.add_widget(self.float_layout)
@@ -205,33 +215,11 @@ class QuizScreen(Screen):
                                                     size_hint=(0.2, 0.1))
         self.float_layout.add_widget(self.back_to_menu_button)
 
-        # Create a grid layout inside the float layout.
-        self.grid_layout = GridLayout(rows=2,
-                                      cols=2,
-                                      pos_hint={"center_x":0.5, "bottom":0},
-                                      size_hint=(0.5, 0.7))
-        self.float_layout.add_widget(self.grid_layout)
-
-        # Inside the grid layout, create the answer buttons.
-        self.top_left_answer_button = Button(text="1",
-                                             size_hint=(0.1, 0.1),
-                                             halign='center')
-        self.grid_layout.add_widget(self.top_left_answer_button)
-
-        self.top_right_answer_button = Button(text="2",
-                                              size_hint=(0.1, 0.1),
-                                              halign='center')
-        self.grid_layout.add_widget(self.top_right_answer_button)
-
-        self.bottom_left_answer_button = Button(text="3",
-                                                size_hint=(0.1, 0.1),
-                                                halign='center')
-        self.grid_layout.add_widget(self.bottom_left_answer_button)
-
-        self.bottom_right_answer_button = Button(text="4",
-                                                 size_hint=(0.1, 0.1),
-                                                 halign='center')
-        self.grid_layout.add_widget(self.bottom_right_answer_button)
+        # Create a box layout inside the float layout.
+        self.answers_box_layout = BoxLayout(orientation='vertical',
+                                            pos_hint={"center_x":0.5, "bottom":0},
+                                            size_hint=(0.5, 0.7))
+        self.float_layout.add_widget(self.answers_box_layout)
 
         # Outside the grid layout (but inside the float layout), add the reset button.
         reset_quiz_button = ResetOhmButton(pos_hint={"right":1, "bottom":1},
@@ -244,10 +232,9 @@ class QuizScreen(Screen):
         connection = sqlite3.connect(os.path.join(os.sep, project_dir, "db", "questions.db"))
         self.cursor = connection.cursor()
 
-
-        self.question_id = ""
-        self.question_text = ""
+        # Get a random question from the DB and display it.
         self.get_random_question()
+
 
     def get_random_question(self):
         """
@@ -276,10 +263,44 @@ class QuizScreen(Screen):
                             f"WHERE questions.question_text = '{self.question_label.text}'")
         # Fetch all returns a list with a tuple.
         answers = self.cursor.fetchall()
-        print(answers)
+
+        # Get the correct answer.
+        self.cursor.execute("SELECT answer_text FROM answers "
+                            "INNER JOIN questions "
+                            "ON questions.question_id = answers.question_id "
+                            f"WHERE questions.question_text = '{self.question_label.text}'"
+                            "AND answers.is_correct = 1")
+        self.correct_answer = self.cursor.fetchall()[0][0]
+
+        # Format that into a list.
+        answers_list = [answer[1] for answer in answers]
+        # Shuffle the answers to make the quiz harder.
+        random.shuffle(answers_list)
 
         # Create the answer buttons.
+        for answer in answers_list:
+            answer_button = Button(text=answer)
 
+            # For each button, attach a callback that will call the check_answer method
+            # We'll pass the text of the button as the data of the selection.
+            answer_button.bind(on_release=lambda answer_button: self.check_answer(answer_button.text))
+
+            # Add the button inside the box layout for the answers.
+            self.answers_box_layout.add_widget(answer_button)
+
+    def check_answer(self, selected_answer):
+        """
+        Check if the selected answer is correct or not.
+        """
+        if selected_answer == self.correct_answer:
+            popup = Popup(title='Congratulations!',
+                          content=Label(text='Correct!'),
+                          size_hint=(0.3, 0.3))
+        else:
+            popup = Popup(title='Try again!',
+                          content=Label(text='Wrong!'),
+                          size_hint=(0.3, 0.3))
+        popup.open()
 
 
 class OhmScreen(Screen):
