@@ -68,7 +68,13 @@
                 root.manager.previous = 'menu_screen'
                 root.manager.current = 'about_screen'
         SettingsButton
-        
+
+<QuestionLabel@Label>:
+    # Make the text of the question wrap if it does not
+    # fit the label rectangle.
+    text_size: self.width, None
+    size_hint: 0.5, 0.2
+    height: self.texture_size[1]
 
 <QuizScreen@Screen>:
     # Set background color for the quiz screen.
@@ -130,14 +136,19 @@
             pos: self.pos[0] + (self.height * 0.5), self.pos[1] + (self.height / 4)
             source: self.icon
 
-<CenteredIconButton@Button>
+<PurpleRoundedButton@Button>
     # This custom button is very similar to "MenuScreenButton"
-    # but the icon is arranged differently so it can be used
-    # for small and squared buttons.
-    id: centered_icon_button
+    # but it does not have any icons
+    id: purple_rounded_button
     # Make the button "invisible", since we are going to manipulate its canvas.
     background_color: (0, 0, 0, 0)
     background_normal: ""
+    # Make the text of the text wrap if it does not
+    # fit the label rectangle.
+    halign: "center"
+    valign: "middle"
+    text_size: self.width, None
+    height: self.texture_size[1]
     # Custom properties.
     back_color: 0.404, 0.227, 0.718, 1.0
     border_radius: [18]
@@ -151,7 +162,7 @@
             pos: self.pos
             radius: self.border_radius
 
-<SettingsButton@CenteredIconButton>
+<SettingsButton@PurpleRoundedButton>
     font_size: self.font_size
     on_release: app.open_settings()
     id: settings_button_boxlayout
@@ -167,6 +178,6 @@
     icon: 'assets/icons/ic_home_white_48dp.png'
     text: "Back"
 
-<ResetOhmButton@CenteredIconButton>
+<ResetOhmButton@PurpleRoundedButton>
     font_size: self.font_size
     text: "Reset"

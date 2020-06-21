@@ -49,7 +49,7 @@ class MenuScreenButton(Button):
     """
     pass
 
-class CenteredIconButton(Button):
+class PurpleRoundedButton(Button):
     """
     Custom button style for the "back to menu" and "reset" buttons.
 
@@ -57,7 +57,14 @@ class CenteredIconButton(Button):
     """
     pass
 
-class BackToMenuButton(CenteredIconButton):
+class QuestionLabel(Label):
+    """
+    Custom Label that wraps its text in case it is too long.
+
+    It inherits from from kivy.uix.label
+    """
+
+class BackToMenuButton(PurpleRoundedButton):
     """
     Custom button style to go back to the Menu Screen.
 
@@ -65,7 +72,7 @@ class BackToMenuButton(CenteredIconButton):
     """
     pass
 
-class ResetOhmButton(CenteredIconButton):
+class ResetOhmButton(PurpleRoundedButton):
     """
     Custom button reset the Ohm simulator.
 
@@ -205,9 +212,9 @@ class QuizScreen(Screen):
         self.float_layout.add_widget(title_label)
 
         # Question label
-        self.question_label = Label(text="Question",
-                                    size_hint=(0.5, 0.05),
-                                    pos_hint={"center_x": 0.5, "top": 0.8})
+        self.question_label = QuestionLabel(halign="center",
+                                            valign="middle",
+                                            pos_hint={"center_x": 0.5, "top": 0.9})
         self.float_layout.add_widget(self.question_label)
 
         # Back to menu button.
@@ -215,10 +222,11 @@ class QuizScreen(Screen):
                                                     size_hint=(0.2, 0.1))
         self.float_layout.add_widget(self.back_to_menu_button)
 
-        # Create a box layout inside the float layout.
-        self.answers_box_layout = BoxLayout(orientation='vertical',
-                                            pos_hint={"center_x":0.5, "bottom":0},
-                                            size_hint=(0.5, 0.7))
+        # Create a box layout inside the float layout (to contain the answer buttons).
+        self.answers_box_layout = BoxLayout(orientation="vertical",
+                                            spacing=20,
+                                            pos_hint={"center_x":0.5, "top":0.7},
+                                            size_hint=(0.5, 0.6))
         self.float_layout.add_widget(self.answers_box_layout)
 
         # Outside the grid layout (but inside the float layout), add the reset button.
@@ -228,8 +236,8 @@ class QuizScreen(Screen):
 
         # Connect to the SQLite DB and create a cursor.
         project_dir = os.path.dirname(os.path.realpath(__file__))
-
-        connection = sqlite3.connect(os.path.join(os.sep, project_dir, "db", "questions.db"))
+        connection = sqlite3.connect(os.path.join(os.sep, project_dir,
+                                                  "db", "questions.db"))
         self.cursor = connection.cursor()
 
         # Get a random question from the DB and display it.
@@ -247,7 +255,7 @@ class QuizScreen(Screen):
         question = self.cursor.fetchall()
 
         # Show the question text into the question label.
-        self.question_label.text = question[0][1]
+        self.question_label.text = str(question[0][1])
 
         # Get answers to this question.
         self.get_answers()
@@ -279,7 +287,7 @@ class QuizScreen(Screen):
 
         # Create the answer buttons.
         for answer in answers_list:
-            answer_button = Button(text=answer)
+            answer_button = PurpleRoundedButton(text=answer)
 
             # For each button, attach a callback that will call the check_answer method
             # We'll pass the text of the button as the data of the selection.
