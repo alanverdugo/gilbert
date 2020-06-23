@@ -200,6 +200,8 @@ class QuizScreen(Screen):
         self.question_id = ""
         self.question_text = ""
         self.correct_answer = ""
+        self.correct_questions_counter = 0
+        self.incorrect_questions_counter = 0
 
         # Create a float layout.
         self.float_layout = FloatLayout()
@@ -304,11 +306,25 @@ class QuizScreen(Screen):
             popup = Popup(title='Congratulations!',
                           content=Label(text='Correct!'),
                           size_hint=(0.3, 0.3))
+            # Increment the correct answer counter.
+            self.correct_questions_counter += 1
         else:
             popup = Popup(title='Try again!',
                           content=Label(text='Wrong!'),
                           size_hint=(0.3, 0.3))
+            # Increment the incorrect answer counter.
+            self.incorrect_questions_counter += 1
         popup.open()
+        print("Correct: ", self.correct_questions_counter)
+        print("Wrong ", self.incorrect_questions_counter)
+
+        # TODO: Re-draw to answers counters.
+
+        # Destroy the answer buttons (to prepare for the new ones).
+        self.answers_box_layout.clear_widgets()
+
+        # Call the get_random_question method again.
+        self.get_random_question()
 
 
 class OhmScreen(Screen):
