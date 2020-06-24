@@ -10,6 +10,7 @@ import random
 # SQLite connections and retrieval.
 import sqlite3
 
+# GUI
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.label import Label
@@ -28,6 +29,9 @@ from kivy.uix.gridlayout import GridLayout
 
 from kivy.logger import Logger
 from kivy.base import EventLoop
+
+# Animation
+from kivy.animation import Animation
 
 import kivy
 kivy.require('1.11.1')
@@ -213,6 +217,13 @@ class QuizScreen(Screen):
                             pos_hint={"center_x": 0.5, "top": 1})
         self.float_layout.add_widget(title_label)
 
+        # Labels for correct/incorrect questions counters.
+        self.correct_question_counter_label = \
+            Label(text=f"Correct answers: {self.correct_questions_counter}",
+                  size_hint=(0.2, 0.05),
+                  pos_hint={"top": 1, "right": 1})
+        self.float_layout.add_widget(self.correct_question_counter_label)
+
         # Question label
         self.question_label = QuestionLabel(halign="center",
                                             valign="middle",
@@ -298,6 +309,11 @@ class QuizScreen(Screen):
             # Add the button inside the box layout for the answers.
             self.answers_box_layout.add_widget(answer_button)
 
+    def animate(self):
+        anim = Animation(color=(1, 0, 1, 1), duration=0.1) + \
+               Animation(color=(1, 1, 1, 1), duration=0.1)
+        anim.start(self.correct_question_counter_label)
+
     def check_answer(self, selected_answer):
         """
         Check if the selected answer is correct or not.
@@ -318,7 +334,9 @@ class QuizScreen(Screen):
         print("Correct: ", self.correct_questions_counter)
         print("Wrong ", self.incorrect_questions_counter)
 
-        # TODO: Re-draw to answers counters.
+        # TODO: Re-draw the answers counters.
+        self.correct_question_counter_label.text = \
+            f"Correct answers: {self.correct_questions_counter}"
 
         # Destroy the answer buttons (to prepare for the new ones).
         self.answers_box_layout.clear_widgets()
@@ -326,6 +344,7 @@ class QuizScreen(Screen):
         # Call the get_random_question method again.
         self.get_random_question()
 
+        self.animate()
 
 class OhmScreen(Screen):
     """
