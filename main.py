@@ -218,11 +218,48 @@ class QuizScreen(Screen):
         self.float_layout.add_widget(title_label)
 
         # Labels for correct/incorrect questions counters.
+        # Create a grid layout for the correct/incorrect display.
+        self.answers_counters_grid_layout = GridLayout(rows=2, cols=2,
+                                                       pos_hint={"top":1, "right": 1},
+                                                       size=(100, 100),
+                                                       size_hint=(None, None))
+
+        correct_answer_icon = Image(source="assets/icons/icons8-tick-box-80.png",
+                                    keep_ratio=True,
+                                    #size_hint=(0.01, 0.01),
+                                    size_hint=(None, None),
+                                    width=50,
+                                    height=50,
+                                    allow_stretch=True)
+        self.answers_counters_grid_layout.add_widget(correct_answer_icon)
+
+        # Add the correct question counter label to the grid layout.
         self.correct_question_counter_label = \
-            Label(text=f"Correct answers: {self.correct_questions_counter}",
-                  size_hint=(0.2, 0.05),
-                  pos_hint={"top": 1, "right": 1})
-        self.float_layout.add_widget(self.correct_question_counter_label)
+            Label(text=str(self.correct_questions_counter),
+                  width=50,
+                  height=50,
+                  size_hint=(None, None))
+        self.answers_counters_grid_layout.add_widget(self.correct_question_counter_label)
+
+        incorrect_answer_icon = Image(source="assets/icons/icons8-x-coordinate-80.png",
+                                      keep_ratio=True,
+                                      #size_hint=(0.01, 0.01),
+                                      size_hint=(None, None),
+                                      width=50,
+                                      height=50,
+                                      allow_stretch=True)
+        self.answers_counters_grid_layout.add_widget(incorrect_answer_icon)
+
+        # Add the incorrect question counter label to the grid layout.
+        self.incorrect_question_counter_label = \
+            Label(text=str(self.incorrect_questions_counter),
+                  width=50,
+                  height=50,
+                  size_hint=(None, None))
+        self.answers_counters_grid_layout.add_widget(self.incorrect_question_counter_label)
+
+        # Add the grid layout to the float layout.
+        self.float_layout.add_widget(self.answers_counters_grid_layout)
 
         # Question label
         self.question_label = QuestionLabel(halign="center",
@@ -309,10 +346,12 @@ class QuizScreen(Screen):
             # Add the button inside the box layout for the answers.
             self.answers_box_layout.add_widget(answer_button)
 
-    def animate(self):
-        anim = Animation(color=(1, 0, 1, 1), duration=0.1) + \
-               Animation(color=(1, 1, 1, 1), duration=0.1)
-        anim.start(self.correct_question_counter_label)
+    def animate(self, object_to_animate):
+        animation = Animation(color=(1, 0, 1, 1), duration=0.1) & \
+                    Animation(font_size=object_to_animate.font_size+10, duration=0.1) + \
+                    Animation(color=object_to_animate.color, duration=0.1) + \
+                    Animation(font_size=object_to_animate.font_size, duration=0.1)
+        animation.start(object_to_animate)
 
     def check_answer(self, selected_answer):
         """
@@ -324,19 +363,25 @@ class QuizScreen(Screen):
                           size_hint=(0.3, 0.3))
             # Increment the correct answer counter.
             self.correct_questions_counter += 1
+            # Start animation.
+            self.animate(self.correct_question_counter_label)
         else:
             popup = Popup(title='Try again!',
                           content=Label(text='Wrong!'),
                           size_hint=(0.3, 0.3))
             # Increment the incorrect answer counter.
             self.incorrect_questions_counter += 1
-        popup.open()
+            # Start animation.
+            self.animate(self.incorrect_question_counter_label)
+        #popup.open()
         print("Correct: ", self.correct_questions_counter)
         print("Wrong ", self.incorrect_questions_counter)
 
-        # TODO: Re-draw the answers counters.
+        # Re-draw the answers counters.
         self.correct_question_counter_label.text = \
-            f"Correct answers: {self.correct_questions_counter}"
+            str(self.correct_questions_counter)
+        self.incorrect_question_counter_label.text = \
+            str(self.incorrect_questions_counter)
 
         # Destroy the answer buttons (to prepare for the new ones).
         self.answers_box_layout.clear_widgets()
@@ -344,7 +389,6 @@ class QuizScreen(Screen):
         # Call the get_random_question method again.
         self.get_random_question()
 
-        self.animate()
 
 class OhmScreen(Screen):
     """
