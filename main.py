@@ -76,9 +76,44 @@ class BackToMenuButton(PurpleRoundedButton):
     """
     pass
 
-class ResetOhmButton(PurpleRoundedButton):
+
+class ResetButton(PurpleRoundedButton):
     """
-    Custom button reset the Ohm simulator.
+    Custom reset button.
+
+    It inherits from PurpleRoundedButton.
+    """
+    pass
+
+
+class ResetQuizButton(ResetButton):
+    """
+    Custom reset button for the Quiz screen.
+
+    It inherits from kivy.uix.button.
+    """
+    def on_press(self):
+        """
+        Set the Sliders values to their defaults.
+        """
+        # Reset the counters.
+        self.parent.parent.correct_questions_counter = 0
+        self.parent.parent.incorrect_questions_counter = 0
+        self.parent.parent.result_label.color = (0, 0, 0, 0)
+        self.parent.parent.correct_question_counter_label.font_size = "15sp"
+        self.parent.parent.correct_question_counter_label.color = (1, 1, 1, 1)
+        self.parent.parent.incorrect_question_counter_label.font_size = "15sp"
+        self.parent.parent.incorrect_question_counter_label.color = (1, 1, 1, 1)
+
+        # Re-draw the answers counters.
+        self.parent.parent.correct_question_counter_label.text = \
+            str(self.parent.parent.correct_questions_counter)
+        self.parent.parent.incorrect_question_counter_label.text = \
+            str(self.parent.parent.incorrect_questions_counter)
+
+class ResetOhmButton(ResetButton):
+    """
+    Custom reset button for the Ohm screen.
 
     It inherits from kivy.uix.button.
     """
@@ -285,8 +320,8 @@ class QuizScreen(Screen):
         self.float_layout.add_widget(self.answers_box_layout)
 
         # Outside the grid layout (but inside the float layout), add the reset button.
-        reset_quiz_button = ResetOhmButton(pos_hint={"right":1, "bottom":1},
-                                           size_hint=(0.2, 0.1))
+        reset_quiz_button = ResetQuizButton(pos_hint={"right":1, "bottom":1},
+                                            size_hint=(0.2, 0.1))
         self.float_layout.add_widget(reset_quiz_button)
 
         # Connect to the SQLite DB and create a cursor.
@@ -297,7 +332,6 @@ class QuizScreen(Screen):
 
         # Get a random question from the DB and display it.
         self.get_random_question()
-
 
     def get_random_question(self):
         """
@@ -380,15 +414,11 @@ class QuizScreen(Screen):
         """
 
         # "Reset" all the previous animations changes that may be already running.
-        print("self.incorrect_question_counter_label.font_size:", self.incorrect_question_counter_label.font_size)
-        print("type:", type(self.incorrect_question_counter_label.font_size))
         self.result_label.color = (0, 0, 0, 0)
-        #self.correct_question_counter_label.font_size = 15
+        self.correct_question_counter_label.font_size = "15sp"
         self.correct_question_counter_label.color = (1, 1, 1, 1)
-        #self.incorrect_question_counter_label.font_size = 15
+        self.incorrect_question_counter_label.font_size = "15sp"
         self.incorrect_question_counter_label.color = (1, 1, 1, 1)
-        print("self.incorrect_question_counter_label.font_size:", self.incorrect_question_counter_label.font_size)
-        print("type:", type(self.incorrect_question_counter_label.font_size))
 
         # Check if the selected answer is correct or not.
         if selected_answer == self.correct_answer:
@@ -442,10 +472,10 @@ class OhmScreen(Screen):
         # Triangle image.
         self.triangle_image = Image(source="assets/images/I_318px-law_triangle.png",
                                     keep_ratio=False,
-                                    #size_hint=(0.3, 0.3),
+                                    #size_hint=(0.2, 0.2),
                                     size_hint=(None, None),
-                                    width=400,
-                                    height=400,
+                                    width="150sp",
+                                    height="150sp",
                                     allow_stretch=True,
                                     pos_hint={"center_x": 0.5, "top": 0.97})
         self.float_layout.add_widget(self.triangle_image)
@@ -453,34 +483,34 @@ class OhmScreen(Screen):
         # Invisible grid layout and buttons for the triangle image.
         triangle_grid_layout = GridLayout(rows=2, cols=2,
                                           pos_hint={'center_x':0.5, "top": 0.97},
-                                          size=(400, 400),
+                                          size=("150sp", "150sp"),
                                           size_hint=(None, None))
         triangle_top_left_button = Button(id="triangle_top_left_button",
-                                          size_hint_x=None, width=200,
-                                          size_hint_y=None, height=200,
+                                          size_hint_x=None, width="75sp",
+                                          size_hint_y=None, height="75sp",
                                           opacity=0)
         triangle_top_left_button.bind(on_press=self.deactivate_sliders)
         triangle_grid_layout.add_widget(triangle_top_left_button)
 
         triangle_top_right_button = Button(id="triangle_top_right_button",
-                                           size_hint_x=None, width=200,
-                                           size_hint_y=None, height=200,
+                                           size_hint_x=None, width="75sp",
+                                           size_hint_y=None, height="75sp",
                                            background_color=(0, 0, 0, 0),
                                            background_normal="")
         triangle_top_right_button.bind(on_press=self.deactivate_sliders)
         triangle_grid_layout.add_widget(triangle_top_right_button)
 
         triangle_bottom_left_button = Button(id="triangle_bottom_left_button",
-                                             size_hint_x=None, width=200,
-                                             size_hint_y=None, height=200,
+                                             size_hint_x=None, width="75sp",
+                                             size_hint_y=None, height="75sp",
                                              background_color=(0, 0, 0, 0),
                                              background_normal="")
         triangle_bottom_left_button.bind(on_press=self.deactivate_sliders)
         triangle_grid_layout.add_widget(triangle_bottom_left_button)
 
         triangle_bottom_right_button = Button(id="triangle_bottom_right_button",
-                                              size_hint_x=None, width=200,
-                                              size_hint_y=None, height=200,
+                                              size_hint_x=None, width="75sp",
+                                              size_hint_y=None, height="75sp",
                                               background_color=(0, 0, 0, 0),
                                               background_normal="")
         triangle_bottom_right_button.bind(on_press=self.deactivate_sliders)
@@ -716,7 +746,7 @@ class Gilbert(App):
         """
         Set the default values for the configs sections.
         """
-        config.setdefaults('MenuScreenButton', {'font_size': 20})
+        config.setdefaults('MenuScreenButton', {'font_size': "15sp"})
 
     def build_settings(self, settings):
         """
