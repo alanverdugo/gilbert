@@ -179,12 +179,14 @@ class StudyScreen(Screen):
 
         # Add the dropdown "menu" at the left of the screen.
         self.dropdown = DropDown()
-        for chapter in ['01', '02', '03', '04']:
+        for chapter in ['01', '02', '03']:
             # when adding widgets, we need to specify the height manually (disabling
             # the size_hint_y) so the dropdown can calculate the area it needs.
-            btn = Button(text='%r' % chapter,
-                         height=100,
-                         size_hint_y=None)
+            btn = PurpleRoundedButton(text=chapter,
+                                      height=400,
+                                      #height=0.2,
+                                      size_hint_y=None
+                                      )
 
             # For each button, attach a callback that will call the select() method
             # on the dropdown. We'll pass the text of the button as the data of the
@@ -197,9 +199,9 @@ class StudyScreen(Screen):
             self.dropdown.add_widget(btn)
 
         # Create a big main button to open the dropdown.
-        self.mainbutton = Button(text='Lecciones',
-                                 size_hint=(0.2, 0.2),
-                                 pos_hint={"left":0, "top":1})
+        self.mainbutton = PurpleRoundedButton(text='Lecciones',
+                                              size_hint=(0.2, 0.2),
+                                              pos_hint={"left":0, "top":1})
 
         # Show the dropdown menu when the main button is released
         # note: all the bind() calls pass the instance of the caller (here, the
@@ -248,10 +250,10 @@ class QuizScreen(Screen):
 
         # A label to show "Correct!" or "Incorrect!"
         # depending on the selected answer.
-        self.result_label = Label(text="QuizScreen",
+        self.result_label = Label(text="",
                                   size_hint=(0.5, 0.05),
                                   color=(0, 0, 0, 0),
-                                  pos_hint={"center_x": 0.5, "top": 0.9})
+                                  pos_hint={"center_x": 0.5, "top": 0.95})
         self.float_layout.add_widget(self.result_label)
 
         # Labels for correct/incorrect questions counters.
@@ -330,6 +332,9 @@ class QuizScreen(Screen):
                                                   "db", "questions.db"))
         self.cursor = connection.cursor()
 
+        # No questions have been retrieved yet.
+        self.last_question_id = ""
+
         # Get a random question from the DB and display it.
         self.get_random_question()
 
@@ -337,10 +342,13 @@ class QuizScreen(Screen):
         """
         Retrieve data from the SQLite DB.
         """
-        # Get a random question.
-        self.cursor.execute("SELECT * FROM questions ORDER BY RANDOM() LIMIT 1")
+        # Get a random question, but not the previous question!
+        self.cursor.execute("SELECT * FROM questions "
+                            f"WHERE question_id NOT IN ('{self.last_question_id}') "
+                            "ORDER BY RANDOM() LIMIT 1")
         # Fetch all returns a list with a tuple.
         question = self.cursor.fetchall()
+        self.last_question_id = str(question[0][0])
 
         # Show the question text into the question label.
         self.question_label.text = str(question[0][1])
@@ -396,14 +404,18 @@ class QuizScreen(Screen):
         # Change the result notification text accordingly.
         self.result_label.text = result
 
-        if result == "Wrong!":
+        if result == "¡Incorrecto!":
             # Change text color to red.
-            animation = Animation(color=(1, 0, 0, 1), duration=0.1) + \
-                        Animation(color=self.result_label.color, duration=1)
-        elif result == "Correct!":
+            animation = Animation(color=(1, 0, 0, 1), duration=0.1) & \
+                        Animation(font_size=self.result_label.font_size+20, duration=0.1) + \
+                        Animation(color=self.result_label.color, duration=0.5) + \
+                        Animation(font_size=self.result_label.font_size, duration=0.5)
+        elif result == "¡Correcto!":
             # Change text color to green.
-            animation = Animation(color=(0, 1, 0, 1), duration=0.1) + \
-                        Animation(color=self.result_label.color, duration=1)
+            animation = Animation(color=(0, 1, 0, 1), duration=0.1) & \
+                        Animation(font_size=self.result_label.font_size+20, duration=0.1) + \
+                        Animation(color=self.result_label.color, duration=0.5) + \
+                        Animation(font_size=self.result_label.font_size, duration=0.5)
         # Stop all the previous animations that may be already running.
         #Animation.cancel_all(self.result_label, "color")
         animation.start(self.result_label)
@@ -414,6 +426,7 @@ class QuizScreen(Screen):
         """
 
         # "Reset" all the previous animations changes that may be already running.
+        self.result_label.font_size = "15sp"
         self.result_label.color = (0, 0, 0, 0)
         self.correct_question_counter_label.font_size = "15sp"
         self.correct_question_counter_label.color = (1, 1, 1, 1)
@@ -426,13 +439,13 @@ class QuizScreen(Screen):
             self.correct_questions_counter += 1
             # Start animations.
             self.animate_scoreboard(self.correct_question_counter_label)
-            self.animate_result_notification("Correct!")
+            self.animate_result_notification("¡Correcto!")
         else:
             # Increment the incorrect answer counter.
             self.incorrect_questions_counter += 1
             # Start animations.
             self.animate_scoreboard(self.incorrect_question_counter_label)
-            self.animate_result_notification("Wrong!")
+            self.animate_result_notification("¡Incorrecto!")
 
         # Re-draw the answers counters.
         self.correct_question_counter_label.text = \
@@ -721,7 +734,7 @@ class Gilbert(App):
 
     def post_build_init(self, ev):
         """
-        Hook the keyboard to listen to its behaviour.
+        Hook the keyboard to listen to its behavior.
         """
         EventLoop.window.bind(on_keyboard=self.hook_keyboard)
 
