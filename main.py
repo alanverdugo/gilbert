@@ -68,6 +68,13 @@ class QuestionLabel(Label):
     It inherits from from kivy.uix.label
     """
 
+class StudyInstructionsPopup(Popup):
+    """
+    Custom PopUp to show usage instructions.
+
+    It inherits from from kivy.uix.popup
+    """
+
 class BackToMenuButton(PurpleRoundedButton):
     """
     Custom button style to go back to the Menu Screen.
@@ -85,6 +92,13 @@ class ResetButton(PurpleRoundedButton):
     """
     pass
 
+class InstructionsButton(PurpleRoundedButton):
+    """
+    Custom instructions button.
+
+    It inherits from PurpleRoundedButton.
+    """
+    pass
 
 class ResetQuizButton(ResetButton):
     """
@@ -212,14 +226,22 @@ class StudyScreen(Screen):
         # Listen for the selection in the dropdown list and
         # assign the data to the button text.
         self.dropdown.bind(on_select=lambda instance, x: setattr(self.mainbutton, 'text', x))
-
         self.float_layout.add_widget(self.mainbutton)
+
+        # Add a button explaining how to use this section.
+        self.study_instructions_button = InstructionsButton(pos_hint={"left": 1, "top": 0.5})
+        self.study_instructions_button.bind(on_press=self.show_instructions)
+        self.float_layout.add_widget(self.study_instructions_button)
 
         # Outside the grid layout (but inside the float layout), add the back button.
         self.back_to_menu_button = BackToMenuButton(pos_hint={"left":0, "bottom":1},
                                                     size_hint=(0.2, 0.1))
         self.float_layout.add_widget(self.back_to_menu_button)
 
+    def show_instructions(self, instance):
+        """Display instructions for this section."""
+        popup = StudyInstructionsPopup()
+        popup.open()
 
     def update_study_text(self, chapter):
         """
@@ -247,6 +269,10 @@ class QuizScreen(Screen):
         # Create a float layout.
         self.float_layout = FloatLayout()
         self.add_widget(self.float_layout)
+
+        # Add a button explaining how to use this section.
+        self.quiz_instructions_button = InstructionsButton(pos_hint={"left": 1, "top": 0.5})
+        self.float_layout.add_widget(self.quiz_instructions_button)
 
         # A label to show "Correct!" or "Incorrect!"
         # depending on the selected answer.
@@ -528,7 +554,6 @@ class OhmScreen(Screen):
                                               background_normal="")
         triangle_bottom_right_button.bind(on_press=self.deactivate_sliders)
         triangle_grid_layout.add_widget(triangle_bottom_right_button)
-
         self.float_layout.add_widget(triangle_grid_layout)
 
         # Back to menu button.
@@ -597,6 +622,10 @@ class OhmScreen(Screen):
                                       size_hint=(0.1, 0.1),
                                       halign='center')
         self.grid_layout.add_widget(self.resistance_label)
+
+        # Add a button explaining how to use this section.
+        self.ohm_instructions_button = InstructionsButton(pos_hint={"left": 1, "top": 0.5})
+        self.float_layout.add_widget(self.ohm_instructions_button)
 
         # Outside the grid layout (but inside the float layout), add the reset button.
         reset_ohm_button = ResetOhmButton(pos_hint={"right":1, "bottom":1},

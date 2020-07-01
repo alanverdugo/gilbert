@@ -143,7 +143,7 @@
     # Make the button "invisible", since we are going to manipulate its canvas.
     background_color: (0, 0, 0, 0)
     background_normal: ""
-    # Make the text of the text wrap if it does not
+    # Make the text of the label wrap if it does not
     # fit the label rectangle.
     halign: "center"
     valign: "middle"
@@ -161,6 +161,23 @@
             size: self.size
             pos: self.pos
             radius: self.border_radius
+
+
+<InstructionsButton@PurpleRoundedButton>
+    # A custom button that explains usage.
+    size: ("50sp", "50sp")
+    size_hint: (None, None)
+    # Add a "question mark" icon at the center.
+    icon: "assets/icons/icons8-question-mark-80.png"
+    canvas:
+        # Inside this rectangle, we will place the icon.
+        Rectangle:
+            #group: "icon_rectangle"
+            # We want the icons to be squares, so we use the button's height for both X and Y.
+            size: self.height * 0.5, self.height * 0.5
+            #pos: (self.pos[0] + (self.height / 2) - (self.canvas.get_group("icon_rectangle")[0].size[0] / 2)), (self.pos[1] + (self.height / 2) - (self.canvas.get_group("icon_rectangle")[0].size[0] / 2))
+            pos: (self.pos[0] + (self.height / 2) - ((self.height * 0.5) / 2)), (self.pos[1] + (self.height / 2) - ((self.height * 0.5) / 2))
+            source: self.icon
 
 <SettingsButton@PurpleRoundedButton>
     font_size: self.font_size
@@ -181,3 +198,16 @@
 <ResetButton@PurpleRoundedButton>
     font_size: self.font_size
     text: "Reset"
+
+<StudyInstructionsPopup@Popup>
+    title: 'Instrucciones - Sección de estudio'
+    auto_dismiss: True
+    size_hint: 0.5, 0.5
+    Label:
+        text: "Selecciona una lección presionando el botón de la esquina superior izquierda"
+        # Make the text of the label wrap if it does not
+        # fit the label rectangle.
+        halign: "center"
+        valign: "middle"
+        text_size: self.width, None
+        height: self.texture_size[1]
