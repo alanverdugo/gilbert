@@ -75,6 +75,20 @@ class StudyInstructionsPopup(Popup):
     It inherits from from kivy.uix.popup
     """
 
+class QuizInstructionsPopup(Popup):
+    """
+    Custom PopUp to show usage instructions.
+
+    It inherits from from kivy.uix.popup
+    """
+
+class OhmInstructionsPopup(Popup):
+    """
+    Custom PopUp to show usage instructions.
+
+    It inherits from from kivy.uix.popup
+    """
+
 class BackToMenuButton(PurpleRoundedButton):
     """
     Custom button style to go back to the Menu Screen.
@@ -272,6 +286,7 @@ class QuizScreen(Screen):
 
         # Add a button explaining how to use this section.
         self.quiz_instructions_button = InstructionsButton(pos_hint={"left": 1, "top": 0.5})
+        self.quiz_instructions_button.bind(on_press=self.show_instructions)
         self.float_layout.add_widget(self.quiz_instructions_button)
 
         # A label to show "Correct!" or "Incorrect!"
@@ -301,29 +316,17 @@ class QuizScreen(Screen):
 
         # Add the correct question counter label to the grid layout.
         self.correct_question_counter_label = \
-            Label(text=str(self.correct_questions_counter),
-                  #width=100,
-                  #height=100,
-                  #size_hint=(None, None)
-                  )
+            Label(text=str(self.correct_questions_counter))
         self.answers_counters_grid_layout.add_widget(self.correct_question_counter_label)
 
         incorrect_answer_icon = Image(source="assets/icons/icons8-x-coordinate-80.png",
                                       keep_ratio=True,
-                                      #size_hint=(0.01, 0.01),
-                                      #size_hint=(None, None),
-                                      #width=100,
-                                      #height=100,
                                       allow_stretch=True)
         self.answers_counters_grid_layout.add_widget(incorrect_answer_icon)
 
         # Add the incorrect question counter label to the grid layout.
         self.incorrect_question_counter_label = \
-            Label(text=str(self.incorrect_questions_counter),
-                  #width=100,
-                  #height=100,
-                  #size_hint=(None, None)
-                  )
+            Label(text=str(self.incorrect_questions_counter))
         self.answers_counters_grid_layout.add_widget(self.incorrect_question_counter_label)
 
         # Add the grid layout to the float layout.
@@ -363,6 +366,11 @@ class QuizScreen(Screen):
 
         # Get a random question from the DB and display it.
         self.get_random_question()
+
+    def show_instructions(self, instance):
+        """Display instructions for this section."""
+        popup = QuizInstructionsPopup()
+        popup.open()
 
     def get_random_question(self):
         """
@@ -625,6 +633,7 @@ class OhmScreen(Screen):
 
         # Add a button explaining how to use this section.
         self.ohm_instructions_button = InstructionsButton(pos_hint={"left": 1, "top": 0.5})
+        self.ohm_instructions_button.bind(on_press=self.show_instructions)
         self.float_layout.add_widget(self.ohm_instructions_button)
 
         # Outside the grid layout (but inside the float layout), add the reset button.
@@ -632,6 +641,10 @@ class OhmScreen(Screen):
                                           size_hint=(0.2, 0.1))
         self.float_layout.add_widget(reset_ohm_button)
 
+    def show_instructions(self, instance):
+        """Display instructions for this section."""
+        popup = OhmInstructionsPopup()
+        popup.open()
 
     def deactivate_sliders(self, instance):
         """

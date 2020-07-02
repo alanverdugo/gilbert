@@ -192,8 +192,8 @@
         app.screen_manager.transition.direction = 'right'
         app.screen_manager.transition.duration = .3
         app.screen_manager.current = 'menu_screen'
-    icon: 'assets/icons/ic_home_white_48dp.png'
-    text: "Back"
+    icon: "assets/icons/ic_home_white_48dp.png"
+    text: "Regresar"
 
 <ResetButton@PurpleRoundedButton>
     font_size: self.font_size
@@ -205,6 +205,32 @@
     size_hint: 0.5, 0.5
     Label:
         text: "Selecciona una lección presionando el botón de la esquina superior izquierda"
+        # Make the text of the label wrap if it does not
+        # fit the label rectangle.
+        halign: "center"
+        valign: "middle"
+        text_size: self.width, None
+        height: self.texture_size[1]
+
+<QuizInstructionsPopup@Popup>
+    title: "Instrucciones - Cuestionario"
+    auto_dismiss: True
+    size_hint: 0.5, 0.5
+    Label:
+        text: "Selecciona la respuesta correcta."
+        # Make the text of the label wrap if it does not
+        # fit the label rectangle.
+        halign: "center"
+        valign: "middle"
+        text_size: self.width, None
+        height: self.texture_size[1]
+
+<OhmInstructionsPopup@Popup>
+    title: 'Instrucciones - Simulador de la ley de Ohm'
+    auto_dismiss: True
+    size_hint: 0.5, 0.5
+    Label:
+        text: "Selecciona I, V o R en el triángulo."
         # Make the text of the label wrap if it does not
         # fit the label rectangle.
         halign: "center"
