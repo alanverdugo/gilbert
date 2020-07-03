@@ -201,10 +201,12 @@
 
 <StudyInstructionsPopup@Popup>
     title: 'Instrucciones - Sección de estudio'
+    title_align: "center"
+    separator_color: (0.404, 0.227, 0.718, 1.0)
     auto_dismiss: True
     size_hint: 0.5, 0.5
     Label:
-        text: "Selecciona una lección presionando el botón de la esquina superior izquierda"
+        text: "Selecciona una lección presionando el botón de la esquina superior izquierda.\n\nEn la parte derecha se mostrará el texto de la lección."
         # Make the text of the label wrap if it does not
         # fit the label rectangle.
         halign: "center"
@@ -214,10 +216,13 @@
 
 <QuizInstructionsPopup@Popup>
     title: "Instrucciones - Cuestionario"
+    title_align: "center"
+    separator_color: (0.404, 0.227, 0.718, 1.0)
     auto_dismiss: True
     size_hint: 0.5, 0.5
     Label:
-        text: "Selecciona la respuesta correcta."
+        markup: True
+        text: "Selecciona la respuesta correcta presionando en el botón correspondiente.\n\nEn la parte derecha se muestran contadores de respuestas correctas e incorrectas. El botón [b]Reset[/b] los reinicia."
         # Make the text of the label wrap if it does not
         # fit the label rectangle.
         halign: "center"
@@ -226,11 +231,14 @@
         height: self.texture_size[1]
 
 <OhmInstructionsPopup@Popup>
-    title: 'Instrucciones - Simulador de la ley de Ohm'
+    title: 'Instrucciones - Simulador Ohm'
+    title_align: "center"
+    separator_color: (0.404, 0.227, 0.718, 1.0)
     auto_dismiss: True
     size_hint: 0.5, 0.5
     Label:
-        text: "Selecciona I, V o R en el triángulo."
+        markup: True
+        text: "Selecciona [b]I[/b], [b]V[/b] o [b]R[/b] en el triángulo de la Ley de Ohm para calcular ese valor.\n\nMueve dos sliders para ver cómo ese valor es calculado en el tercero.\n\n"
         # Make the text of the label wrap if it does not
         # fit the label rectangle.
         halign: "center"

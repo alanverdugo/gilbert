@@ -300,7 +300,7 @@ class QuizScreen(Screen):
         # Labels for correct/incorrect questions counters.
         # Create a grid layout for the correct/incorrect display.
         self.answers_counters_grid_layout = GridLayout(rows=2, cols=2,
-                                                       pos_hint={"top":0.9, "right": 0.9},
+                                                       pos_hint={"top":0.5, "right": 0.9},
                                                        #size=(200, 200),
                                                        #size_hint=(None, None)
                                                        size_hint=(0.1, 0.1))
