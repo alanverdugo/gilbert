@@ -14,7 +14,8 @@
         pos_hint: {'top': 1, 'center_x': 0.5}
         orientation: "vertical"
         Label:
-            text: "Gilbert"    
+            text: "Gilbert"
+            font_size: "20sp"
         Image:
             source: "assets/icons/icons8-magnet-80.png"
     # Box layout for menu buttons.
@@ -38,7 +39,7 @@
                 root.manager.previous = 'menu_screen'
                 root.manager.current = 'study_screen'
         MenuScreenButton:
-            text: "Preguntas"
+            text: "Cuestionario"
             icon: "assets/icons/icons8-test-100.png"
             on_press:
                 # You can define the duration of the change
@@ -172,10 +173,8 @@
     canvas:
         # Inside this rectangle, we will place the icon.
         Rectangle:
-            #group: "icon_rectangle"
             # We want the icons to be squares, so we use the button's height for both X and Y.
             size: self.height * 0.5, self.height * 0.5
-            #pos: (self.pos[0] + (self.height / 2) - (self.canvas.get_group("icon_rectangle")[0].size[0] / 2)), (self.pos[1] + (self.height / 2) - (self.canvas.get_group("icon_rectangle")[0].size[0] / 2))
             pos: (self.pos[0] + (self.height / 2) - ((self.height * 0.5) / 2)), (self.pos[1] + (self.height / 2) - ((self.height * 0.5) / 2))
             source: self.icon
 

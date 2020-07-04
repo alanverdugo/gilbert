@@ -43,7 +43,6 @@ class MenuScreen(Screen):
 
     It inherits from Screen.
     """
-    pass
 
 class MenuScreenButton(Button):
     """
@@ -51,7 +50,6 @@ class MenuScreenButton(Button):
 
     It inherits from kivy.uix.button.
     """
-    pass
 
 class PurpleRoundedButton(Button):
     """
@@ -59,7 +57,6 @@ class PurpleRoundedButton(Button):
 
     It inherits from kivy.uix.button.
     """
-    pass
 
 class QuestionLabel(Label):
     """
@@ -95,8 +92,6 @@ class BackToMenuButton(PurpleRoundedButton):
 
     It inherits from kivy.uix.button.
     """
-    pass
-
 
 class ResetButton(PurpleRoundedButton):
     """
@@ -104,7 +99,6 @@ class ResetButton(PurpleRoundedButton):
 
     It inherits from PurpleRoundedButton.
     """
-    pass
 
 class InstructionsButton(PurpleRoundedButton):
     """
@@ -112,7 +106,28 @@ class InstructionsButton(PurpleRoundedButton):
 
     It inherits from PurpleRoundedButton.
     """
-    pass
+
+class SettingsButton(MenuScreenButton):
+    """
+    Custom Settings button style for the Menu Screen.
+
+    It inherits from MenuScreenButton, which inherits from kivy.uix.button.
+    """
+
+class AboutButton(MenuScreenButton):
+    """
+    Custom "About" button style for the Menu Screen.
+
+    It inherits from MenuScreenButton, which inherits from kivy.uix.button.
+    """
+
+class AboutScreen(Screen):
+    """
+    Custom Screen Class for the About section.
+
+    It inherits from Screen.
+    """
+
 
 class ResetQuizButton(ResetButton):
     """
@@ -168,22 +183,6 @@ class ResetOhmButton(ResetButton):
         self.parent.parent.resistance_slider.value = 500
         self.parent.parent.resistance_slider.min = 10
         self.parent.parent.resistance_slider.max = 1000
-
-class SettingsButton(MenuScreenButton):
-    """
-    Custom Settings button style for the Menu Screen.
-
-    It inherits from MenuScreenButton, which inherits from kivy.uix.button.
-    """
-    pass
-
-class AboutButton(MenuScreenButton):
-    """
-    Custom "About" button style for the Menu Screen.
-
-    It inherits from MenuScreenButton, which inherits from kivy.uix.button.
-    """
-    pass
 
 class StudyScreen(Screen):
     """
@@ -421,7 +420,8 @@ class QuizScreen(Screen):
 
             # For each button, attach a callback that will call the check_answer method
             # We'll pass the text of the button as the data of the selection.
-            answer_button.bind(on_release=lambda answer_button: self.check_answer(answer_button.text))
+            answer_button.bind(on_release=lambda answer_button:
+                               self.check_answer(answer_button.text))
 
             # Add the button inside the box layout for the answers.
             self.answers_box_layout.add_widget(answer_button)
@@ -450,8 +450,6 @@ class QuizScreen(Screen):
                         Animation(font_size=self.result_label.font_size+20, duration=0.1) + \
                         Animation(color=self.result_label.color, duration=0.5) + \
                         Animation(font_size=self.result_label.font_size, duration=0.5)
-        # Stop all the previous animations that may be already running.
-        #Animation.cancel_all(self.result_label, "color")
         animation.start(self.result_label)
 
     def check_answer(self, selected_answer):
@@ -509,12 +507,6 @@ class OhmScreen(Screen):
         # Create a float layout.
         self.float_layout = FloatLayout()
         self.add_widget(self.float_layout)
-
-        # Title label
-        title_label = Label(text="Simulador de la ley de Ohm",
-                            size_hint=(0.5, 0.05),
-                            pos_hint={"center_x": 0.5, "top": 1})
-        self.float_layout.add_widget(title_label)
 
         # Triangle image.
         self.triangle_image = Image(source="assets/images/I_318px-law_triangle.png",
@@ -718,14 +710,6 @@ class OhmScreen(Screen):
         self.resistance_label.text = str(round(self.resistance_slider.value, 2)) + "\nOhms"
 
 
-class AboutScreen(Screen):
-    """
-    Custom Screen Class for the About section.
-
-    It inherits from Screen.
-    """
-    pass
-
 CONFIG = '''
 [
     {
@@ -774,28 +758,27 @@ class Gilbert(App):
 
         return self.screen_manager
 
-    def post_build_init(self, ev):
-        """
-        Hook the keyboard to listen to its behavior.
-        """
+    def post_build_init(self, event):
+        """Hook the keyboard to listen to its behavior."""
         EventLoop.window.bind(on_keyboard=self.hook_keyboard)
 
 
     def hook_keyboard(self, window, key, *largs):
-        """
-        Capture behavior for the "back" button in Android.
-        """
+        """Capture behavior for the "back" button in Android."""
         # Key 27 is "Esc" in the Keyboard, or "Back" on Android.
         if key == 27:
             print(self.screen_manager.current)
             if self.screen_manager.current == 'menu_screen':
-                print("Can't go further back!")
                 Gilbert.get_running_app().stop()
+            self.screen_manager.transition.direction = "right"
             if isinstance(self.screen_manager.previous, str):
                 self.screen_manager.current = self.screen_manager.previous
             else:
                 self.screen_manager.current = self.screen_manager.previous()
-            return True
+            return_value = True
+        else:
+            return_value = False
+        return return_value
 
     def build_config(self, config):
         """
