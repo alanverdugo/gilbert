@@ -1,36 +1,41 @@
-*****************
-3 Carga eléctrica
-*****************
+Introducción al Fenómeno Eléctrico
+**********************************
 
-La carga eléctrica es una propiedad fundamental de la materia. Una determinada partícula posee carga o es neutra, pero no se puede describir qué es la carga eléctrica. El electromagnetismo es una interacción entre partículas cargadas y una partícula posee carga cuando interacciona electromagnéticamente.
+Todos de alguna manera estamos familiarizados con la electricidad.
 
-Aunque no se pueda decir qué es la carga, si se pueden caracterizar sus propiedades principales.
+La utilizamos a diario para hacer funcionar nuestras herramientas, desde artículos de tocador hasta complicadas herramientas laborales. Necesitamos de la electricidad hasta tal punto que no concebimos una vida sin ella y cuando por alguna razón nos falta tratamos igualmente de encender la llave de luz o prender el televisor, dando muestra de lo asumido que tenemos su uso.
 
-3.1 Propiedad escalar
-#####################
+**¿Pero qué es esa extraña fuerza que no ocupa espacio y que sabemos que puede ser hasta peligrosa?**
 
-La carga de un sistema es una propiedad escalar, caracterizada por una magnitud y un signo, pero no tiene dirección ni sentido.
+Cuando nos ponemos a pensar realmente qué es, raramente llegamos a buen puerto.
 
-Se mide en el SI en un culombio (C) definido como 1 C = 1 A * s
+Sin duda podemos decir que la electricidad es un fenómeno físico originado por cargas eléctricas estáticas o en movimiento y por su interacción. Esto nos dice que existe un "ente" físico que denominaremos, por ahora, carga eléctrica que se desplaza o no por el espacio que nos rodea y, estando en reposo o en movimiento, interacciona con otras cargas eléctricas originando así las fuerzas que nosotros percibimos.
 
-(con la A de amperio, que se ve al estudiar la corriente eléctrica). Un culombio es una cantidad gigantesca, imposible de reunir en la práctica debido a la repulsión entre cargas del mismo signo. Por ello, es mucho más frecuente usar unidades como nanoculombios o picoculombios. 
+Ahora bien, sabemos que toda la **materia** que nos rodea está formada de alguna forma, por "pequeñas partículas", que juntas dan forma a nuestro mundo conocido. Pero... ¿Cómo es que esas partículas interaccionan entre sí para unirse o separarse?
 
-3.2 Dos tipos de carga
-######################
+Es en este punto donde la electricidad empieza a tomar interés.
 
-Existen dos variedades de carga eléctrica. A diferencia de la masa, que es solo de un tipo, o del color de los quarks (que es de tres variedades), la carga eléctrica se presenta en dos tipos diferentes, denominados por convenio carga positiva (que representamos con el signo + y el color rojo) y carga negativa (representada por el signo − y el color azul). La carga positiva es la que es del mismo tipo que la del protón y la negativa la que es del mismo tipo que la del electrón.
+Primero comenzaremos por definir que son esas "pequeñas partículas" que forman la materia.
 
-El que haya solo dos tipos de carga permite sumarlas como números ordinarios, de manera que si se unen dos partículas de cargas q1 y q2, la carga del conjunto es q1 + q2 (esto también se puede hacer con la masa, pero no con el color de los quarks ¿cuánto es la suma de unir una partícula "roja" con una "verde"?). 
+Átomos
+------
 
-3.3 Ley de conservación de la carga
-###################################
+Llamamos átomos a la unidad más pequeña de un elemento químico que mantiene su identidad o sus propiedades, y que no es posible dividir mediante procesos químicos.
 
-La carga se conserva. Esta es una de las propiedades básicas de la interacción electromagnética. A diferencia de otras magnitudes, como la energía mecánica o la entropía, la carga se conserva en cualquier sistema. Esto quiere decir que
+El concepto de átomo como bloque básico e indivisible que compone la materia del universo ya fue postulado por la escuela atomista en la **Antigua Grecia**. Sin embargo, su existencia no quedó demostrada hasta el siglo XIX. Con el desarrollo de la **Física nuclear** en el siglo XX se comprobó que de hecho el átomo se puede subdividir en partículas más pequeñas.
 
-    En cualquier punto del espacio, la carga no se crea ni se destruye. 
+La teoría aceptada hoy es que el átomo se compone de un **núcleo**, formado por **protones** y **neutrones**, alrededor del cual se encuentran una nube de **electrones**.
 
-o, expresado de forma más precisa, cuya formulación matemática veremos más adelante:
+**¿Pero por qué los electrones se quedan "dando vueltas" alrededor del núcleo y no se escapan libres por el espacio?**
 
-    Para cualquier volumen, el cambio de la carga contenida en su interior se produce siempre por una entrada o salida a través de la frontera, nunca por producción o destrucción en el volumen. 
+Fue **C.F. Du Fay** quien demostró que existían "dos tipos de electricidad" una se llamó **positiva** y la otra **negativa**.
 
-Hay que precisar qué significa que no se puede producir carga, ya que, como hemos comentado antes, puede ocurrir que un neutrón -que no tiene carga- se desintegre, produciendo un protón, que es una partícula cargada. Lo que ocurre es que al mismo tiempo se genera un electrón, que es una partícula con una carga opuesta a la del protón, de manera que la carga total permanece constante. 
+El hecho es que dos objetos que están cargados positiva y negativamente se atraen, mientras que si los dos están cargados con el mismo tipo (o signo) de electricidad se repelen.
+
+Ahora podemos decir que los protones del núcleo tienen carga positiva, mientras que los electrones negativa. Los neutrones son precisamente neutros, es decir, que no se ven afectados por los fenómenos eléctricos.
+
+Es por ésto que los átomos pueden interaccionar con otros átomos, uniéndose y separándose, formando nuevas **substancias**, y así ensamblar el mundo que nos rodea.
+
+*Obtenido de «https://es.wikibooks.org/w/index.php?title=Electricidad/Electrostática/Introducción_al_Fenómeno_Eléctrico&oldid=238861»*
+
+*El texto está disponible bajo la Licencia Creative Commons Atribución-CompartirIgual 3.0*
