@@ -8,6 +8,8 @@ It was created with the [Autonomous University of Chihuahua (UACH)](https://uach
 
 Named after one of the great minds of science: [William Gilbert](https://en.wikipedia.org/wiki/William_Gilbert_(physician)), who made great contributions to the field of electromagnetism, among others.
 
+---
+
 ## Usage
 The application consist in different "sections". The main menu presents the available options. You can read the usage instructions for each section by using the "?" button in each screen, or by reading the following paragraphs.
 
@@ -27,6 +29,8 @@ Once a value is selected the sliders for the two remaining values will become ac
 
 Move the two sliders and see how the third value changes accordingly.
 
+---
+
 ## Motivation
 
 Gilbert was designed and built as completely free (libre) and open source software. I decided to do this for several reasons:
@@ -36,6 +40,38 @@ Gilbert was designed and built as completely free (libre) and open source softwa
 * The users should be at ease knowing that the application is not spying on them or using their data in malicious ways. They can be sure of this by inspecting the source code.
 * If they want new features, the users can directly contribute to the proyect and help improve it for other people.
 
+---
+
+## Database
+
+The application uses a SQLite database to store questions and answers in a very simple set of tables.
+
+---
+
+## Build
+
+Since the application uses the Kivy framework, in order to build a valid APK file that could be installed in Android devices, a build process needs to happen.
+
+The chosen tool for this is Buildozer. Read here for the Buildozer setup instructions: https://kivy.org/doc/stable/guide/packaging-android.html#buildozer
+
+### Build a debug version of the application
+
+First, connect your mobile device to the computer which will execute the build process.
+
+```bash
+buildozer android debug deploy run logcat > log.txt
+```
+
+If the build is successful, the application should be installed and start running in the connected Android device. Debug information should be written to the `log.txt` file in the current directory of the builder computer. This is extremelly useful to test the application on a real device.
+
+### Build a release version of the application
+
+```bash
+buildozer android release
+```
+
+---
+
 ## How to contribute
 
 Contributions to the project can be done in many ways. For example:
@@ -44,6 +80,8 @@ Contributions to the project can be done in many ways. For example:
 * Improve the code: Get an issue from the list and send a pull request with your changes.
 * Spread the word: Tell other people about Gilbert.
 * Donate: Help the open source proyects that helped Gilbert to become a reality. For example, you could donate to the [Python Software Foundation](https://www.python.org/psf/donations/), the [Kivy project](https://opencollective.com/kivy), the [Linux foundation](https://www.linuxfoundation.org/about/donate/) or the [Free Software Foundation](https://my.fsf.org/donate).
+
+---
 
 ## License
 Copyright 2020 Alan Verdugo Muñoz
