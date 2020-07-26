@@ -58,6 +58,13 @@ class PurpleRoundedButton(Button):
     It inherits from kivy.uix.button.
     """
 
+class WhiteRoundedButton(Button):
+    """
+    Custom button style for the "back to menu" and "reset" buttons.
+
+    It inherits from kivy.uix.button.
+    """
+
 class QuestionLabel(Label):
     """
     Custom Label that wraps its text in case it is too long.
@@ -212,8 +219,7 @@ class StudyScreen(Screen):
             btn = PurpleRoundedButton(text=chapter,
                                       height=400,
                                       #height=0.2,
-                                      size_hint_y=None
-                                      )
+                                      size_hint_y=None)
 
             # For each button, attach a callback that will call the select() method
             # on the dropdown. We'll pass the text of the button as the data of the
@@ -242,14 +248,14 @@ class StudyScreen(Screen):
         self.float_layout.add_widget(self.mainbutton)
 
         # Add a button explaining how to use this section.
-        self.study_instructions_button = InstructionsButton(pos_hint={"center_x": 0.1, "top": 0.5})
+        self.study_instructions_button = InstructionsButton(pos_hint={"center_x": 0.1, "bottom": 1})
         self.study_instructions_button.bind(on_press=self.show_instructions)
         self.float_layout.add_widget(self.study_instructions_button)
 
         # Outside the grid layout (but inside the float layout), add the back button.
-        self.back_to_menu_button = BackToMenuButton(pos_hint={"left":0, "bottom":1},
-                                                    size_hint=(0.2, 0.1))
-        self.float_layout.add_widget(self.back_to_menu_button)
+        #self.back_to_menu_button = BackToMenuButton(pos_hint={"left":0, "bottom":1},
+        #                                            size_hint=(0.2, 0.1))
+        #self.float_layout.add_widget(self.back_to_menu_button)
 
     def show_instructions(self, instance):
         """Display instructions for this section."""
@@ -284,7 +290,7 @@ class QuizScreen(Screen):
         self.add_widget(self.float_layout)
 
         # Add a button explaining how to use this section.
-        self.quiz_instructions_button = InstructionsButton(pos_hint={"center_x": 0.1, "top": 0.5})
+        self.quiz_instructions_button = InstructionsButton(pos_hint={"center_x": 0.1, "bottom": 1})
         self.quiz_instructions_button.bind(on_press=self.show_instructions)
         self.float_layout.add_widget(self.quiz_instructions_button)
 
@@ -299,10 +305,10 @@ class QuizScreen(Screen):
         # Labels for correct/incorrect questions counters.
         # Create a grid layout for the correct/incorrect display.
         self.answers_counters_grid_layout = GridLayout(rows=2, cols=2,
-                                                       pos_hint={"top":0.5, "right": 0.9},
+                                                       pos_hint={"top":0.95, "right": 0.95},
                                                        #size=(200, 200),
                                                        #size_hint=(None, None)
-                                                       size_hint=(0.1, 0.1))
+                                                       size_hint=(0.2, 0.1))
 
         correct_answer_icon = Image(source="assets/icons/ic_check_white_48dp.png",
                                     keep_ratio=True,
@@ -315,7 +321,7 @@ class QuizScreen(Screen):
 
         # Add the correct question counter label to the grid layout.
         self.correct_question_counter_label = \
-            Label(text=str(self.correct_questions_counter))
+            Label(text=str(self.correct_questions_counter), font_size="20sp")
         self.answers_counters_grid_layout.add_widget(self.correct_question_counter_label)
 
         incorrect_answer_icon = Image(source="assets/icons/ic_close_white_48dp.png",
@@ -325,7 +331,7 @@ class QuizScreen(Screen):
 
         # Add the incorrect question counter label to the grid layout.
         self.incorrect_question_counter_label = \
-            Label(text=str(self.incorrect_questions_counter))
+            Label(text=str(self.incorrect_questions_counter), font_size="20sp")
         self.answers_counters_grid_layout.add_widget(self.incorrect_question_counter_label)
 
         # Add the grid layout to the float layout.
@@ -334,13 +340,14 @@ class QuizScreen(Screen):
         # Question label
         self.question_label = QuestionLabel(halign="center",
                                             valign="middle",
+                                            font_size="15sp",
                                             pos_hint={"center_x": 0.5, "top": 0.9})
         self.float_layout.add_widget(self.question_label)
 
         # Back to menu button.
-        self.back_to_menu_button = BackToMenuButton(pos_hint={"left":0, "bottom":1},
-                                                    size_hint=(0.2, 0.1))
-        self.float_layout.add_widget(self.back_to_menu_button)
+        #self.back_to_menu_button = BackToMenuButton(pos_hint={"left":0, "bottom":1},
+        #                                            size_hint=(0.2, 0.1))
+        #self.float_layout.add_widget(self.back_to_menu_button)
 
         # Create a box layout inside the float layout (to contain the answer buttons).
         self.answers_box_layout = BoxLayout(orientation="vertical",
@@ -379,14 +386,14 @@ class QuizScreen(Screen):
         self.cursor.execute("SELECT * FROM questions "
                             f"WHERE question_id NOT IN ('{self.last_question_id}') "
                             "ORDER BY RANDOM() LIMIT 1")
-        # Fetch all returns a list with a tuple.
+        # "Fetch all" returns a list with a tuple.
         question = self.cursor.fetchall()
         self.last_question_id = str(question[0][0])
 
         # Show the question text into the question label.
         self.question_label.text = str(question[0][1])
 
-        # Get answers to this question.
+        # Get answers to this question, and display them.
         self.get_answers()
 
     def get_answers(self):
@@ -398,7 +405,7 @@ class QuizScreen(Screen):
                             "INNER JOIN questions "
                             "ON questions.question_id = answers.question_id "
                             f"WHERE questions.question_text = '{self.question_label.text}'")
-        # Fetch all returns a list with a tuple.
+        # "Fetch all" returns a list with a tuple.
         answers = self.cursor.fetchall()
 
         # Get the correct answer.
@@ -416,7 +423,7 @@ class QuizScreen(Screen):
 
         # Create the answer buttons.
         for answer in answers_list:
-            answer_button = PurpleRoundedButton(text=answer)
+            answer_button = WhiteRoundedButton(text=answer)
 
             # For each button, attach a callback that will call the check_answer method
             # We'll pass the text of the button as the data of the selection.
@@ -427,7 +434,7 @@ class QuizScreen(Screen):
             self.answers_box_layout.add_widget(answer_button)
 
     def animate_scoreboard(self, object_to_animate):
-        animation = Animation(color=(1, 0, 1, 1), duration=0.1) & \
+        animation = Animation(color=(1, 1, 0, 1.0), duration=0.1) & \
                     Animation(font_size=object_to_animate.font_size+10, duration=0.1) + \
                     Animation(color=object_to_animate.color, duration=0.1) + \
                     Animation(font_size=object_to_animate.font_size, duration=0.1)
@@ -460,9 +467,9 @@ class QuizScreen(Screen):
         # "Reset" all the previous animations changes that may be already running.
         self.result_label.font_size = "15sp"
         self.result_label.color = (0, 0, 0, 0)
-        self.correct_question_counter_label.font_size = "15sp"
+        self.correct_question_counter_label.font_size = "20sp"
         self.correct_question_counter_label.color = (1, 1, 1, 1)
-        self.incorrect_question_counter_label.font_size = "15sp"
+        self.incorrect_question_counter_label.font_size = "20sp"
         self.incorrect_question_counter_label.color = (1, 1, 1, 1)
 
         # Check if the selected answer is correct or not.
@@ -557,9 +564,9 @@ class OhmScreen(Screen):
         self.float_layout.add_widget(triangle_grid_layout)
 
         # Back to menu button.
-        self.back_to_menu_button = BackToMenuButton(pos_hint={"left":0, "bottom":1},
-                                                    size_hint=(0.2, 0.1))
-        self.float_layout.add_widget(self.back_to_menu_button)
+        #self.back_to_menu_button = BackToMenuButton(pos_hint={"left":0, "bottom":1},
+        #                                            size_hint=(0.2, 0.1))
+        #self.float_layout.add_widget(self.back_to_menu_button)
 
         # Create a grid layout inside the float layout.
         self.grid_layout = GridLayout(rows=4,
@@ -578,7 +585,7 @@ class OhmScreen(Screen):
                                      size_hint=(0.1, 0.6),
                                      value=0.1,
                                      value_track=True,
-                                     value_track_color=[0.404, 0.227, 0.718, 1.0],
+                                     value_track_color=(1, 0.96, 0.49, 1.0),
                                      disabled=True)
         self.current_slider.bind(value=self.calculate_ohm_values)
         self.grid_layout.add_widget(self.current_slider)
@@ -591,7 +598,7 @@ class OhmScreen(Screen):
                                      pos_hint={"x":0.5, "top":0.3},
                                      size_hint=(0.1, 0.6),
                                      value_track=True,
-                                     value_track_color=[0.404, 0.227, 0.718, 1.0],
+                                     value_track_color=(1, 0.96, 0.49, 1.0),
                                      value=0.05)
         self.grid_layout.add_widget(self.voltage_slider)
         self.voltage_slider.bind(value=self.calculate_ohm_values)
@@ -604,7 +611,7 @@ class OhmScreen(Screen):
                                         pos_hint={"x":0.5, "top":0.3},
                                         size_hint=(0.1, 0.6),
                                         value_track=True,
-                                        value_track_color=[0.404, 0.227, 0.718, 1.0],
+                                        value_track_color=(1, 0.96, 0.49, 1.0),
                                         value=500)
         self.grid_layout.add_widget(self.resistance_slider)
         self.resistance_slider.bind(value=self.calculate_ohm_values)
@@ -624,7 +631,7 @@ class OhmScreen(Screen):
         self.grid_layout.add_widget(self.resistance_label)
 
         # Add a button explaining how to use this section.
-        self.ohm_instructions_button = InstructionsButton(pos_hint={"center_x": 0.1, "top": 0.5})
+        self.ohm_instructions_button = InstructionsButton(pos_hint={"center_x": 0.1, "bottom": 1})
         self.ohm_instructions_button.bind(on_press=self.show_instructions)
         self.float_layout.add_widget(self.ohm_instructions_button)
 

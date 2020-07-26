@@ -2,6 +2,7 @@
 
 #:set purple_background_color (0.196, 0.114, 0.612, 1)
 #:set purple_separator_color (0.404, 0.227, 0.718, 1.0)
+#:set yellow_color (1, 0.96, 0.49, 1.0)
 
 <MenuScreen@Screen>
     # Set background color for main menu.
@@ -126,11 +127,11 @@
     # Custom properties.
     # Purle color: in (0...255)=103, 57.8, 183
     #back_color: 0.404, 0.227, 0.718, 1.0
-    #back_color: 1, 1, 1, 1.0
+    back_color: 1, 1, 1, 1
     #back_color: 1, 0.96, 0.49, 1.0
-    back_color: 1, 0.98, 0.80, 1.0
+    #back_color: 1, 0.98, 0.80, 1.0
     color: purple_background_color
-    font_size: "20sp"
+    font_size: "25sp"
     border_radius: [18]
     icon: self.icon
     # Manipulate the canvas.
@@ -149,6 +150,36 @@
             #pos: self.pos[0] + (self.height * 0.5), self.pos[1] + (self.height / 4)
             pos: self.pos[0] + (self.height * 0.2), self.pos[1] + (self.height / 4)
             source: self.icon
+
+<WhiteRoundedButton@Button>
+    # This custom button is very similar to "MenuScreenButton"
+    # but it does not have any icons
+    id: purple_rounded_button
+    # Make the button "invisible", since we are going to manipulate its canvas.
+    background_color: (0, 0, 0, 0)
+    background_normal: ""
+    # Make the text of the label wrap if it does not
+    # fit the label rectangle.
+    halign: "center"
+    valign: "middle"
+    text_size: self.width, None
+    # Color of the text.
+    color: purple_background_color
+    font_size: "20sp"
+    height: self.texture_size[1]
+    # Custom properties.
+    back_color: 1, 1, 1, 1.0
+    border_radius: [18]
+    icon: self.icon
+    # Manipulate the canvas.
+    canvas.before:
+        Color:
+            rgba: self.back_color
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: self.border_radius
+
 
 <PurpleRoundedButton@Button>
     # This custom button is very similar to "MenuScreenButton"
