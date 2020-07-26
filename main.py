@@ -242,7 +242,7 @@ class StudyScreen(Screen):
         self.float_layout.add_widget(self.mainbutton)
 
         # Add a button explaining how to use this section.
-        self.study_instructions_button = InstructionsButton(pos_hint={"left": 1, "top": 0.5})
+        self.study_instructions_button = InstructionsButton(pos_hint={"center_x": 0.1, "top": 0.5})
         self.study_instructions_button.bind(on_press=self.show_instructions)
         self.float_layout.add_widget(self.study_instructions_button)
 
@@ -284,7 +284,7 @@ class QuizScreen(Screen):
         self.add_widget(self.float_layout)
 
         # Add a button explaining how to use this section.
-        self.quiz_instructions_button = InstructionsButton(pos_hint={"left": 1, "top": 0.5})
+        self.quiz_instructions_button = InstructionsButton(pos_hint={"center_x": 0.1, "top": 0.5})
         self.quiz_instructions_button.bind(on_press=self.show_instructions)
         self.float_layout.add_widget(self.quiz_instructions_button)
 
@@ -304,7 +304,7 @@ class QuizScreen(Screen):
                                                        #size_hint=(None, None)
                                                        size_hint=(0.1, 0.1))
 
-        correct_answer_icon = Image(source="assets/icons/icons8-tick-box-80.png",
+        correct_answer_icon = Image(source="assets/icons/ic_check_white_48dp.png",
                                     keep_ratio=True,
                                     #size_hint=(0.01, 0.01),
                                     #size_hint=(None, None),
@@ -318,7 +318,7 @@ class QuizScreen(Screen):
             Label(text=str(self.correct_questions_counter))
         self.answers_counters_grid_layout.add_widget(self.correct_question_counter_label)
 
-        incorrect_answer_icon = Image(source="assets/icons/icons8-x-coordinate-80.png",
+        incorrect_answer_icon = Image(source="assets/icons/ic_close_white_48dp.png",
                                       keep_ratio=True,
                                       allow_stretch=True)
         self.answers_counters_grid_layout.add_widget(incorrect_answer_icon)
@@ -624,7 +624,7 @@ class OhmScreen(Screen):
         self.grid_layout.add_widget(self.resistance_label)
 
         # Add a button explaining how to use this section.
-        self.ohm_instructions_button = InstructionsButton(pos_hint={"left": 1, "top": 0.5})
+        self.ohm_instructions_button = InstructionsButton(pos_hint={"center_x": 0.1, "top": 0.5})
         self.ohm_instructions_button.bind(on_press=self.show_instructions)
         self.float_layout.add_widget(self.ohm_instructions_button)
 

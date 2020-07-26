@@ -1,10 +1,14 @@
 #:kivy 1.11.1
 
+#:set purple_background_color (0.196, 0.114, 0.612, 1)
+#:set purple_separator_color (0.404, 0.227, 0.718, 1.0)
+
 <MenuScreen@Screen>
     # Set background color for main menu.
     canvas.before:
         Color:
-            rgba: (0.2, 0.2, 0.4, 1)
+            #rgba: (0.2, 0.2, 0.4, 1)
+            rgba: purple_background_color
         Rectangle:
             size: self.size
             pos: self.pos
@@ -30,7 +34,7 @@
         pos_hint: {'top': 0.8, 'bottom': 0, 'center_x': 0.5}
         MenuScreenButton:
             text: "Estudio"
-            icon: 'assets/icons/icons8-book-shelf-64.png'
+            icon: 'assets/icons/icons8-book-shelf-64-purple.png'
             on_press:
                 # You can define the duration of the change
                 # and the direction of the slide
@@ -40,7 +44,7 @@
                 root.manager.current = 'study_screen'
         MenuScreenButton:
             text: "Cuestionario"
-            icon: "assets/icons/icons8-test-100.png"
+            icon: "assets/icons/icons8-test-100-purple.png"
             on_press:
                 # You can define the duration of the change
                 # and the direction of the slide
@@ -50,7 +54,7 @@
                 root.manager.current = 'quiz_screen'
         MenuScreenButton:
             text: "Simulador Ω"
-            icon: "assets/icons/icons8-voltmeter-100.png"
+            icon: "assets/icons/icons8-renewable-energy-100-purple.png"
             on_press:
                 # You can define the duration of the change
                 # and the direction of the slide
@@ -60,7 +64,7 @@
                 root.manager.current = 'ohm_screen'
         MenuScreenButton:
             text: "Acerca de..."
-            icon: "assets/icons/icons8-octocat-100.png"
+            icon: "assets/icons/icons8-octocat-100-purple.png"
             on_press:
                 # You can define the duration of the change
                 # and the direction of the slide
@@ -81,7 +85,8 @@
     # Set background color for the quiz screen.
     canvas.before:
         Color:
-            rgba: (0.2, 0.2, 0.4, 1)
+            #rgba: (0.2, 0.2, 0.4, 1)
+            rgba: purple_background_color
         Rectangle:
             size: self.size
             pos: self.pos
@@ -96,7 +101,8 @@
     # Set background color for the study screen.
     canvas.before:
         Color:
-            rgba: (0.2, 0.2, 0.4, 1)
+            #rgba: (0.2, 0.2, 0.4, 1)
+            rgba: purple_background_color
         Rectangle:
             size: self.size
             pos: self.pos
@@ -106,7 +112,8 @@
     # Set background color for the Ohm simulator.
     canvas.before:
         Color:
-            rgba: (0.2, 0.2, 0.4, 1)
+            #rgba: (0.2, 0.2, 0.4, 1)
+            rgba: purple_background_color
         Rectangle:
             size: self.size
             pos: self.pos
@@ -118,7 +125,12 @@
     background_normal: ""
     # Custom properties.
     # Purle color: in (0...255)=103, 57.8, 183
-    back_color: 0.404, 0.227, 0.718, 1.0
+    #back_color: 0.404, 0.227, 0.718, 1.0
+    #back_color: 1, 1, 1, 1.0
+    #back_color: 1, 0.96, 0.49, 1.0
+    back_color: 1, 0.98, 0.80, 1.0
+    color: purple_background_color
+    font_size: "20sp"
     border_radius: [18]
     icon: self.icon
     # Manipulate the canvas.
@@ -134,7 +146,8 @@
         Rectangle:
             # We want the icons to be squares, so we use the button's height for both X and Y.
             size: self.height * 0.5, self.height * 0.5
-            pos: self.pos[0] + (self.height * 0.5), self.pos[1] + (self.height / 4)
+            #pos: self.pos[0] + (self.height * 0.5), self.pos[1] + (self.height / 4)
+            pos: self.pos[0] + (self.height * 0.2), self.pos[1] + (self.height / 4)
             source: self.icon
 
 <PurpleRoundedButton@Button>
@@ -169,7 +182,7 @@
     size: ("50sp", "50sp")
     size_hint: (None, None)
     # Add a "question mark" icon at the center.
-    icon: "assets/icons/icons8-question-mark-80.png"
+    icon: "assets/icons/ic_live_help_white_48dp.png"
     canvas:
         # Inside this rectangle, we will place the icon.
         Rectangle:
@@ -186,13 +199,23 @@
     text: "Configuración"
 
 <BackToMenuButton@MenuScreenButton>
-    font_size: self.font_size
+    #font_size: self.font_size
     on_press:
         app.screen_manager.transition.direction = 'right'
-        app.screen_manager.transition.duration = .3
+        app.screen_manager.transition.duration = .2
         app.screen_manager.current = 'menu_screen'
-    icon: "assets/icons/ic_home_white_48dp.png"
-    text: "Regresar"
+    #icon: "assets/icons/ic_home_white_48dp.png"
+    #text: "Regresar"
+    size_hint: (None, None)
+    # Add a "question mark" icon at the center.
+    icon: "assets/icons/ic_arrow_back_white_48dp.png"
+    canvas:
+        # Inside this rectangle, we will place the icon.
+        Rectangle:
+            # We want the icons to be squares, so we use the button's height for both X and Y.
+            size: self.height * 0.5, self.height * 0.5
+            pos: (self.pos[0] + (self.width / 2) - ((self.height * 0.5) / 2)), (self.pos[1] + (self.height / 2) - ((self.height * 0.5) / 2))
+            source: self.icon
 
 <ResetButton@PurpleRoundedButton>
     font_size: self.font_size
@@ -201,7 +224,7 @@
 <StudyInstructionsPopup@Popup>
     title: 'Instrucciones - Sección de estudio'
     title_align: "center"
-    separator_color: (0.404, 0.227, 0.718, 1.0)
+    separator_color: purple_separator_color
     auto_dismiss: True
     size_hint: 0.5, 0.5
     Label:
@@ -216,7 +239,7 @@
 <QuizInstructionsPopup@Popup>
     title: "Instrucciones - Cuestionario"
     title_align: "center"
-    separator_color: (0.404, 0.227, 0.718, 1.0)
+    separator_color: purple_separator_color
     auto_dismiss: True
     size_hint: 0.5, 0.5
     Label:
@@ -232,7 +255,7 @@
 <OhmInstructionsPopup@Popup>
     title: 'Instrucciones - Simulador Ohm'
     title_align: "center"
-    separator_color: (0.404, 0.227, 0.718, 1.0)
+    separator_color: purple_separator_color
     auto_dismiss: True
     size_hint: 0.5, 0.5
     Label:
