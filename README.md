@@ -44,7 +44,32 @@ Gilbert was designed and built as completely free (libre) and open source softwa
 
 ## Database
 
-The application uses a SQLite database to store questions and answers in a very simple set of tables.
+The application uses a SQLite database to store questions and answers in a very simple set of tables. Refer to the `questions.db` file in the `db` directory.
+
+You can inspect the structure of the tables with the `sqlite` command line interface and the `.schema` command:
+
+```bash 
+sqlite3 questions.db 
+SQLite version 3.22.0 2018-01-22 18:45:57
+Enter ".help" for usage hints.
+sqlite> .schema questions
+CREATE TABLE questions (
+    question_id     INTEGER PRIMARY KEY,
+    question_text   TEXT NOT NULL
+);
+
+sqlite> .schema answers
+CREATE TABLE answers (
+    id            INTEGER PRIMARY KEY,
+    answer_text   TEXT    NOT NULL,
+    is_correct    INTEGER NOT NULL, -- SQLite does not have a separate Boolean storage class. Instead, Boolean values are stored as integers 0 (false) and 1 (true).
+    question_id  INTEGER NOT NULL,
+    FOREIGN KEY (question_id)
+    REFERENCES questions (question_id) 
+       ON UPDATE CASCADE
+       ON DELETE CASCADE
+);
+```
 
 ---
 
