@@ -11,17 +11,21 @@ Named after one of the great minds of science: [William Gilbert](https://en.wiki
 ---
 
 ## Usage
+
 The application consist in different "sections". The main menu presents the available options. You can read the usage instructions for each section by using the "?" button in each screen, or by reading the following paragraphs.
 
 ### Study section
+
 The study section is designed to provide a user-friendly way to study text lectures. Simply select the lecture in the upper-left menu and read on the right side panel.
 
 ### Quiz section
+
 A student trying to test his or her knowledge will find this section useful. Random questions are presented in a quiz. The user selects the correct answers by pressing the appropiate button (which are also ordered randomly).
 
 Counters indicating correct and incorrect questions are shown on the right side of the screen. Pressing the reset button on the lower right corner resets these counters.
 
 ### Ohm law simulator section
+
 This section provides a simulation of how the Ohm law is calculated.
 In the top of the screen, there is a triangle with the letters I (amperage), R (Resistance) and V (Voltage). Press any of them to calculate that value.
 
@@ -48,8 +52,8 @@ The application uses a SQLite database to store questions and answers in a very 
 
 You can inspect the structure of the tables with the `sqlite` command line interface and the `.schema` command:
 
-```bash 
-sqlite3 questions.db 
+```bash
+sqlite3 questions.db
 SQLite version 3.22.0 2018-01-22 18:45:57
 Enter ".help" for usage hints.
 sqlite> .schema questions
@@ -65,7 +69,7 @@ CREATE TABLE answers (
     is_correct    INTEGER NOT NULL, -- SQLite does not have a separate Boolean storage class. Instead, Boolean values are stored as integers 0 (false) and 1 (true).
     question_id  INTEGER NOT NULL,
     FOREIGN KEY (question_id)
-    REFERENCES questions (question_id) 
+    REFERENCES questions (question_id)
        ON UPDATE CASCADE
        ON DELETE CASCADE
 );
@@ -109,6 +113,7 @@ Contributions to the project can be done in many ways. For example:
 ---
 
 ## License
+
 Copyright 2020 Alan Verdugo Muñoz
 
 Licensed under the Apache License, Version 2.0 (the "License");
