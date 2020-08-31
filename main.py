@@ -232,7 +232,7 @@ class StudyScreen(Screen):
             self.dropdown.add_widget(btn)
 
         # Create a big main button to open the dropdown.
-        self.mainbutton = PurpleRoundedButton(text='Lecciones',
+        self.mainbutton = PurpleRoundedButton(text='Lessons',
                                               size_hint=(0.2, 0.2),
                                               pos_hint={"left":0, "top":1})
 

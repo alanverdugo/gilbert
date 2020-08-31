@@ -34,7 +34,7 @@
         size_hint: (0.9, 0.8)
         pos_hint: {'top': 0.8, 'bottom': 0, 'center_x': 0.5}
         MenuScreenButton:
-            text: "Estudio"
+            text: "Study"
             icon: 'assets/icons/icons8-book-shelf-64-purple.png'
             on_press:
                 # You can define the duration of the change
@@ -44,7 +44,7 @@
                 root.manager.previous = 'menu_screen'
                 root.manager.current = 'study_screen'
         MenuScreenButton:
-            text: "Cuestionario"
+            text: "Quiz"
             icon: "assets/icons/icons8-test-100-purple.png"
             on_press:
                 # You can define the duration of the change
@@ -54,7 +54,7 @@
                 root.manager.previous = 'menu_screen'
                 root.manager.current = 'quiz_screen'
         MenuScreenButton:
-            text: "Simulador Ω"
+            text: "Ohm simulator"
             icon: "assets/icons/icons8-renewable-energy-100-purple.png"
             on_press:
                 # You can define the duration of the change
@@ -64,7 +64,7 @@
                 root.manager.previous = 'menu_screen'
                 root.manager.current = 'ohm_screen'
         MenuScreenButton:
-            text: "Acerca de..."
+            text: "About"
             icon: "assets/icons/icons8-octocat-100-purple.png"
             on_press:
                 # You can define the duration of the change
@@ -253,13 +253,13 @@
     text: "Reset"
 
 <StudyInstructionsPopup@Popup>
-    title: 'Instrucciones - Sección de estudio'
+    title: 'Instructions - Study section'
     title_align: "center"
     separator_color: purple_separator_color
     auto_dismiss: True
     size_hint: 0.5, 0.5
     Label:
-        text: "Selecciona una lección presionando el botón de la esquina superior izquierda.\n\nEn la parte derecha se mostrará el texto de la lección."
+        text: "Select a lesson by touching the upper left button.\n\nYou will see the lesson's text on the right."
         # Make the text of the label wrap if it does not
         # fit the label rectangle.
         halign: "center"
@@ -268,14 +268,14 @@
         height: self.texture_size[1]
 
 <QuizInstructionsPopup@Popup>
-    title: "Instrucciones - Cuestionario"
+    title: "Instructions - Quiz section"
     title_align: "center"
     separator_color: purple_separator_color
     auto_dismiss: True
     size_hint: 0.5, 0.5
     Label:
         markup: True
-        text: "Selecciona la respuesta correcta presionando en el botón correspondiente.\n\nEn la parte derecha se muestran contadores de respuestas correctas e incorrectas. El botón [b]Reset[/b] los reinicia."
+        text: "Select the correct answer by pressing the corresponding button.\n\nCounters for incorrect and correct answers are shown on the right. The [b]reset[/b] button resets those counters."
         # Make the text of the label wrap if it does not
         # fit the label rectangle.
         halign: "center"
@@ -284,14 +284,14 @@
         height: self.texture_size[1]
 
 <OhmInstructionsPopup@Popup>
-    title: 'Instrucciones - Simulador Ohm'
+    title: 'Instructions - Ohm simulator'
     title_align: "center"
     separator_color: purple_separator_color
     auto_dismiss: True
     size_hint: 0.5, 0.5
     Label:
         markup: True
-        text: "Selecciona [b]I[/b], [b]V[/b] o [b]R[/b] en el triángulo de la Ley de Ohm para calcular ese valor.\n\nMueve dos sliders para ver cómo ese valor es calculado en el tercero.\n\n"
+        text: "Select [b]I[/b], [b]V[/b] or [b]R[/b] in the Ohm triangle in order to calculate the selected value.\n\nMove the two active sliders to see how the value is calculated.\n\n"
         # Make the text of the label wrap if it does not
         # fit the label rectangle.
         halign: "center"
