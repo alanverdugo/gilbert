@@ -8,7 +8,7 @@ Hacia el año **600 adC**, el filósofo griego **Tales de Mileto** observo que f
 
 Cerca de Mileto, (en la actualidad Turquía), se encuentra un sitio arqueológico llamado **Magnesia**, donde en la antigüedad se encontraron trozos de magnetita. Los **antiguos griegos** observaron que los trozos de este material se atraían entre sí, y también a pequeños objetos de hierro. La palabra magneto (en español, imán) proviene del lugar donde se descubrió.
 
-.. figure:: assets/chapters/images/640px-Fotoworkshop_Nuremberg_05.jpg
+.. figure:: ./images/640px-Fotoworkshop_Nuremberg_05.jpg
    :alt: Magnetita.
    :align: center
 
@@ -26,7 +26,7 @@ En 1600 el científico inglés **William Gilbert** publicó su libro *De Magnete
 
 Estas investigaciones fueron continuadas en 1660 por **Otto von Guericke** quien inventó un **generador electrostático**. **Robert Boyle** afirmó en 1675 que la atracción y repulsión pueden producirse en el vacío. **Stephen Gray** en 1729 clasificó los materiales como conductores y aislantes. **C.F. Du Fay** fue el primero en identificar los dos tipos de carga eléctrica que más tarde se llamarían positiva y negativa. **Pieter van Musschenbroek** inventó en 1745 la **botella de Leyden**, un tipo de capacitor para almacenar cargas eléctricas en gran cantidad. **William Watson** experimentó con la botella Leyden, descubriendo en 1747 que una descarga de electricidad estática es equivalente a una corriente eléctrica.
 
-.. figure:: assets/chapters/images/Bouteille_de_leyde.png
+.. figure:: ./images/Bouteille_de_leyde.png
    :alt: Corte de una botella de Leyden.
    :align: center
 
@@ -43,7 +43,7 @@ Edad Contemporánea
 
 **Hans Christian Oersted** en 1819 observó que una aguja imantada se orientaba colocándose perpendicularmente a un conductor al cual se le hacia pasar una corriente eléctrica. Siguiendo estas investigaciones, **Michael Faraday** en 1831 descubrió que se generaba una corriente eléctrica en un conductor que se exponía a un campo magnético variable.
 
-.. figure:: assets/chapters/images/Michael_Faradays_1845_Disc_schematic.jpg
+.. figure:: ./images/Michael_Faradays_1845_Disc_schematic.jpg
    :alt: Anillo utilizado por Faraday en el descubrimiento de la inducción magnética.
    :align: center
 
@@ -53,7 +53,7 @@ Edad Contemporánea
 
 **Luigi Galvani** en 1790 descubrió accidentalmente que se producen contracciones en los músculos de una rana en contacto con metales cargados eléctricamente. **Alessandro Volta** descubrió que las reacciones químicas podían generar cargas positivas (cationes) y negativas (aniones). Cuando un conductor une estas cargas, la diferencia de potencial eléctrico (también conocido como voltaje) impulsa una corriente eléctrica a través del conductor. La diferencia de potencial entre dos puntos se mide en unidades de voltio, en reconocimiento al trabajo de Volta. **Humphry Davy** en 1807 trabajó con la electrólisis y aisló de esta forma los metales alcalinos.
 
-.. figure:: assets/chapters/images/Pila_de_Volta.jpg
+.. figure:: ./images/Pila_de_Volta.jpg
    :alt: Pila de Volta. a) Disco de cobre. b) Disco de cinc. c) Capa intermedia humedecida.
    :align: center
 
@@ -69,7 +69,7 @@ En 1821 el físico alemán **Thomas Seebeck** descubrió que se producía una co
 
 En 1878, **Thomas Alva Edison** construyó la primera lámpara incandescente con filamentos de bambú carbonizado. En 1901 **Peter Hewitt** inventa la lámpara de vapor de mercurio.
 
-.. figure:: assets/chapters/images/Edisonsgluehlampe.png
+.. figure:: ./images/Edisonsgluehlampe.png
    :alt: Bombilla de Edison.
    :align: center
 
