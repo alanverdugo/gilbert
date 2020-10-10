@@ -1,27 +1,29 @@
-Carácter eléctrico de la materia
+Matter's electric properties
 ********************************
 
-Fundamentos
+Fundaments
 -----------
 
-Para comprender los principios básicos en que se funda la electricidad debemos tener en claro ciertos conceptos que desarrollaremos a continuación:
+To understand the basic principles which electricity relies on, we must have in mind specific concepts that we'll develop next: 
 
-**Materia** es todo aquello que tiene masa y conserva un lugar en el espacio; a su vez, la misma se encuentra formada por partículas llamadas átomos.
+**Matter** is everything which has mass and has a place in space. Furthermore, it's made from particles called atoms.
 
-Según estudios realizados a principio del siglo veinte se ha observado que el átomo a su vez se encuentra formado por partículas subatómicas, a saber;
+According to studies made at the beginning of the 20th century, it's been observed that the atom itself is also made up from subatomic particles:
 
-    * **Electrones**, los mismos poseen carga eléctrica negativa (-) y se desplazan en una orbita elíptica al núcleo del átomo.
-    * **Protones**, estos se encuentran en el núcleo del átomo y poseen una carga eléctrica positiva (+).
-    * **Neutrones**, también se encuentran en el núcleo del átomo, y como su nombre lo indica posee carga neutra.
+    * **Electrons**, they posess negative electric charge (-) and they move arround the atom nucleus in eliptical orbits.
+    * **Protons**, these are found in the atom's nucleus and they posses a possitive electric charge (+).
+    * **Neutrons**, these are also found in the atom's nucle, and as their name shows, they have a neutral electric charge.
 
-En su estado natural un átomo posee la misma cantidad de electrones que protones, obteniendo un átomo "neutro". Sin embargo si el mismo poseyera mas protones que electrones se lo denominaría *Ion positivo*, caso contrario seria un *Ion negativo*.
+In their natural state, an atom posesses the same number of protons and electrons, obtaining a "neutral" atom. But if they were to have more protons than electrons they'd be named *Positive ion*, in contrary it'd be *Negative ion*.
 
-Teniendo en claro estos conceptos básicos podemos comprender el carácter eléctrico de la materia:
+Understanding these basic concepts, we can begin to comprenhend the matter electric properties:
 
-Imaginemos por un instante que poseemos un átomo en un **conductor metálico**, supongamos que ese átomo **A** posee un electrón que se ha movido hacia la órbita exterior del átomo, la atracción producida por los protones a ese electrón es mínima, mediante lo cual si a este le proporcionamos suficiente energía, este electrón que se encuentra en la órbita o capa exterior (también llamado electrón de valencia) abandonara este átomo, pasando a llamarse electrón libre. Este electrón “libre” luego es adquirido por otro átomo (supongamos **B**), el cual previamente ha perdido un electrón, y así sucesivamente. Este proceso se denomina de “Ionizacion”.
+Let's imagine for a moment that we have an atom in a **metallic conductor** state, lets supose that this atom **A** has an electron which has been moved to the external atom orbital, the attraction produced from the protons 
+to this electron is reduced, and if we were to give more energy to it, this electron contained in the orbital or external cape (also called valence electron) would abandon this atom, which would then be called free electron. 
+This “free” electron, is then acquired by another atom (lets supose **B**), which has previously lost an electron. The repetition of this process is called “Ionization”.
 
-Este movimiento es el causante de la **corriente eléctrica**.
+This movement is the cause of the **electric current**.
 
-*Obtenido de «https://es.wikibooks.org/w/index.php?title=Electricidad/Carácter_eléctrico_de_la_materia&oldid=374147»*
+*Obtained from: «https://es.wikibooks.org/w/index.php?title=Electricidad/Carácter_eléctrico_de_la_materia&oldid=374147»*
 
-*El texto está disponible bajo la Licencia Creative Commons Atribución-CompartirIgual 3.0*
+*The text is available under the Creative Commons licence Atribución-CompartirIgual 3.0*
