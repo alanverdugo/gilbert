@@ -8,7 +8,7 @@ Around the year *600 BC*, the Greek philosopher **Thales of Miletus** observed t
 
 Near Miletus (what is now Turkey), there is an archaeological site called **Magnesia**, where pieces of magnetite were found in ancient times. The **ancient Greeks** observed that pieces of this material were attracted to each other and to small iron objects. The word *magneto* (in English, magnet) comes from the place where it was discovered.
 
-.. figure:: ../images/640px-Fotoworkshop_Nuremberg_05.jpg
+.. figure:: assets/chapters/images/640px-Fotoworkshop_Nuremberg_05.jpg
    :alt: Magnetita.
    :align: center
 
@@ -36,7 +36,7 @@ In 1600, the English scientist **William Gilbert** published his book *De Magnet
 
 **William Watson** experimented with the *Leyden bottle*, discovering in 1747 that a discharge of static electricity is equivalent to an electric current.
 
-.. figure:: ../images/Bouteille_de_leyde.png
+.. figure:: assets/chapters/images/Bouteille_de_leyde.png
    :alt: Cut of a Leyden Bottle.
    :align: center
 
@@ -55,7 +55,7 @@ Contemporary age
 **Hans Christian Oersted** in 1819 observed that a magnetized needle was oriented by placing itself perpendicular to a conductor to which an electric current was passed. 
 **Michael Faraday** in 1831, following this research, discovered that an electric current was generated in a conductor that was exposed to a variable magnetic field.
 
-.. figure:: ../images/Michael_Faradays_1845_Disc_schematic.jpg
+.. figure:: assets/chapters/images/Michael_Faradays_1845_Disc_schematic.jpg
    :alt: Ring used by Faraday in the discovery of magnetic induction
    :align: center
 
@@ -69,7 +69,7 @@ Contemporary age
 
 **Humphry Davy** in 1807 worked with electrolysis and thus isolated the alkali metals.
 
-.. figure:: ../images/Pila_de_Volta.jpg
+.. figure:: assets/chapters/images/Pila_de_Volta.jpg
    :alt: Volta stack. a) Copper disk. b) Zinc disc. c) Moistened intermediate layer.
    :align: center
 
@@ -93,7 +93,7 @@ Contemporary age
 
 **Peter Hewitt** in 1901 invented the mercury vapor lamp.
 
-.. figure:: ../images/Edisonsgluehlampe.png
+.. figure:: assets/chapters/images/Edisonsgluehlampe.png
    :alt: Edison's light bulb.
    :align: center
 
