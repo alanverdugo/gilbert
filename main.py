@@ -155,10 +155,9 @@ class ResetQuizButton(ResetButton):
 
     It inherits from kivy.uix.button.
     """
+
     def on_press(self):
-        """
-        Set the Sliders values to their defaults.
-        """
+        """Set the Sliders values to their defaults."""
         # Reset the counters.
         self.parent.parent.correct_questions_counter = 0
         self.parent.parent.incorrect_questions_counter = 0
@@ -181,6 +180,7 @@ class ResetOhmButton(ResetButton):
 
     It inherits from kivy.uix.button.
     """
+
     def on_press(self):
         """Set the Sliders values to their defaults."""
         # Reset to the default image.
@@ -211,6 +211,7 @@ class StudyScreen(Screen):
 
     It inherits from Screen.
     """
+
     def __init__(self, **kwargs):
         super(StudyScreen, self).__init__(**kwargs)
 
@@ -288,6 +289,7 @@ class QuizScreen(Screen):
 
     It inherits from Screen.
     """
+
     def __init__(self, **kwargs):
         super(QuizScreen, self).__init__(**kwargs)
 
@@ -531,6 +533,7 @@ class OhmScreen(Screen):
 
     It inherits from Screen.
     """
+
     def __init__(self, **kwargs):
         super(OhmScreen, self).__init__(**kwargs)
 
@@ -670,9 +673,7 @@ class OhmScreen(Screen):
         popup.open()
 
     def deactivate_sliders(self, instance):
-        """
-        Deactivate the slider corresponding to the selection option.
-        """
+        """Deactivate the slider corresponding to the selection option."""
         if instance.id == "triangle_bottom_left_button":
             # Change the background image of the triangle.
             self.triangle_image.source = "assets/images/I_318px-law_triangle.png"
@@ -793,7 +794,7 @@ class Gilbert(App):
         return self.screen_manager
 
     def post_build_init(self, event):
-        """Hook the keyboard to listen to its behavior."""
+        """Bind the keyboard to listen to its behavior."""
         EventLoop.window.bind(on_keyboard=self.hook_keyboard)
 
     def hook_keyboard(self, window, key, *largs):
@@ -818,18 +819,14 @@ class Gilbert(App):
         config.setdefaults('MenuScreenButton', {'font_size': "15sp"})
 
     def build_settings(self, settings):
-        """
-        Add our custom section to the default configuration object.
-        """
+        """Add our custom section to the default configuration object."""
         # We use the string defined above for our config JSON, but it could
         # also be loaded from a file as follows:
         #     settings.add_json_panel('My Label', self.config, 'settings.json')
         settings.add_json_panel('Configuración', self.config, data=CONFIG)
 
     def on_config_change(self, config, section, key, value):
-        """
-        Respond to changes in the configuration.
-        """
+        """Respond to changes in the configuration."""
         Logger.info("main.py: App.on_config_change: %s, %s, %s, %s,",
                     config, section, key, value)
 
@@ -838,9 +835,7 @@ class Gilbert(App):
                 SettingsButton.font_size = float(value)
 
     def close_settings(self, settings=None):
-        """
-        The settings panel has been closed.
-        """
+        """The settings panel has been closed."""
         Logger.info("main.py: App.close_settings: %s", settings)
         super(Gilbert, self).close_settings(settings)
 
