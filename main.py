@@ -403,6 +403,7 @@ class QuizScreen(Screen):
         self.cursor.execute(
             "SELECT * FROM questions "
             f"WHERE question_id NOT IN ('{self.last_question_id}') "
+            "AND language = 'english'"
             "ORDER BY RANDOM() LIMIT 1")
         # "Fetch all" returns a list with a tuple.
         question = self.cursor.fetchall()
