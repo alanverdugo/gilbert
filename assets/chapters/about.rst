@@ -14,10 +14,18 @@ GitHub: https://github.com/alanverdugo/gilbert
 
 Named after William Gilbert, who is regarded as one of the pioneers of the scientific study of magnetism.
 
-**Contributors:**
+************
+Contributors
+************
 
 **Translations:**
 
-- PeppermintNDaisies (github.com/PeppermintNDaisies)
+- Juliana Jaime (github.com/PeppermintNDaisies)
 
 - tehSponge (github.com/tehSponge)
+
+- ddaniss (github.com/ddaniss)
+
+**Study chapters:**
+
+- neil007m (github.com/neil007m)

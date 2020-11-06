@@ -99,6 +99,18 @@ If the build is successful, the application should be installed and start runnin
 buildozer android release
 ```
 
+In order to target different architectures, edit the `buildozer.spec` file and look for the `android.arch` option.
+
+```bash
+#(str) The Android arch to build for, choices: armeabi-v7a, arm64-v8a, x86, x86_64
+android.arch = armeabi-v7a
+#android.arch = arm64-v8a
+```
+
+**Note:** Currently, Google asks to target 32 and 64 bit architectures, so we need to provide one `.apk` file for each of them. In order to do this, the `buildozer.spec` file needs to be edited and use `armeabi-v7a` for 32 bits, execute `buildozer android release`, then edit the file again. Use `arm64-v8a` for 64 bits, execute `buildozer android release` again.
+
+This will produce two `.apk` files, which will need to be uploaded to Google.
+
 ---
 
 ## How to contribute
