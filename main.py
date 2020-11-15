@@ -763,9 +763,7 @@ class Gilbert(App):
     """Main class."""
 
     def build(self):
-        """
-        Build and return the root widget.
-        """
+        """Build and return the root widget."""
         # The line below is optional. You could leave it out or use one of the
         # standard options, such as SettingsWithSidebar, SettingsWithSpinner
         # etc.
@@ -836,7 +834,7 @@ class Gilbert(App):
                 SettingsButton.font_size = float(value)
 
     def close_settings(self, settings=None):
-        """The settings panel has been closed."""
+        """Close the settings panel."""
         Logger.info("main.py: App.close_settings: %s", settings)
         super(Gilbert, self).close_settings(settings)
 
