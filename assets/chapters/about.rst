@@ -26,6 +26,6 @@ Contributors
 
 - ddaniss (github.com/ddaniss)
 
-**Study chapters:**
+**Study chapter 04:**
 
-- neil007m (github.com/neil007m)
+- @neil007m (Neil Matin)
