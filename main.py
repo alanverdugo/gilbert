@@ -21,6 +21,7 @@ from kivy.uix.settings import SettingsWithTabbedPanel
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.rst import RstDocument
 from kivy.uix.popup import Popup
+from kivy.uix.behaviors import DragBehavior
 
 # Layouts
 from kivy.uix.floatlayout import FloatLayout
@@ -101,14 +102,6 @@ class OhmInstructionsPopup(Popup):
     """
 
 
-class BackToMenuButton(PurpleRoundedButton):
-    """
-    Custom button style to go back to the Menu Screen.
-
-    It inherits from kivy.uix.button.
-    """
-
-
 class ResetButton(PurpleRoundedButton):
     """
     Custom reset button.
@@ -146,6 +139,14 @@ class AboutScreen(Screen):
     Custom Screen Class for the About section.
 
     It inherits from Screen.
+    """
+
+
+class DraggableImage(DragBehavior, Image):
+    """
+    An image that you can drag and maybe drop.
+
+    It inherits from Image and DragBehaviour.
     """
 
 
@@ -291,6 +292,7 @@ class QuizScreen(Screen):
     """
 
     def __init__(self, **kwargs):
+        """Class constructor."""
         super(QuizScreen, self).__init__(**kwargs)
 
         # Place holders for questions' data.
@@ -322,17 +324,11 @@ class QuizScreen(Screen):
         # Create a grid layout for the correct/incorrect display.
         self.answers_counters_grid_layout = \
             GridLayout(rows=2, cols=2,
-                       pos_hint={"top":0.95, "right": 0.95},
-                       #size=(200, 200),
-                       #size_hint=(None, None)
+                       pos_hint={"top": 0.95, "right": 0.95},
                        size_hint=(0.2, 0.1))
 
         correct_answer_icon = Image(source="assets/icons/ic_check_white_48dp.png",
                                     keep_ratio=True,
-                                    #size_hint=(0.01, 0.01),
-                                    #size_hint=(None, None),
-                                    #width=100,
-                                    #height=100,
                                     allow_stretch=True)
         self.answers_counters_grid_layout.add_widget(correct_answer_icon)
 
@@ -528,6 +524,35 @@ class QuizScreen(Screen):
         self.get_random_question()
 
 
+class EquationsScreen(Screen):
+    """
+    Custom Screen Class for equations study.
+
+    It inherits from Screen.
+    """
+
+    def __init__(self, **kwargs):
+        """Class constructor."""
+        super(EquationsScreen, self).__init__(**kwargs)
+
+        # Create a float layout.
+        self.float_layout = FloatLayout()
+        self.add_widget(self.float_layout)
+
+        # Add the equation.
+        self.equation_image = Image(source="assets/images/I_318px-law_triangle.png",
+                                    keep_ratio=False,
+                                    size_hint=(None, None),
+                                    width="150sp",
+                                    height="150sp",
+                                    allow_stretch=True,
+                                    pos_hint={"center_x": 0.5, "top": 0.97})
+
+        # Add a draggable image.
+        self.draggable_image = DraggableImage()
+        self.float_layout.add_widget(self.draggable_image)
+
+
 class OhmScreen(Screen):
     """
     Custom Screen Class for the Ohm's law simulator section.
@@ -536,6 +561,7 @@ class OhmScreen(Screen):
     """
 
     def __init__(self, **kwargs):
+        """Class constructor."""
         super(OhmScreen, self).__init__(**kwargs)
 
         # Default value to be calculated.
@@ -548,7 +574,6 @@ class OhmScreen(Screen):
         # Triangle image.
         self.triangle_image = Image(source="assets/images/I_318px-law_triangle.png",
                                     keep_ratio=False,
-                                    #size_hint=(0.2, 0.2),
                                     size_hint=(None, None),
                                     width="150sp",
                                     height="150sp",
@@ -778,6 +803,7 @@ class Gilbert(App):
         self.screen_manager.add_widget(StudyScreen(name="study_screen"))
         self.screen_manager.add_widget(QuizScreen(name="quiz_screen"))
         self.screen_manager.add_widget(OhmScreen(name="ohm_screen"))
+        self.screen_manager.add_widget(EquationsScreen(name="equations_screen"))
         self.screen_manager.add_widget(AboutScreen(name="about_screen"))
 
         # We apply the saved configuration settings or the defaults

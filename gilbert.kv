@@ -64,6 +64,16 @@
                 root.manager.previous = 'menu_screen'
                 root.manager.current = 'ohm_screen'
         MenuScreenButton:
+            text: "Equations"
+            icon: "assets/icons/icons8-renewable-energy-100-purple.png"
+            on_press:
+                # You can define the duration of the change
+                # and the direction of the slide
+                root.manager.transition.direction = 'left'
+                root.manager.transition.duration = .3
+                root.manager.previous = 'menu_screen'
+                root.manager.current = 'equations_screen'
+        MenuScreenButton:
             text: "About"
             icon: "assets/icons/icons8-octocat-100-purple.png"
             on_press:
@@ -108,6 +118,18 @@
             size: self.size
             pos: self.pos
 
+<EquationsScreen@Screen>
+    # Set background color for the equations screen.
+    canvas.before:
+        Color:
+            #rgba: (0.2, 0.2, 0.4, 1)
+            rgba: purple_background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    #DraggableImage:
+    #    size_hint: 0.25, 0.2
+    #    text: 'Drag me'
 
 <OhmScreen@Screen>
     # Set background color for the Ohm simulator.
@@ -229,25 +251,6 @@
     icon: "assets/icons/icons8-job-64.png"
     text: "Configuración"
 
-<BackToMenuButton@MenuScreenButton>
-    #font_size: self.font_size
-    on_press:
-        app.screen_manager.transition.direction = 'right'
-        app.screen_manager.transition.duration = .2
-        app.screen_manager.current = 'menu_screen'
-    #icon: "assets/icons/ic_home_white_48dp.png"
-    #text: "Regresar"
-    size_hint: (None, None)
-    # Add a "question mark" icon at the center.
-    icon: "assets/icons/ic_arrow_back_white_48dp.png"
-    canvas:
-        # Inside this rectangle, we will place the icon.
-        Rectangle:
-            # We want the icons to be squares, so we use the button's height for both X and Y.
-            size: self.height * 0.5, self.height * 0.5
-            pos: (self.pos[0] + (self.width / 2) - ((self.height * 0.5) / 2)), (self.pos[1] + (self.height / 2) - ((self.height * 0.5) / 2))
-            source: self.icon
-
 <ResetButton@PurpleRoundedButton>
     font_size: self.font_size
     text: "Reset"
@@ -298,3 +301,11 @@
         valign: "middle"
         text_size: self.width, None
         height: self.texture_size[1]
+
+<DraggableImage>:
+    drag_rectangle: self.x, self.y, self.right, self.top
+    drag_timeout: 1000000000000000
+    drag_distance: 0
+    size_hint: None, None
+    size: 150, 150
+    source: 'assets/images/python-logo.png'

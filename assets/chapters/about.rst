@@ -28,4 +28,4 @@ Contributors
 
 **Study chapter 04:**
 
-- @neil007m (Neil Matin)
+- Neil Matin (github.com/neil007m)
