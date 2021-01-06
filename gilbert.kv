@@ -64,6 +64,16 @@
                 root.manager.previous = 'menu_screen'
                 root.manager.current = 'ohm_screen'
         MenuScreenButton:
+            text: "Ohm calculator"
+            icon: "assets/icons/icons8-renewable-energy-100-purple.png"
+            on_press:
+                # You can define the duration of the change
+                # and the direction of the slide
+                root.manager.transition.direction = 'left'
+                root.manager.transition.duration = .3
+                root.manager.previous = 'menu_screen'
+                root.manager.current = 'ohm_calc_screen'
+        MenuScreenButton:
             text: "Equations"
             icon: "assets/icons/icons8-renewable-energy-100-purple.png"
             on_press:
@@ -141,6 +151,16 @@
             size: self.size
             pos: self.pos
 
+<OhmCalcScreen@Screen>
+    # Set background color for the Ohm calculator.
+    canvas.before:
+        Color:
+            #rgba: (0.2, 0.2, 0.4, 1)
+            rgba: purple_background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
 <MenuScreenButton@Button>
     id: menu_screen_button
     # Make the button "invisible", since we are going to manipulate its canvas.
@@ -202,7 +222,6 @@
             pos: self.pos
             radius: self.border_radius
 
-
 <PurpleRoundedButton@Button>
     # This custom button is very similar to "MenuScreenButton"
     # but it does not have any icons
@@ -228,7 +247,6 @@
             size: self.size
             pos: self.pos
             radius: self.border_radius
-
 
 <InstructionsButton@PurpleRoundedButton>
     # A custom button that explains usage.

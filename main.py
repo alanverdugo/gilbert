@@ -17,6 +17,8 @@ from kivy.uix.label import Label
 from kivy.uix.image import Image
 from kivy.uix.slider import Slider
 from kivy.uix.dropdown import DropDown
+from kivy.uix.textinput import TextInput
+from kivy.uix.togglebutton import ToggleButton
 from kivy.uix.settings import SettingsWithTabbedPanel
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.rst import RstDocument
@@ -214,6 +216,7 @@ class StudyScreen(Screen):
     """
 
     def __init__(self, **kwargs):
+        """Class constructor."""
         super(StudyScreen, self).__init__(**kwargs)
 
         # Create a float layout.
@@ -365,8 +368,8 @@ class QuizScreen(Screen):
         # buttons).
         self.answers_box_layout = BoxLayout(orientation="vertical",
                                             spacing=20,
-                                            pos_hint={"center_x":0.5,
-                                                      "top":0.7},
+                                            pos_hint={"center_x": 0.5,
+                                                      "top": 0.7},
                                             size_hint=(0.5, 0.6))
         self.float_layout.add_widget(self.answers_box_layout)
 
@@ -551,6 +554,60 @@ class EquationsScreen(Screen):
         # Add a draggable image.
         self.draggable_image = DraggableImage()
         self.float_layout.add_widget(self.draggable_image)
+
+
+class OhmCalcScreen(Screen):
+    """
+    Custom Screen Class for the Ohm's law calculator section.
+
+    It inherits from Screen.
+    """
+
+    def __init__(self, **kwargs):
+        """Class constructor."""
+        super(OhmCalcScreen, self).__init__(**kwargs)
+
+        # Create a float layout.
+        self.float_layout = FloatLayout()
+        self.add_widget(self.float_layout)
+
+        # Add a small box layout for the V|I|R selection buttons.
+        self.toggle_buttons_box_layout = BoxLayout(orientation="horizontal",
+                                                   spacing=20,
+                                                   pos_hint={"center_x": 0.5,
+                                                             "top": 0.7},
+                                                   size_hint=(0.9, 0.2))
+        self.float_layout.add_widget(self.toggle_buttons_box_layout)
+
+        # Add a toggle button group with the 3 options.
+        btn1 = ToggleButton(text='Volts\n(Electromotive force)',
+                            group='option',
+                            color=(0.196, 0.114, 0.612, 1),
+                            size_hint=(0.2, 1),
+                            background_normal='',
+                            background_color=(1, 1, 1, 1),
+                            halign="center")
+        self.toggle_buttons_box_layout.add_widget(btn1)
+
+        btn2 = ToggleButton(text='Amperes\n(Current)', group='option', size_hint=(0.2, 1), state='down')
+        self.toggle_buttons_box_layout.add_widget(btn2)
+
+        btn3 = ToggleButton(text='Ohms\n(Resistance)', group='option', size_hint=(0.2, 1))
+        self.toggle_buttons_box_layout.add_widget(btn3)
+
+        # Add number-input fields.
+        volt_input = TextInput(font_size=30,
+                               size_hint_y=None,
+                               height=100,
+                               input_type="number",
+                               input_filter="float",
+                               size_hint=(0.5, 0.2),
+                               pos_hint={"center_x": 0.5,
+                                         "top": 0.9})
+        self.float_layout.add_widget(volt_input)
+
+        # Add a "Calculate" button.
+
 
 
 class OhmScreen(Screen):
@@ -803,6 +860,7 @@ class Gilbert(App):
         self.screen_manager.add_widget(StudyScreen(name="study_screen"))
         self.screen_manager.add_widget(QuizScreen(name="quiz_screen"))
         self.screen_manager.add_widget(OhmScreen(name="ohm_screen"))
+        self.screen_manager.add_widget(OhmCalcScreen(name="ohm_calc_screen"))
         self.screen_manager.add_widget(EquationsScreen(name="equations_screen"))
         self.screen_manager.add_widget(AboutScreen(name="about_screen"))
 
