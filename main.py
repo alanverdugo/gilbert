@@ -18,7 +18,7 @@ from kivy.uix.image import Image
 from kivy.uix.slider import Slider
 from kivy.uix.dropdown import DropDown
 from kivy.uix.textinput import TextInput
-from kivy.uix.togglebutton import ToggleButton
+from kivy.uix.checkbox import CheckBox
 from kivy.uix.settings import SettingsWithTabbedPanel
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.rst import RstDocument
@@ -571,40 +571,75 @@ class OhmCalcScreen(Screen):
         self.float_layout = FloatLayout()
         self.add_widget(self.float_layout)
 
-        # Add a small box layout for the V|I|R selection buttons.
-        self.toggle_buttons_box_layout = BoxLayout(orientation="horizontal",
-                                                   spacing=20,
-                                                   pos_hint={"center_x": 0.5,
-                                                             "top": 0.7},
-                                                   size_hint=(0.9, 0.2))
-        self.float_layout.add_widget(self.toggle_buttons_box_layout)
+        # Add a small grid layout for the V|I|R selection buttons
+        # and their labels.
+        self.radio_buttons_grid_layout = GridLayout(cols=3,
+                                                    rows=3,
+                                                    spacing=0,
+                                                    pos_hint={"center_x": 0.5,
+                                                              "top": 0.8},
+                                                    size_hint=(0.9, 0.2))
+        self.float_layout.add_widget(self.radio_buttons_grid_layout)
 
-        # Add a toggle button group with the 3 options.
-        btn1 = ToggleButton(text='Volts\n(Electromotive force)',
-                            group='option',
-                            color=(0.196, 0.114, 0.612, 1),
-                            size_hint=(0.2, 1),
-                            background_normal='',
-                            background_color=(1, 1, 1, 1),
-                            halign="center")
-        self.toggle_buttons_box_layout.add_widget(btn1)
+        # Add a radio button group with the 3 options (and their corresponding
+        # labels).
+        volt_checkbox = CheckBox()
+        volt_checkbox.group = "option"
+        self.radio_buttons_grid_layout.add_widget(volt_checkbox)
 
-        btn2 = ToggleButton(text='Amperes\n(Current)', group='option', size_hint=(0.2, 1), state='down')
-        self.toggle_buttons_box_layout.add_widget(btn2)
+        amp_checkbox = CheckBox()
+        amp_checkbox.group = "option"
+        amp_checkbox.color = (1, 0.1, 0.1, 1)
+        self.radio_buttons_grid_layout.add_widget(amp_checkbox)
 
-        btn3 = ToggleButton(text='Ohms\n(Resistance)', group='option', size_hint=(0.2, 1))
-        self.toggle_buttons_box_layout.add_widget(btn3)
+        ohm_checkbox = CheckBox()
+        ohm_checkbox.group = "option"
+        self.radio_buttons_grid_layout.add_widget(ohm_checkbox)
+
+        volt_label = Label(text="Volt")
+        self.radio_buttons_grid_layout.add_widget(volt_label)
+        amp_label = Label(text="Amp")
+        self.radio_buttons_grid_layout.add_widget(amp_label)
+        ohm_label = Label(text="Ohm")
+        self.radio_buttons_grid_layout.add_widget(ohm_label)
+
+        self.option_label = Label(text="Select an option to calculate:",
+                                  pos_hint={"center_x": 0.5,
+                                            "top": 0.9},
+                                  size_hint=(0.9, 0.1))
+        self.float_layout.add_widget(self.option_label)
+
+        self.input_label = Label(text="Enter the 2 required values:",
+                                 pos_hint={"center_x": 0.5,
+                                           "top": 0.6},
+                                 size_hint=(0.9, 0.1))
+        self.float_layout.add_widget(self.input_label)
+
+        # Add a small grid layout for the V|I|R input fields.
+        self.input_grid_layout = GridLayout(cols=3,
+                                            rows=1,
+                                            spacing=0,
+                                            pos_hint={"center_x": 0.5,
+                                                      "top": 0.5},
+                                            size_hint=(0.9, 0.1))
+        self.float_layout.add_widget(self.input_grid_layout)
 
         # Add number-input fields.
-        volt_input = TextInput(font_size=30,
-                               size_hint_y=None,
-                               height=100,
+        volt_input = TextInput(font_size="30sp",
                                input_type="number",
-                               input_filter="float",
-                               size_hint=(0.5, 0.2),
-                               pos_hint={"center_x": 0.5,
-                                         "top": 0.9})
-        self.float_layout.add_widget(volt_input)
+                               input_filter="float")
+        self.input_grid_layout.add_widget(volt_input)
+
+        amp_input = TextInput(font_size="30sp",
+                              input_type="number",
+                              input_filter="float")
+        self.input_grid_layout.add_widget(amp_input)
+
+        ohm_input = TextInput(font_size="30sp",
+                              input_type="number",
+                              input_filter="float")
+        self.input_grid_layout.add_widget(ohm_input)
+
 
         # Add a "Calculate" button.
 
