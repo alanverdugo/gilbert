@@ -104,6 +104,22 @@ class OhmInstructionsPopup(Popup):
     """
 
 
+class OhmCalcInstructionsPopup(Popup):
+    """
+    Custom PopUp to show usage instructions.
+
+    It inherits from from kivy.uix.popup
+    """
+
+
+class MissingValuesPopup(Popup):
+    """
+    Custom PopUp to a warning about missing required values.
+
+    It inherits from from kivy.uix.popup
+    """
+
+
 class ResetButton(PurpleRoundedButton):
     """
     Custom reset button.
@@ -271,7 +287,7 @@ class StudyScreen(Screen):
         # Create a big main button to open the dropdown.
         self.mainbutton = PurpleRoundedButton(text='Lessons',
                                               size_hint=(0.2, 0.2),
-                                              pos_hint={"left":0, "top":1})
+                                              pos_hint={"left": 0, "top": 1})
 
         # Show the dropdown menu when the main button is released
         # note: all the bind() calls pass the instance of the caller (here, the
@@ -296,9 +312,7 @@ class StudyScreen(Screen):
         popup.open()
 
     def update_study_text(self, chapter):
-        """
-        Update the text in the RST widget according to the dropdown selection.
-        """
+        """Update the text in the RST widget according to the dropdown selection."""
         self.rst_document.source = \
             "assets/chapters/english/chapter" + chapter.replace("'", "") + ".rst"
 
@@ -587,14 +601,20 @@ class OhmCalcScreen(Screen):
         self.float_layout = FloatLayout()
         self.add_widget(self.float_layout)
 
+        self.option_label = Label(text="1 - Select an option to calculate:",
+                                  pos_hint={"center_x": 0.5,
+                                            "top": 0.95},
+                                  size_hint=(0.9, 0.1))
+        self.float_layout.add_widget(self.option_label)
+
         # Add a small grid layout for the V|I|R selection buttons
         # and their labels.
         self.radio_buttons_grid_layout = GridLayout(cols=3,
                                                     rows=3,
                                                     spacing=0,
                                                     pos_hint={"center_x": 0.5,
-                                                              "top": 0.8},
-                                                    size_hint=(0.9, 0.2))
+                                                              "top": 0.85},
+                                                    size_hint=(0.9, 0.12))
         self.float_layout.add_widget(self.radio_buttons_grid_layout)
 
         # Add a radio button group with the 3 options.
@@ -621,18 +641,15 @@ class OhmCalcScreen(Screen):
         self.ohm_checkbox.bind(active=self.on_checkbox_Active)
 
         # Add a label for each radio button.
-        volt_label = Label(text="Volt")
+        volt_label = Label(text="Volts\n(Electromotive force)",
+                           halign='center')
         self.radio_buttons_grid_layout.add_widget(volt_label)
-        amp_label = Label(text="Amp")
+        amp_label = Label(text="Amperes\n(Current)",
+                          halign='center')
         self.radio_buttons_grid_layout.add_widget(amp_label)
-        ohm_label = Label(text="Ohm")
+        ohm_label = Label(text="Ohms\n(Resistance)",
+                          halign='center')
         self.radio_buttons_grid_layout.add_widget(ohm_label)
-
-        self.option_label = Label(text="Select an option to calculate:",
-                                  pos_hint={"center_x": 0.5,
-                                            "top": 0.9},
-                                  size_hint=(0.9, 0.1))
-        self.float_layout.add_widget(self.option_label)
 
         self.input_label = Label(text="Enter the 2 required values:",
                                  pos_hint={"center_x": 0.5,
@@ -652,17 +669,20 @@ class OhmCalcScreen(Screen):
         # Add number-input fields.
         self.volt_input = TextInput(font_size="30sp",
                                     input_type="number",
-                                    input_filter="float")
+                                    input_filter="float",
+                                    halign='center')
         self.input_grid_layout.add_widget(self.volt_input)
 
         self.amp_input = TextInput(font_size="30sp",
                                    input_type="number",
-                                   input_filter="float")
+                                   input_filter="float",
+                                   halign='center')
         self.input_grid_layout.add_widget(self.amp_input)
 
         self.ohm_input = TextInput(font_size="30sp",
                                    input_type="number",
-                                   input_filter="float")
+                                   input_filter="float",
+                                   halign='center')
         self.input_grid_layout.add_widget(self.ohm_input)
 
         # Add another grid layout for the buttons.
@@ -676,6 +696,7 @@ class OhmCalcScreen(Screen):
 
         # Add the instructions button.
         self.instructions_button = WhiteRoundedButton(text="Instructions")
+        self.instructions_button.bind(on_press=self.show_instructions)
         self.buttons_grid_layout.add_widget(self.instructions_button)
 
         # Add the reset button.
@@ -684,7 +705,12 @@ class OhmCalcScreen(Screen):
 
         # Add a "Calculate" button.
         self.calculate_button = WhiteRoundedButton(text="Calculate")
+        self.calculate_button.bind(on_press=self.calculate_ohm_values)
         self.buttons_grid_layout.add_widget(self.calculate_button)
+
+        # Once all the items are in place, activate one of the
+        # radio buttons by default.
+        self.volt_checkbox.state = "down"
 
     # Callback for the checkbox
     def on_checkbox_Active(self, checkboxInstance, isActive):
@@ -704,19 +730,39 @@ class OhmCalcScreen(Screen):
         # Reset the values in the input fields.
         for input_field in [self.amp_input, self.ohm_input, self.volt_input]:
             input_field.text = ""
+        # Reset the values in the input fields.
+        ResetButton._do_press(self)
 
-    def calculate_ohm_values(self, instance, value):
+    def calculate_ohm_values(self, instance):
         """Calculate values according to the currently selected option."""
-        if self.selected == "current":
-            self.amp_input.text = \
-                str(self.volt_input.text / self.ohm_input.text)
-        elif self.selected == "voltage":
-            self.volt_input.text = \
-                str(self.amp_input.text * self.ohm_input.text)
-        elif self.selected == "resistance":
-            self.ohm_input.text = \
-                str(self.volt_input.text / self.amp_input.text)
+        if self.amp_checkbox.active:
+            if self.volt_input.text == "" or self.ohm_input.text == "":
+                self.missing_values_warning()
+            else:
+                self.amp_input.text = str(round(float(self.volt_input.text) /
+                                                float(self.ohm_input.text), 4))
+        elif self.volt_checkbox.active:
+            if self.amp_input.text == "" or self.ohm_input.text == "":
+                self.missing_values_warning()
+            else:
+                self.volt_input.text = str(round(float(self.amp_input.text) *
+                                                 float(self.ohm_input.text), 4))
+        elif self.ohm_checkbox.active:
+            if self.volt_input.text == "" or self.amp_input.text == "":
+                self.missing_values_warning()
+            else:
+                self.ohm_input.text = str(round(float(self.volt_input.text) /
+                                                float(self.amp_input.text), 4))
 
+    def show_instructions(self, instance):
+        """Display instructions for this section."""
+        popup = OhmCalcInstructionsPopup()
+        popup.open()
+
+    def missing_values_warning(self):
+        """Display a warning for missing values."""
+        popup = MissingValuesPopup()
+        popup.open()
 
 
 class OhmScreen(Screen):

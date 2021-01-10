@@ -320,6 +320,38 @@
         text_size: self.width, None
         height: self.texture_size[1]
 
+<OhmCalcInstructionsPopup@Popup>
+    title: 'Instructions - Ohm calculator'
+    title_align: "center"
+    separator_color: purple_separator_color
+    auto_dismiss: True
+    size_hint: 0.5, 0.5
+    Label:
+        markup: True
+        text: "1 - Select which value you want to calculate:\n([b]Volts[/b], [b]Amperes[/b] or [b]Ohms[/b]).\n\n2 - Enter the two remaining values in their respective input boxes.\n\n3 - Press the 'Calculate' button.\n\nThe result will be displayed in its input box."
+        # Make the text of the label wrap if it does not
+        # fit the label rectangle.
+        halign: "center"
+        valign: "middle"
+        text_size: self.width, None
+        height: self.texture_size[1]
+
+<MissingValuesPopup@Popup>
+    title: 'Oops! One or more values are missing!'
+    title_align: "center"
+    separator_color: (1, 0, 0, 1)
+    auto_dismiss: True
+    size_hint: 0.5, 0.5
+    Label:
+        markup: True
+        text: "In order to calculate a value, you must enter the other two values.\n\nFor example, if you want to calculate the Resistance, you must provide the values for Amperes and Volts."
+        # Make the text of the label wrap if it does not
+        # fit the label rectangle.
+        halign: "center"
+        valign: "middle"
+        text_size: self.width, None
+        height: self.texture_size[1]
+
 <DraggableImage>:
     drag_rectangle: self.x, self.y, self.right, self.top
     drag_timeout: 1000000000000000
