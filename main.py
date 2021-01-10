@@ -177,6 +177,23 @@ class ResetQuizButton(ResetButton):
             str(self.parent.parent.incorrect_questions_counter)
 
 
+class ResetCalcButton(WhiteRoundedButton):
+    """
+    Custom reset button for the Calculator screen.
+
+    It inherits from kivy.uix.button.
+    """
+
+    def on_press(self):
+        """Set the Sliders values to their defaults."""
+        # Reset the inputs.
+        inputs_list = [self.parent.parent.parent.ohm_input,
+                       self.parent.parent.parent.amp_input,
+                       self.parent.parent.parent.volt_input]
+        for input in inputs_list:
+            input.text = ""
+
+
 class ResetOhmButton(ResetButton):
     """
     Custom reset button for the Ohm screen.
@@ -238,7 +255,6 @@ class StudyScreen(Screen):
             # area it needs.
             btn = PurpleRoundedButton(text=chapter,
                                       height=400,
-                                      #height=0.2,
                                       size_hint_y=None)
 
             # For each button, attach a callback that will call the select()
@@ -581,21 +597,30 @@ class OhmCalcScreen(Screen):
                                                     size_hint=(0.9, 0.2))
         self.float_layout.add_widget(self.radio_buttons_grid_layout)
 
-        # Add a radio button group with the 3 options (and their corresponding
-        # labels).
-        volt_checkbox = CheckBox()
-        volt_checkbox.group = "option"
-        self.radio_buttons_grid_layout.add_widget(volt_checkbox)
+        # Add a radio button group with the 3 options.
+        self.volt_checkbox = CheckBox()
+        self.volt_checkbox.group = "option"
+        self.volt_checkbox.id = "volt_checkbox"
+        self.radio_buttons_grid_layout.add_widget(self.volt_checkbox)
+        # Attach a callback.
+        self.volt_checkbox.bind(active=self.on_checkbox_Active)
 
-        amp_checkbox = CheckBox()
-        amp_checkbox.group = "option"
-        amp_checkbox.color = (1, 0.1, 0.1, 1)
-        self.radio_buttons_grid_layout.add_widget(amp_checkbox)
+        self.amp_checkbox = CheckBox()
+        self.amp_checkbox.group = "option"
+        self.amp_checkbox.id = "amp_checkbox"
+        self.amp_checkbox.color = (1, 0.1, 0.1, 1)
+        self.radio_buttons_grid_layout.add_widget(self.amp_checkbox)
+        # Attach a callback.
+        self.amp_checkbox.bind(active=self.on_checkbox_Active)
 
-        ohm_checkbox = CheckBox()
-        ohm_checkbox.group = "option"
-        self.radio_buttons_grid_layout.add_widget(ohm_checkbox)
+        self.ohm_checkbox = CheckBox()
+        self.ohm_checkbox.group = "option"
+        self.ohm_checkbox.id = "ohm_checkbox"
+        self.radio_buttons_grid_layout.add_widget(self.ohm_checkbox)
+        # Attach a callback.
+        self.ohm_checkbox.bind(active=self.on_checkbox_Active)
 
+        # Add a label for each radio button.
         volt_label = Label(text="Volt")
         self.radio_buttons_grid_layout.add_widget(volt_label)
         amp_label = Label(text="Amp")
@@ -618,30 +643,79 @@ class OhmCalcScreen(Screen):
         # Add a small grid layout for the V|I|R input fields.
         self.input_grid_layout = GridLayout(cols=3,
                                             rows=1,
-                                            spacing=0,
+                                            spacing=20,
                                             pos_hint={"center_x": 0.5,
                                                       "top": 0.5},
                                             size_hint=(0.9, 0.1))
         self.float_layout.add_widget(self.input_grid_layout)
 
         # Add number-input fields.
-        volt_input = TextInput(font_size="30sp",
-                               input_type="number",
-                               input_filter="float")
-        self.input_grid_layout.add_widget(volt_input)
+        self.volt_input = TextInput(font_size="30sp",
+                                    input_type="number",
+                                    input_filter="float")
+        self.input_grid_layout.add_widget(self.volt_input)
 
-        amp_input = TextInput(font_size="30sp",
-                              input_type="number",
-                              input_filter="float")
-        self.input_grid_layout.add_widget(amp_input)
+        self.amp_input = TextInput(font_size="30sp",
+                                   input_type="number",
+                                   input_filter="float")
+        self.input_grid_layout.add_widget(self.amp_input)
 
-        ohm_input = TextInput(font_size="30sp",
-                              input_type="number",
-                              input_filter="float")
-        self.input_grid_layout.add_widget(ohm_input)
+        self.ohm_input = TextInput(font_size="30sp",
+                                   input_type="number",
+                                   input_filter="float")
+        self.input_grid_layout.add_widget(self.ohm_input)
 
+        # Add another grid layout for the buttons.
+        self.buttons_grid_layout = GridLayout(cols=3,
+                                              rows=1,
+                                              spacing=20,
+                                              pos_hint={"center_x": 0.5,
+                                                        "top": 0.2},
+                                              size_hint=(0.9, 0.1))
+        self.float_layout.add_widget(self.buttons_grid_layout)
+
+        # Add the instructions button.
+        self.instructions_button = WhiteRoundedButton(text="Instructions")
+        self.buttons_grid_layout.add_widget(self.instructions_button)
+
+        # Add the reset button.
+        self.reset_button = ResetCalcButton(text="Reset")
+        self.buttons_grid_layout.add_widget(self.reset_button)
 
         # Add a "Calculate" button.
+        self.calculate_button = WhiteRoundedButton(text="Calculate")
+        self.buttons_grid_layout.add_widget(self.calculate_button)
+
+    # Callback for the checkbox
+    def on_checkbox_Active(self, checkboxInstance, isActive):
+        """Deactivate the other two input fields and reset values."""
+        if checkboxInstance.id == "volt_checkbox":
+            self.amp_input.disabled = False
+            self.ohm_input.disabled = False
+            self.volt_input.disabled = True
+        elif checkboxInstance.id == "amp_checkbox":
+            self.amp_input.disabled = True
+            self.ohm_input.disabled = False
+            self.volt_input.disabled = False
+        else:
+            self.amp_input.disabled = False
+            self.ohm_input.disabled = True
+            self.volt_input.disabled = False
+        # Reset the values in the input fields.
+        for input_field in [self.amp_input, self.ohm_input, self.volt_input]:
+            input_field.text = ""
+
+    def calculate_ohm_values(self, instance, value):
+        """Calculate values according to the currently selected option."""
+        if self.selected == "current":
+            self.amp_input.text = \
+                str(self.volt_input.text / self.ohm_input.text)
+        elif self.selected == "voltage":
+            self.volt_input.text = \
+                str(self.amp_input.text * self.ohm_input.text)
+        elif self.selected == "resistance":
+            self.ohm_input.text = \
+                str(self.volt_input.text / self.amp_input.text)
 
 
 
@@ -675,7 +749,7 @@ class OhmScreen(Screen):
 
         # Invisible grid layout and buttons for the triangle image.
         triangle_grid_layout = GridLayout(rows=2, cols=2,
-                                          pos_hint={"center_x":0.5,
+                                          pos_hint={"center_x": 0.5,
                                                     "top": 0.97},
                                           size=("150sp", "150sp"),
                                           size_hint=(None, None))
@@ -714,7 +788,7 @@ class OhmScreen(Screen):
         # Create a grid layout inside the float layout.
         self.grid_layout = GridLayout(rows=4,
                                       cols=3,
-                                      pos_hint={"center_x":0.5, "bottom":0},
+                                      pos_hint={"center_x": 0.5, "bottom": 0},
                                       size_hint=(0.5, 0.7))
         self.float_layout.add_widget(self.grid_layout)
 
