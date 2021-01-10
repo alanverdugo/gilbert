@@ -65,7 +65,7 @@
                 root.manager.current = 'ohm_screen'
         MenuScreenButton:
             text: "Ohm calculator"
-            icon: "assets/icons/icons8-renewable-energy-100-purple.png"
+            icon: "assets/icons/calculator-2.png"
             on_press:
                 # You can define the duration of the change
                 # and the direction of the slide
@@ -73,16 +73,16 @@
                 root.manager.transition.duration = .3
                 root.manager.previous = 'menu_screen'
                 root.manager.current = 'ohm_calc_screen'
-        MenuScreenButton:
-            text: "Equations"
-            icon: "assets/icons/icons8-renewable-energy-100-purple.png"
-            on_press:
-                # You can define the duration of the change
-                # and the direction of the slide
-                root.manager.transition.direction = 'left'
-                root.manager.transition.duration = .3
-                root.manager.previous = 'menu_screen'
-                root.manager.current = 'equations_screen'
+        #MenuScreenButton:
+        #    text: "Equations"
+        #    icon: "assets/icons/icons8-renewable-energy-100-purple.png"
+        #    on_press:
+        #        # You can define the duration of the change
+        #        # and the direction of the slide
+        #        root.manager.transition.direction = 'left'
+        #        root.manager.transition.duration = .3
+        #        root.manager.previous = 'menu_screen'
+        #        root.manager.current = 'equations_screen'
         MenuScreenButton:
             text: "About"
             icon: "assets/icons/icons8-octocat-100-purple.png"
