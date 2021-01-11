@@ -628,7 +628,6 @@ class OhmCalcScreen(Screen):
         self.amp_checkbox = CheckBox()
         self.amp_checkbox.group = "option"
         self.amp_checkbox.id = "amp_checkbox"
-        self.amp_checkbox.color = (1, 0.1, 0.1, 1)
         self.radio_buttons_grid_layout.add_widget(self.amp_checkbox)
         # Attach a callback.
         self.amp_checkbox.bind(active=self.on_checkbox_Active)
@@ -651,7 +650,7 @@ class OhmCalcScreen(Screen):
                           halign='center')
         self.radio_buttons_grid_layout.add_widget(ohm_label)
 
-        self.input_label = Label(text="Enter the 2 required values:",
+        self.input_label = Label(text="2 - Enter the 2 required values:",
                                  pos_hint={"center_x": 0.5,
                                            "top": 0.6},
                                  size_hint=(0.9, 0.1))
