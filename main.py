@@ -641,13 +641,16 @@ class OhmCalcScreen(Screen):
 
         # Add a label for each radio button.
         volt_label = Label(text="Volts\n(Electromotive force)",
-                           halign='center')
+                           halign='center',
+                           font_size="10sp")
         self.radio_buttons_grid_layout.add_widget(volt_label)
         amp_label = Label(text="Amperes\n(Current)",
-                          halign='center')
+                          halign='center',
+                          font_size="10sp")
         self.radio_buttons_grid_layout.add_widget(amp_label)
         ohm_label = Label(text="Ohms\n(Resistance)",
-                          halign='center')
+                          halign='center',
+                          font_size="10sp")
         self.radio_buttons_grid_layout.add_widget(ohm_label)
 
         self.input_label = Label(text="2 - Enter the 2 required values:",
@@ -666,19 +669,19 @@ class OhmCalcScreen(Screen):
         self.float_layout.add_widget(self.input_grid_layout)
 
         # Add number-input fields.
-        self.volt_input = TextInput(font_size="30sp",
+        self.volt_input = TextInput(font_size="25sp",
                                     input_type="number",
                                     input_filter="float",
                                     halign='center')
         self.input_grid_layout.add_widget(self.volt_input)
 
-        self.amp_input = TextInput(font_size="30sp",
+        self.amp_input = TextInput(font_size="25sp",
                                    input_type="number",
                                    input_filter="float",
                                    halign='center')
         self.input_grid_layout.add_widget(self.amp_input)
 
-        self.ohm_input = TextInput(font_size="30sp",
+        self.ohm_input = TextInput(font_size="25sp",
                                    input_type="number",
                                    input_filter="float",
                                    halign='center')
@@ -694,16 +697,19 @@ class OhmCalcScreen(Screen):
         self.float_layout.add_widget(self.buttons_grid_layout)
 
         # Add the instructions button.
-        self.instructions_button = WhiteRoundedButton(text="Instructions")
+        self.instructions_button = WhiteRoundedButton(text="Instructions",
+                                                      font_size="15sp")
         self.instructions_button.bind(on_press=self.show_instructions)
         self.buttons_grid_layout.add_widget(self.instructions_button)
 
         # Add the reset button.
-        self.reset_button = ResetCalcButton(text="Reset")
+        self.reset_button = ResetCalcButton(text="Reset",
+                                            font_size="15sp")
         self.buttons_grid_layout.add_widget(self.reset_button)
 
         # Add a "Calculate" button.
-        self.calculate_button = WhiteRoundedButton(text="Calculate")
+        self.calculate_button = WhiteRoundedButton(text="Calculate",
+                                                   font_size="15sp")
         self.calculate_button.bind(on_press=self.calculate_ohm_values)
         self.buttons_grid_layout.add_widget(self.calculate_button)
 
