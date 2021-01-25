@@ -73,16 +73,16 @@
                 root.manager.transition.duration = .3
                 root.manager.previous = 'menu_screen'
                 root.manager.current = 'ohm_calc_screen'
-        #MenuScreenButton:
-        #    text: "Equations"
-        #    icon: "assets/icons/icons8-renewable-energy-100-purple.png"
-        #    on_press:
-        #        # You can define the duration of the change
-        #        # and the direction of the slide
-        #        root.manager.transition.direction = 'left'
-        #        root.manager.transition.duration = .3
-        #        root.manager.previous = 'menu_screen'
-        #        root.manager.current = 'equations_screen'
+        MenuScreenButton:
+            text: "Kirchhoff's laws"
+            icon: "assets/icons/icons8-renewable-energy-100-purple.png"
+            on_press:
+                # You can define the duration of the change
+                # and the direction of the slide
+                root.manager.transition.direction = 'left'
+                root.manager.transition.duration = .3
+                root.manager.previous = 'menu_screen'
+                root.manager.current = 'kirchhoff_screen'
         MenuScreenButton:
             text: "About"
             icon: "assets/icons/icons8-octocat-100-purple.png"
@@ -128,8 +128,8 @@
             size: self.size
             pos: self.pos
 
-<EquationsScreen@Screen>
-    # Set background color for the equations screen.
+<KirchhoffScreen@Screen>
+    # Set background color for the Kirchhoff screen.
     canvas.before:
         Color:
             #rgba: (0.2, 0.2, 0.4, 1)

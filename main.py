@@ -10,6 +10,9 @@ import random
 # SQLite connections and retrieval.
 import sqlite3
 
+# Electrical circuits calculations.
+from dcelectricity.dc_en import *
+
 # GUI
 from kivy.app import App
 from kivy.uix.button import Button
@@ -557,16 +560,16 @@ class QuizScreen(Screen):
         self.get_random_question()
 
 
-class EquationsScreen(Screen):
+class KirchhoffScreen(Screen):
     """
-    Custom Screen Class for equations study.
+    Custom Screen Class for Kirchhoff study.
 
     It inherits from Screen.
     """
 
     def __init__(self, **kwargs):
         """Class constructor."""
-        super(EquationsScreen, self).__init__(**kwargs)
+        super(KirchhoffScreen, self).__init__(**kwargs)
 
         # Create a float layout.
         self.float_layout = FloatLayout()
@@ -584,6 +587,41 @@ class EquationsScreen(Screen):
         # Add a draggable image.
         self.draggable_image = DraggableImage()
         self.float_layout.add_widget(self.draggable_image)
+
+        E = Voltage(12)
+        R1 = Resistor(1, 'k')
+        R2 = Resistor(2.7, 'k')
+        R3 = Resistor(1.8, 'k')
+        R23 = R2//R3  # resistances in parallel
+        Req = R1 + R23  # resistances in series
+        I1 = E/Req  # Ohm's law
+        V1 = I1*R1  # Ohm's law
+        V2 = E - V1  # Kirchhoff’s voltage law
+        I2 = V2/R2  # Ohm's law
+        I3 = I1 - I2  # Kirchhoff’s current law
+
+        # Add labels.
+        self.VT_label = Label(text=f"V[sub]t[/sub] = {V2}\nI3 = {I3}",
+                              pos_hint={"center_x": 0.5, "top": 0.7},
+                              markup=True)
+        self.float_layout.add_widget(self.VT_label)
+
+        # Add the circuit image.
+        self.circuit_image = Image(source="assets/images/circuit01.png",
+                                   keep_ratio=False,
+                                   size_hint=(0.8, 0.4),
+                                   allow_stretch=True,
+                                   pos_hint={"center_x": 0.5, "top": 0.97})
+        self.float_layout.add_widget(self.circuit_image)
+
+        # Add an input box.
+        self.input = TextInput(font_size="25sp",
+                               input_type="number",
+                               input_filter="float",
+                               halign='center',
+                               pos_hint={"center_x": 0.5, "top": 0.7},
+                               size_hint=(0.2, 0.1))
+        self.float_layout.add_widget(self.input)
 
 
 class OhmCalcScreen(Screen):
@@ -1021,7 +1059,7 @@ class Gilbert(App):
         self.screen_manager.add_widget(QuizScreen(name="quiz_screen"))
         self.screen_manager.add_widget(OhmScreen(name="ohm_screen"))
         self.screen_manager.add_widget(OhmCalcScreen(name="ohm_calc_screen"))
-        self.screen_manager.add_widget(EquationsScreen(name="equations_screen"))
+        self.screen_manager.add_widget(KirchhoffScreen(name="kirchhoff_screen"))
         self.screen_manager.add_widget(AboutScreen(name="about_screen"))
 
         # We apply the saved configuration settings or the defaults
