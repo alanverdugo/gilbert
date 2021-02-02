@@ -576,52 +576,188 @@ class KirchhoffScreen(Screen):
         self.add_widget(self.float_layout)
 
         # Add the equation.
-        self.equation_image = Image(source="assets/images/I_318px-law_triangle.png",
-                                    keep_ratio=False,
-                                    size_hint=(None, None),
-                                    width="150sp",
-                                    height="150sp",
-                                    allow_stretch=True,
-                                    pos_hint={"center_x": 0.5, "top": 0.97})
+        #self.equation_image = Image(source="assets/images/I_318px-law_triangle.png",
+        #                            keep_ratio=False,
+        #                            size_hint=(None, None),
+        #                            width="150sp",
+        #                            height="150sp",
+        #                            allow_stretch=True,
+        #                            pos_hint={"center_x": 0.5, "top": 0.97})
 
         # Add a draggable image.
-        self.draggable_image = DraggableImage()
-        self.float_layout.add_widget(self.draggable_image)
-
-        E = Voltage(12)
-        R1 = Resistor(1, 'k')
-        R2 = Resistor(2.7, 'k')
-        R3 = Resistor(1.8, 'k')
-        R23 = R2//R3  # resistances in parallel
-        Req = R1 + R23  # resistances in series
-        I1 = E/Req  # Ohm's law
-        V1 = I1*R1  # Ohm's law
-        V2 = E - V1  # Kirchhoff’s voltage law
-        I2 = V2/R2  # Ohm's law
-        I3 = I1 - I2  # Kirchhoff’s current law
-
-        # Add labels.
-        self.VT_label = Label(text=f"V[sub]t[/sub] = {V2}\nI3 = {I3}",
-                              pos_hint={"center_x": 0.5, "top": 0.7},
-                              markup=True)
-        self.float_layout.add_widget(self.VT_label)
+        #self.draggable_image = DraggableImage()
+        #self.float_layout.add_widget(self.draggable_image)
 
         # Add the circuit image.
         self.circuit_image = Image(source="assets/images/circuit01.png",
                                    keep_ratio=False,
-                                   size_hint=(0.8, 0.4),
+                                   size_hint=(0.6, 0.35),
                                    allow_stretch=True,
-                                   pos_hint={"center_x": 0.5, "top": 0.97})
+                                   pos_hint={"center_x": 0.5, "top": 0.7})
         self.float_layout.add_widget(self.circuit_image)
 
-        # Add an input box.
-        self.input = TextInput(font_size="25sp",
-                               input_type="number",
-                               input_filter="float",
-                               halign='center',
-                               pos_hint={"center_x": 0.5, "top": 0.7},
-                               size_hint=(0.2, 0.1))
-        self.float_layout.add_widget(self.input)
+        # Add a box layout for the R1 Label+input combo (to make it easier
+        # to move it all together).
+        self.R1_grid_layout = BoxLayout(orientation="horizontal",
+                                        spacing=0,
+                                        size_hint=(0.15, 0.05),
+                                        pos_hint={"right": 0.45, "top": 0.72})
+        # Resistance 1 label.
+        self.R1_label = Label(text="R1 =",
+                              pos_hint={'right': 1})
+        self.R1_grid_layout.add_widget(self.R1_label)
+        # Add the grid layout to the general float layout.
+        self.float_layout.add_widget(self.R1_grid_layout)
+        # Resistance 1 input box.
+        self.R1_input = TextInput(font_size="18sp",
+                                  input_type="number",
+                                  input_filter="float",
+                                  halign='center')
+        self.R1_grid_layout.add_widget(self.R1_input)
+
+        # Add a box layout for the R2 Label+input combo (to make it easier
+        # to move it all together).
+        self.R2_grid_layout = BoxLayout(orientation="horizontal",
+                                        spacing=0,
+                                        size_hint=(0.15, 0.05),
+                                        pos_hint={"right": 0.55, "top": 0.54})
+        self.float_layout.add_widget(self.R2_grid_layout)
+        # Resistance 2 label.
+        self.R2_label = Label(text="R2 =",
+                              pos_hint={'right': 1})
+        self.R2_grid_layout.add_widget(self.R2_label)
+        # Resistance 2 input box.
+        self.R2_input = TextInput(font_size="18sp",
+                                  input_type="number",
+                                  input_filter="float",
+                                  halign='center')
+        self.R2_grid_layout.add_widget(self.R2_input)
+
+        # Add a box layout for the R3 Label+input combo (to make it easier
+        # to move it all together).
+        self.R3_grid_layout = BoxLayout(orientation="horizontal",
+                                        padding=0,
+                                        size_hint=(0.15, 0.05),
+                                        pos_hint={"right": 0.9, "top": 0.54})
+        self.float_layout.add_widget(self.R3_grid_layout)
+        # Resistance 3 label.
+        self.R3_label = Label(text="R3=",
+                              pos_hint={'right': 1},
+                              markup=True)
+        self.R3_grid_layout.add_widget(self.R3_label)
+        # Resistance 3 input box.
+        self.R3_input = TextInput(font_size="18sp",
+                                  input_type="number",
+                                  input_filter="float",
+                                  halign='center')
+        self.R3_grid_layout.add_widget(self.R3_input)
+
+        # Add a box layout for the R4 Label+input combo (to make it easier
+        # to move it all together).
+        self.R4_grid_layout = BoxLayout(orientation="horizontal",
+                                        padding=0,
+                                        size_hint=(0.15, 0.05),
+                                        pos_hint={"right": 0.45, "top": 0.36})
+        self.float_layout.add_widget(self.R4_grid_layout)
+        # Resistance 4 label.
+        self.R4_label = Label(text="R4=",
+                              pos_hint={'right': 1})
+        self.R4_grid_layout.add_widget(self.R4_label)
+        # Resistance 4 input box.
+        self.R4_input = TextInput(font_size="18sp",
+                                  input_type="number",
+                                  input_filter="float",
+                                  halign='center')
+        self.R4_grid_layout.add_widget(self.R4_input)
+
+        # Add a box layout for the VT Label+input combo (to make it easier
+        # to move it all together).
+        self.VT_grid_layout = BoxLayout(orientation="horizontal",
+                                        padding=0,
+                                        size_hint=(0.15, 0.05),
+                                        pos_hint={"right": 0.22, "top": 0.54})
+        self.float_layout.add_widget(self.VT_grid_layout)
+        # VT label.
+        self.VT_label = Label(text="VT=",
+                              pos_hint={'right': 1})
+        self.VT_grid_layout.add_widget(self.VT_label)
+        # VT input box.
+        self.VT_input = TextInput(font_size="18sp",
+                                  input_type="number",
+                                  input_filter="float",
+                                  halign='center')
+        self.VT_grid_layout.add_widget(self.VT_input)
+
+        # Set a table showing all the data.
+        self.results_layout = BoxLayout(orientation="vertical",
+                                        spacing=20,
+                                        size_hint=(0.15, 0.05),
+                                        pos_hint={"center_x": 0.5, "top": 0.2})
+        # Add rows for the results "table".
+        self.label_I1 = Label(text=f"I1=")
+        self.results_layout.add_widget(self.label_I1)
+        self.label_I2 = Label(text=f"I2=")
+        self.results_layout.add_widget(self.label_I2)
+        self.label_I3 = Label(text=f"I3=")
+        self.results_layout.add_widget(self.label_I3)
+        self.label_I4 = Label(text=f"I4=")
+        self.results_layout.add_widget(self.label_I4)
+
+        #label_V1 = Label(text=f"V1={V1}")
+        #self.results_layout.add_widget(label_V1)
+        #label_V2 = Label(text=f"V2={V2}")
+        #self.results_layout.add_widget(label_V2)
+        #label_V3 = Label(text=f"V3={V3}")
+        #self.results_layout.add_widget(label_V3)
+        #label_V4 = Label(text=f"V4={V4}")
+        #self.results_layout.add_widget(label_V4)
+
+        self.float_layout.add_widget(self.results_layout)
+
+        # Add a "Calculate" button.
+        self.calculate_button = WhiteRoundedButton(text="Calculate",
+                                                   font_size="15sp",
+                                                   size_hint=(0.2, 0.2),
+                                                   pos_hint={"right": 1,
+                                                             "bottom": 1})
+        self.calculate_button.bind(on_press=self.calculate_kirchhoff_values)
+        self.float_layout.add_widget(self.calculate_button)
+
+    def calculate_kirchhoff_values(self, instance):
+        """Calculate values according to the currently selected option."""
+        I1 = Current(5)
+        VT = Voltage(self.VT_input.text)
+
+        #R1 = Resistor(1.4)
+        R1 = Resistor(self.R1_input.text)
+        print("R1=", R1)
+        V1 = I1*R1
+        print("V1=", V1)
+        self.label_I1.text = str(I1)
+
+        #R2 = Resistor(0.66666666)
+        R2 = Resistor(self.R2_input.text)
+        I2 = Current(3)
+        V2 = I2*R2
+        print("V2=", V2)
+
+        #R3 = Resistor(1)
+        R3 = Resistor(self.R3_input.text)
+        I3 = Current(2)
+        V3 = I3*R3
+        print("V3=", V3)
+
+        R23 = R2//R3
+        print("R3=", R3)
+
+        #R4 = Resistor(1)
+        R4 = Resistor(self.R4_input.text)
+        I4 = Current(5)
+        V4 = I4*R4
+        print("V4=", V4)
+
+        R23 = R1+(R2//R3)+R4
+        print("R23=", R23)
 
 
 class OhmCalcScreen(Screen):
