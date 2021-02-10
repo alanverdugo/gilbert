@@ -591,11 +591,11 @@ class KirchhoffScreen(Screen):
         #self.float_layout.add_widget(self.draggable_image)
 
         # Add the circuit image.
-        self.circuit_image = Image(source="assets/images/circuit01.png",
+        self.circuit_image = Image(source="assets/images/circuit_tall.png",
                                    keep_ratio=False,
-                                   size_hint=(0.6, 0.35),
+                                   size_hint=(0.6, 0.55),
                                    allow_stretch=True,
-                                   pos_hint={"center_x": 0.5, "top": 0.7})
+                                   pos_hint={"center_x": 0.5, "top": 0.9})
         self.float_layout.add_widget(self.circuit_image)
 
         # Add a box layout for the V1 Label+input combo (to make it easier
@@ -603,7 +603,7 @@ class KirchhoffScreen(Screen):
         self.V1_grid_layout = BoxLayout(orientation="horizontal",
                                         spacing=0,
                                         size_hint=(0.15, 0.05),
-                                        pos_hint={"right": 0.45, "top": 0.72})
+                                        pos_hint={"right": 0.45, "top": 0.9})
         # Voltage 1 label.
         self.V1_label = Label(text="V1 =",
                               pos_hint={'right': 1})
@@ -617,12 +617,87 @@ class KirchhoffScreen(Screen):
                                   halign='center')
         self.V1_grid_layout.add_widget(self.V1_input)
 
+        # Add a box layout for the V2 Label+input combo (to make it easier
+        # to move it all together).
+        self.V2_grid_layout = BoxLayout(orientation="horizontal",
+                                        spacing=0,
+                                        size_hint=(0.15, 0.05),
+                                        pos_hint={"right": 0.55, "top": 0.70})
+        # Voltage 2 label.
+        self.V2_label = Label(text="V2 =",
+                              pos_hint={'right': 1})
+        self.V2_grid_layout.add_widget(self.V2_label)
+        # Add the grid layout to the general float layout.
+        self.float_layout.add_widget(self.V2_grid_layout)
+        # Voltage 2 input box.
+        self.V2_input = TextInput(font_size="18sp",
+                                  input_type="number",
+                                  input_filter="float",
+                                  halign='center')
+        self.V2_grid_layout.add_widget(self.V2_input)
+
+        # Add a box layout for the V3 Label+input combo (to make it easier
+        # to move it all together).
+        self.V3_grid_layout = BoxLayout(orientation="horizontal",
+                                        padding=0,
+                                        size_hint=(0.15, 0.05),
+                                        pos_hint={"right": 0.9, "top": 0.70})
+        self.float_layout.add_widget(self.V3_grid_layout)
+        # Voltage 3 label.
+        self.V3_label = Label(text="V3=",
+                              pos_hint={'right': 1},
+                              markup=True)
+        self.V3_grid_layout.add_widget(self.V3_label)
+        # Voltage 3 input box.
+        self.V3_input = TextInput(font_size="18sp",
+                                  input_type="number",
+                                  input_filter="float",
+                                  halign='center')
+        self.V3_grid_layout.add_widget(self.V3_input)
+
+        # Add a box layout for the V4 Label+input combo (to make it easier
+        # to move it all together).
+        self.V4_grid_layout = BoxLayout(orientation="horizontal",
+                                        padding=0,
+                                        size_hint=(0.15, 0.05),
+                                        pos_hint={"right": 0.45, "top": 0.4})
+        self.float_layout.add_widget(self.V4_grid_layout)
+        # Voltage 4 label.
+        self.V4_label = Label(text="V4=",
+                              pos_hint={'right': 1},
+                              markup=True)
+        self.V4_grid_layout.add_widget(self.V4_label)
+        # Voltage 4 input box.
+        self.V4_input = TextInput(font_size="18sp",
+                                  input_type="number",
+                                  input_filter="float",
+                                  halign='center')
+        self.V4_grid_layout.add_widget(self.V4_input)
+
+        # Add a box layout for the I1 Label+input combo (to make it easier
+        # to move it all together).
+        self.I1_grid_layout = BoxLayout(orientation="horizontal",
+                                        padding=0,
+                                        size_hint=(0.15, 0.05),
+                                        pos_hint={"right": 0.65, "top": 0.9})
+        self.float_layout.add_widget(self.I1_grid_layout)
+        # Current 1 label.
+        self.I1_label = Label(text="I1=",
+                              pos_hint={'right': 1})
+        self.I1_grid_layout.add_widget(self.I1_label)
+        # Current 1 input box.
+        self.I1_input = TextInput(font_size="18sp",
+                                  input_type="number",
+                                  input_filter="float",
+                                  halign='center')
+        self.I1_grid_layout.add_widget(self.I1_input)
+
         # Add a box layout for the I2 Label+input combo (to make it easier
         # to move it all together).
         self.I2_grid_layout = BoxLayout(orientation="horizontal",
                                         spacing=0,
                                         size_hint=(0.15, 0.05),
-                                        pos_hint={"right": 0.55, "top": 0.54})
+                                        pos_hint={"right": 0.55, "top": 0.60})
         self.float_layout.add_widget(self.I2_grid_layout)
         # Resistance 2 label.
         self.I2_label = Label(text="I2 =",
@@ -635,37 +710,36 @@ class KirchhoffScreen(Screen):
                                   halign='center')
         self.I2_grid_layout.add_widget(self.I2_input)
 
-        # Add a box layout for the V3 Label+input combo (to make it easier
+        # Add a box layout for the I3 Label+input combo (to make it easier
         # to move it all together).
-        self.V3_grid_layout = BoxLayout(orientation="horizontal",
-                                        padding=0,
+        self.I3_grid_layout = BoxLayout(orientation="horizontal",
+                                        spacing=0,
                                         size_hint=(0.15, 0.05),
-                                        pos_hint={"right": 0.9, "top": 0.54})
-        self.float_layout.add_widget(self.V3_grid_layout)
+                                        pos_hint={"right": 0.9, "top": 0.60})
+        self.float_layout.add_widget(self.I3_grid_layout)
         # Resistance 3 label.
-        self.V3_label = Label(text="V3=",
-                              pos_hint={'right': 1},
-                              markup=True)
-        self.V3_grid_layout.add_widget(self.V3_label)
+        self.I3_label = Label(text="I3 =",
+                              pos_hint={'right': 1})
+        self.I3_grid_layout.add_widget(self.I3_label)
         # Resistance 3 input box.
-        self.V3_input = TextInput(font_size="18sp",
+        self.I3_input = TextInput(font_size="18sp",
                                   input_type="number",
                                   input_filter="float",
                                   halign='center')
-        self.V3_grid_layout.add_widget(self.V3_input)
+        self.I3_grid_layout.add_widget(self.I3_input)
 
         # Add a box layout for the I4 Label+input combo (to make it easier
         # to move it all together).
         self.I4_grid_layout = BoxLayout(orientation="horizontal",
                                         padding=0,
                                         size_hint=(0.15, 0.05),
-                                        pos_hint={"right": 0.45, "top": 0.36})
+                                        pos_hint={"right": 0.65, "top": 0.4})
         self.float_layout.add_widget(self.I4_grid_layout)
-        # Resistance 4 label.
+        # Current 4 label.
         self.I4_label = Label(text="I4=",
                               pos_hint={'right': 1})
         self.I4_grid_layout.add_widget(self.I4_label)
-        # Resistance 4 input box.
+        # Current 4 input box.
         self.I4_input = TextInput(font_size="18sp",
                                   input_type="number",
                                   input_filter="float",
@@ -677,7 +751,7 @@ class KirchhoffScreen(Screen):
         self.VT_grid_layout = BoxLayout(orientation="horizontal",
                                         padding=0,
                                         size_hint=(0.15, 0.05),
-                                        pos_hint={"right": 0.22, "top": 0.54})
+                                        pos_hint={"right": 0.22, "top": 0.65})
         self.float_layout.add_widget(self.VT_grid_layout)
         # VT label.
         self.VT_label = Label(text="VT=",
@@ -725,11 +799,13 @@ class KirchhoffScreen(Screen):
     def calculate_kirchhoff_values(self, instance):
         """Calculate values according to the currently selected option."""
         Vt, V1, V2, V3, V4, I1, I2, I3, I4 = sympy.symbols('Vt, V1, V2, V3, V4, I1, 12, I3, I4')
-        Vt = float(self.VT_input.text)
-        I1 = 5
-        V1 = float(self.V1_input.text)
-        V3 = 2
-        I2 = float(self.I2_input.text)
+        # TODO: If the student has entered values, solve the equations and show the values.
+        # Otherwise, the sympy.solve function will show the equations (so let's show that!)
+        #Vt = float(self.VT_input.text)
+        #I1 = 5
+        #V1 = float(self.V1_input.text)
+        #V3 = 2
+        #I2 = float(self.I2_input.text)
 
         equations = []
         equations.append(sympy.Eq(V2, V3))
@@ -740,6 +816,10 @@ class KirchhoffScreen(Screen):
         unknowns = [V2, V4, I3, I4]
         solution = sympy.solve(equations, unknowns)
         self.label_I1.text = str(solution)
+        self.label_I2.text = str(equations)
+        print('Solutions')
+        for sol in solution:
+            print('  ',sol,'=',solution[sol])
 
 
 class OhmCalcScreen(Screen):
