@@ -614,7 +614,8 @@ class KirchhoffScreen(Screen):
         self.V1_input = TextInput(font_size="18sp",
                                   input_type="number",
                                   input_filter="float",
-                                  halign='center')
+                                  halign='center',
+                                  id="V1")
         self.V1_grid_layout.add_widget(self.V1_input)
 
         # Add a box layout for the V2 Label+input combo (to make it easier
@@ -633,7 +634,8 @@ class KirchhoffScreen(Screen):
         self.V2_input = TextInput(font_size="18sp",
                                   input_type="number",
                                   input_filter="float",
-                                  halign='center')
+                                  halign='center',
+                                  id="V2")
         self.V2_grid_layout.add_widget(self.V2_input)
 
         # Add a box layout for the V3 Label+input combo (to make it easier
@@ -652,7 +654,8 @@ class KirchhoffScreen(Screen):
         self.V3_input = TextInput(font_size="18sp",
                                   input_type="number",
                                   input_filter="float",
-                                  halign='center')
+                                  halign='center',
+                                  id="V3")
         self.V3_grid_layout.add_widget(self.V3_input)
 
         # Add a box layout for the V4 Label+input combo (to make it easier
@@ -671,7 +674,8 @@ class KirchhoffScreen(Screen):
         self.V4_input = TextInput(font_size="18sp",
                                   input_type="number",
                                   input_filter="float",
-                                  halign='center')
+                                  halign='center',
+                                  id="V4")
         self.V4_grid_layout.add_widget(self.V4_input)
 
         # Add a box layout for the I1 Label+input combo (to make it easier
@@ -795,15 +799,26 @@ class KirchhoffScreen(Screen):
     def validate_inputs(self):
         """Validate appropiate inputs (before calculating results)."""
         #TODO: Validate that the inputs have values.
+        fields = [self.VT_input, self.V1_input, self.V2_input, self.V3_input]
+        for field in fields:
+            if field.text == "":
+                print(f"enter value in {field.id}")
 
     def calculate_kirchhoff_values(self, instance):
         """Calculate values according to the currently selected option."""
+        self.validate_inputs()
         Vt, V1, V2, V3, V4, I1, I2, I3, I4 = sympy.symbols('Vt, V1, V2, V3, V4, I1, 12, I3, I4')
         # TODO: If the student has entered values, solve the equations and show the values.
         # Otherwise, the sympy.solve function will show the equations (so let's show that!)
-        #Vt = float(self.VT_input.text)
+        Vt = float(self.VT_input.text)
         #I1 = 5
-        #V1 = float(self.V1_input.text)
+        V1 = float(self.V1_input.text)
+        if self.V2_input.text.isdigit() and self.V3_input.text == "":
+            self.V3_input.text = self.V2_input.text
+        if self.V3_input.text.isdigit() and self.V2_input.text == "":
+            self.V2_input.text = self.V3_input.text
+        V2 = float(self.V2_input.text)
+        V3 = float(self.V3_input.text)
         #V3 = 2
         #I2 = float(self.I2_input.text)
 
@@ -819,7 +834,7 @@ class KirchhoffScreen(Screen):
         self.label_I2.text = str(equations)
         print('Solutions')
         for sol in solution:
-            print('  ',sol,'=',solution[sol])
+            print('  ', sol, '=', solution[sol])
 
 
 class OhmCalcScreen(Screen):
