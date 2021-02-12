@@ -613,6 +613,7 @@ class KirchhoffScreen(Screen):
         # Voltage 1 input box.
         self.V1_input = TextInput(font_size="18sp",
                                   input_type="number",
+                                  multiline=False,
                                   input_filter="float",
                                   halign='center',
                                   id="V1")
@@ -633,9 +634,11 @@ class KirchhoffScreen(Screen):
         # Voltage 2 input box.
         self.V2_input = TextInput(font_size="18sp",
                                   input_type="number",
+                                  multiline=False,
                                   input_filter="float",
                                   halign='center',
                                   id="V2")
+        self.V2_input.bind(text=self.v2v3_equality)
         self.V2_grid_layout.add_widget(self.V2_input)
 
         # Add a box layout for the V3 Label+input combo (to make it easier
@@ -653,6 +656,7 @@ class KirchhoffScreen(Screen):
         # Voltage 3 input box.
         self.V3_input = TextInput(font_size="18sp",
                                   input_type="number",
+                                  multiline=False,
                                   input_filter="float",
                                   halign='center',
                                   id="V3")
@@ -673,6 +677,7 @@ class KirchhoffScreen(Screen):
         # Voltage 4 input box.
         self.V4_input = TextInput(font_size="18sp",
                                   input_type="number",
+                                  multiline=False,
                                   input_filter="float",
                                   halign='center',
                                   id="V4")
@@ -692,6 +697,7 @@ class KirchhoffScreen(Screen):
         # Current 1 input box.
         self.I1_input = TextInput(font_size="18sp",
                                   input_type="number",
+                                  multiline=False,
                                   input_filter="float",
                                   halign='center')
         self.I1_grid_layout.add_widget(self.I1_input)
@@ -710,6 +716,7 @@ class KirchhoffScreen(Screen):
         # Resistance 2 input box.
         self.I2_input = TextInput(font_size="18sp",
                                   input_type="number",
+                                  multiline=False,
                                   input_filter="float",
                                   halign='center')
         self.I2_grid_layout.add_widget(self.I2_input)
@@ -728,6 +735,7 @@ class KirchhoffScreen(Screen):
         # Resistance 3 input box.
         self.I3_input = TextInput(font_size="18sp",
                                   input_type="number",
+                                  multiline=False,
                                   input_filter="float",
                                   halign='center')
         self.I3_grid_layout.add_widget(self.I3_input)
@@ -746,6 +754,7 @@ class KirchhoffScreen(Screen):
         # Current 4 input box.
         self.I4_input = TextInput(font_size="18sp",
                                   input_type="number",
+                                  multiline=False,
                                   input_filter="float",
                                   halign='center')
         self.I4_grid_layout.add_widget(self.I4_input)
@@ -764,6 +773,7 @@ class KirchhoffScreen(Screen):
         # VT input box.
         self.VT_input = TextInput(font_size="18sp",
                                   input_type="number",
+                                  multiline=False,
                                   input_filter="float",
                                   halign='center')
         self.VT_grid_layout.add_widget(self.VT_input)
@@ -795,6 +805,15 @@ class KirchhoffScreen(Screen):
                                                              "bottom": 1})
         self.calculate_button.bind(on_press=self.calculate_kirchhoff_values)
         self.float_layout.add_widget(self.calculate_button)
+
+    def v2v3_equality(self, instance, value):
+        """On the key press, make sure V2 and V3 have the same text."""
+        if instance.id == "V3":
+            self.V2_input.text = self.V3_input.text
+            print(f"V3 {value}")
+        else:
+            self.V3_input.text = self.V2_input.text
+            print(f"V2 {value}")
 
     def validate_inputs(self):
         """Validate appropiate inputs (before calculating results)."""
