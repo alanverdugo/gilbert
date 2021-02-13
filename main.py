@@ -117,7 +117,15 @@ class OhmCalcInstructionsPopup(Popup):
     """
 
 
-class MissingValuesPopup(Popup):
+class OhmMissingValuesPopup(Popup):
+    """
+    Custom PopUp to a warning about missing required values.
+
+    It inherits from from kivy.uix.popup
+    """
+
+
+class KirchhoffMissingValuesPopup(Popup):
     """
     Custom PopUp to a warning about missing required values.
 
@@ -660,6 +668,7 @@ class KirchhoffScreen(Screen):
                                   input_filter="float",
                                   halign='center',
                                   id="V3")
+        self.V3_input.bind(text=self.v2v3_equality)
         self.V3_grid_layout.add_widget(self.V3_input)
 
         # Add a box layout for the V4 Label+input combo (to make it easier
@@ -775,7 +784,8 @@ class KirchhoffScreen(Screen):
                                   input_type="number",
                                   multiline=False,
                                   input_filter="float",
-                                  halign='center')
+                                  halign='center',
+                                  id="VT")
         self.VT_grid_layout.add_widget(self.VT_input)
 
         # Set a table showing all the data.
@@ -803,29 +813,40 @@ class KirchhoffScreen(Screen):
                                                    size_hint=(0.2, 0.2),
                                                    pos_hint={"right": 1,
                                                              "bottom": 1})
-        self.calculate_button.bind(on_press=self.calculate_kirchhoff_values)
+        self.calculate_button.bind(on_press=self.validate_inputs)
         self.float_layout.add_widget(self.calculate_button)
 
     def v2v3_equality(self, instance, value):
         """On the key press, make sure V2 and V3 have the same text."""
         if instance.id == "V3":
             self.V2_input.text = self.V3_input.text
-            print(f"V3 {value}")
         else:
             self.V3_input.text = self.V2_input.text
-            print(f"V2 {value}")
 
-    def validate_inputs(self):
+    def validate_inputs(self, instance):
         """Validate appropiate inputs (before calculating results)."""
         #TODO: Validate that the inputs have values.
+
+        # A list to contain the IDs of the fields which are missing values.
+        empty_fields = []
+
         fields = [self.VT_input, self.V1_input, self.V2_input, self.V3_input]
         for field in fields:
             if field.text == "":
-                print(f"enter value in {field.id}")
+                empty_fields.append(field.id)
 
-    def calculate_kirchhoff_values(self, instance):
+        if not empty_fields:
+            # If there are no empty fields, continue with the calculations.
+            self.calculate_kirchhoff_values()
+        else:
+            message = f"enter value in {', '.join(empty_fields)}"
+            popup = KirchhoffMissingValuesPopup()
+            popup.label_text = message
+            #popup.label_text = field
+            popup.open()
+
+    def calculate_kirchhoff_values(self):
         """Calculate values according to the currently selected option."""
-        self.validate_inputs()
         Vt, V1, V2, V3, V4, I1, I2, I3, I4 = sympy.symbols('Vt, V1, V2, V3, V4, I1, 12, I3, I4')
         # TODO: If the student has entered values, solve the equations and show the values.
         # Otherwise, the sympy.solve function will show the equations (so let's show that!)
@@ -838,7 +859,6 @@ class KirchhoffScreen(Screen):
             self.V2_input.text = self.V3_input.text
         V2 = float(self.V2_input.text)
         V3 = float(self.V3_input.text)
-        #V3 = 2
         #I2 = float(self.I2_input.text)
 
         equations = []
@@ -847,7 +867,7 @@ class KirchhoffScreen(Screen):
         equations.append(sympy.Eq(I4, I2 + I3))
         equations.append(sympy.Eq(Vt - V1 - V3 - V4, 0))
 
-        unknowns = [V2, V4, I3, I4]
+        unknowns = [V4, I3, I4]
         solution = sympy.solve(equations, unknowns)
         self.label_I1.text = str(solution)
         self.label_I2.text = str(equations)
@@ -1036,7 +1056,7 @@ class OhmCalcScreen(Screen):
 
     def missing_values_warning(self):
         """Display a warning for missing values."""
-        popup = MissingValuesPopup()
+        popup = OhmMissingValuesPopup()
         popup.open()
 
 

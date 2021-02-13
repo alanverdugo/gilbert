@@ -336,7 +336,7 @@
         text_size: self.width, None
         height: self.texture_size[1]
 
-<MissingValuesPopup@Popup>
+<OhmMissingValuesPopup@Popup>
     title: 'Oops! One or more values are missing!'
     title_align: "center"
     separator_color: (1, 0, 0, 1)
@@ -351,6 +351,25 @@
         valign: "middle"
         text_size: self.width, None
         height: self.texture_size[1]
+
+<KirchhoffMissingValuesPopup@Popup>
+    title: 'Oops! One or more values are missing!'
+    title_align: "center"
+    separator_color: (1, 0, 0, 1)
+    auto_dismiss: True
+    size_hint: 0.5, 0.5
+    # Custom properties:
+    label_text: ""
+    Label:
+        markup: True
+        text: root.label_text
+        # Make the text of the label wrap if it does not
+        # fit the label rectangle.
+        halign: "center"
+        valign: "middle"
+        text_size: self.width, None
+        height: self.texture_size[1]
+
 
 <DraggableImage>:
     drag_rectangle: self.x, self.y, self.right, self.top
