@@ -125,9 +125,9 @@ class OhmMissingValuesPopup(Popup):
     """
 
 
-class KirchhoffMissingValuesPopup(Popup):
+class KirchhoffPopup(Popup):
     """
-    Custom PopUp to a warning about missing required values.
+    Custom PopUp to a warning in the Kirchhoff screen.
 
     It inherits from from kivy.uix.popup
     """
@@ -823,20 +823,31 @@ class KirchhoffScreen(Screen):
 
         # A list to contain the IDs of the fields which are missing values.
         empty_fields = []
+        negative_fields = []
 
         fields_to_check = [self.VT_input, self.V1_input, self.V2_input, self.V3_input]
         for field in fields_to_check:
             if field.text == "":
                 empty_fields.append(field.id)
+            if "-" in field.text:
+                negative_fields.append(field.id)
 
-        if not empty_fields:
-            # If there are no empty fields, continue with the calculations.
-            self.calculate_kirchhoff_values()
-        else:
-            message = f"enter value in {', '.join(empty_fields)}"
-            popup = KirchhoffMissingValuesPopup()
+        if empty_fields:
+            message = f"Please enter a value in {', '.join(empty_fields)}"
+            popup = KirchhoffPopup()
+            popup.title = "Oops! One or more values are missing!"
             popup.label_text = message
             popup.open()
+        elif negative_fields:
+            message = f"Please enter a positive value in {', '.join(negative_fields)}"
+            popup = KirchhoffPopup()
+            popup.title = "Negative values are not allowed!"
+            popup.label_text = message
+            popup.open()
+        else:
+            # If there are no empty fields, continue with the calculations.
+            self.calculate_kirchhoff_values()
+
 
     def calculate_kirchhoff_values(self):
         """Calculate values according to the currently selected option."""
@@ -953,18 +964,21 @@ class OhmCalcScreen(Screen):
         self.volt_input = TextInput(font_size="25sp",
                                     input_type="number",
                                     input_filter="float",
+                                    multiline=False,
                                     halign='center')
         self.input_grid_layout.add_widget(self.volt_input)
 
         self.amp_input = TextInput(font_size="25sp",
                                    input_type="number",
                                    input_filter="float",
+                                   multiline=False,
                                    halign='center')
         self.input_grid_layout.add_widget(self.amp_input)
 
         self.ohm_input = TextInput(font_size="25sp",
                                    input_type="number",
                                    input_filter="float",
+                                   multiline=False,
                                    halign='center')
         self.input_grid_layout.add_widget(self.ohm_input)
 
