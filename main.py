@@ -797,15 +797,9 @@ class KirchhoffScreen(Screen):
         self.float_layout.add_widget(self.results_layout)
 
         # Add rows for the results "table".
-        #self.label_I1 = Label(text=f"I1=")
-        self.label_I1 = Label(text=f"I1=")
-        self.results_layout.add_widget(self.label_I1)
-        self.label_I2 = Label(text=f"I2=")
-        self.results_layout.add_widget(self.label_I2)
-        self.label_I3 = Label(text=f"I3=")
-        self.results_layout.add_widget(self.label_I3)
-        self.label_I4 = Label(text=f"I4=")
-        self.results_layout.add_widget(self.label_I4)
+        self.label_equations = Label(text=f"I3 = I1 - 12\nV2 = V3\nI4 = I1\nV4 = Vt - V1 - V3")
+        self.label_solutions = Label(text=f"")
+        self.results_layout.add_widget(self.label_equations)
 
         # Add a "Calculate" button.
         self.calculate_button = WhiteRoundedButton(text="Calculate",
@@ -830,8 +824,8 @@ class KirchhoffScreen(Screen):
         # A list to contain the IDs of the fields which are missing values.
         empty_fields = []
 
-        fields = [self.VT_input, self.V1_input, self.V2_input, self.V3_input]
-        for field in fields:
+        fields_to_check = [self.VT_input, self.V1_input, self.V2_input, self.V3_input]
+        for field in fields_to_check:
             if field.text == "":
                 empty_fields.append(field.id)
 
@@ -842,7 +836,6 @@ class KirchhoffScreen(Screen):
             message = f"enter value in {', '.join(empty_fields)}"
             popup = KirchhoffMissingValuesPopup()
             popup.label_text = message
-            #popup.label_text = field
             popup.open()
 
     def calculate_kirchhoff_values(self):
@@ -851,7 +844,6 @@ class KirchhoffScreen(Screen):
         # TODO: If the student has entered values, solve the equations and show the values.
         # Otherwise, the sympy.solve function will show the equations (so let's show that!)
         Vt = float(self.VT_input.text)
-        #I1 = 5
         V1 = float(self.V1_input.text)
         if self.V2_input.text.isdigit() and self.V3_input.text == "":
             self.V3_input.text = self.V2_input.text
@@ -859,7 +851,6 @@ class KirchhoffScreen(Screen):
             self.V2_input.text = self.V3_input.text
         V2 = float(self.V2_input.text)
         V3 = float(self.V3_input.text)
-        #I2 = float(self.I2_input.text)
 
         equations = []
         equations.append(sympy.Eq(V2, V3))
@@ -869,8 +860,8 @@ class KirchhoffScreen(Screen):
 
         unknowns = [V4, I3, I4]
         solution = sympy.solve(equations, unknowns)
-        self.label_I1.text = str(solution)
-        self.label_I2.text = str(equations)
+        self.label_equations.text = str(solution)
+        #self.label_I2.text = str(equations)
         print('Solutions')
         for sol in solution:
             print('  ', sol, '=', solution[sol])
