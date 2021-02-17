@@ -689,7 +689,8 @@ class KirchhoffScreen(Screen):
                                   multiline=False,
                                   input_filter="float",
                                   halign='center',
-                                  id="V4")
+                                  id="V4",
+                                  disabled=True)
         self.V4_grid_layout.add_widget(self.V4_input)
 
         # Add a box layout for the I1 Label+input combo (to make it easier
@@ -765,7 +766,8 @@ class KirchhoffScreen(Screen):
                                   input_type="number",
                                   multiline=False,
                                   input_filter="float",
-                                  halign='center')
+                                  halign='center',
+                                  disabled=True)
         self.I4_grid_layout.add_widget(self.I4_input)
 
         # Add a box layout for the VT Label+input combo (to make it easier
@@ -790,16 +792,17 @@ class KirchhoffScreen(Screen):
 
         # Set a table showing all the data.
         self.results_layout = BoxLayout(orientation="vertical",
-                                        spacing=20,
-                                        size_hint=(0.15, 0.05),
-                                        pos_hint={"center_x": 0.5, "top": 0.2})
+                                        spacing=2,
+                                        size_hint=(0.30, 0.30),
+                                        pos_hint={"center_x": 0.5, "top": 0.5})
 
         self.float_layout.add_widget(self.results_layout)
 
         # Add rows for the results "table".
         self.label_equations = Label(text=f"I3 = I1 - 12\nV2 = V3\nI4 = I1\nV4 = Vt - V1 - V3")
-        self.label_solutions = Label(text=f"")
         self.results_layout.add_widget(self.label_equations)
+        self.label_solutions = Label(text=f"")
+        self.results_layout.add_widget(self.label_solutions)
 
         # Add a "Calculate" button.
         self.calculate_button = WhiteRoundedButton(text="Calculate",
@@ -848,10 +851,9 @@ class KirchhoffScreen(Screen):
             # If there are no empty fields, continue with the calculations.
             self.calculate_kirchhoff_values()
 
-
     def calculate_kirchhoff_values(self):
         """Calculate values according to the currently selected option."""
-        Vt, V1, V2, V3, V4, I1, I2, I3, I4 = sympy.symbols('Vt, V1, V2, V3, V4, I1, 12, I3, I4')
+        Vt, V1, V2, V3, V4, I1, I2, I3, I4 = sympy.symbols('Vt, V1, V2, V3, V4, I1, I2, I3, I4')
         # TODO: If the student has entered values, solve the equations and show the values.
         # Otherwise, the sympy.solve function will show the equations (so let's show that!)
         Vt = float(self.VT_input.text)
@@ -870,12 +872,14 @@ class KirchhoffScreen(Screen):
         equations.append(sympy.Eq(Vt - V1 - V3 - V4, 0))
 
         unknowns = [V4, I3, I4]
-        solution = sympy.solve(equations, unknowns)
-        self.label_equations.text = str(solution)
-        #self.label_I2.text = str(equations)
+        solutions = sympy.solve(equations, unknowns)
+        self.V4_input.text = str(solutions[V4])
+        solutions_text = ""
         print('Solutions')
-        for sol in solution:
-            print('  ', sol, '=', solution[sol])
+        for solution in solutions:
+            print('  ', solution, '=', solutions[solution])
+            solutions_text += f"{solution} = {solutions[solution]}\n"
+        self.label_solutions.text = solutions_text
 
 
 class OhmCalcScreen(Screen):
