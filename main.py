@@ -794,7 +794,7 @@ class KirchhoffScreen(Screen):
         self.results_layout = BoxLayout(orientation="vertical",
                                         spacing=2,
                                         size_hint=(0.30, 0.30),
-                                        pos_hint={"center_x": 0.5, "top": 0.5})
+                                        pos_hint={"center_x": 0.5, "top": 0.3})
 
         self.float_layout.add_widget(self.results_layout)
 
@@ -866,18 +866,16 @@ class KirchhoffScreen(Screen):
         V3 = float(self.V3_input.text)
 
         equations = []
-        equations.append(sympy.Eq(V2, V3))
-        equations.append(sympy.Eq(I3, I1 - I2))
-        equations.append(sympy.Eq(I4, I2 + I3))
+        #equations.append(sympy.Eq(V2, V3))
+        #equations.append(sympy.Eq(I3, I1 - I2))
+        #equations.append(sympy.Eq(I4, I2 + I3))
         equations.append(sympy.Eq(Vt - V1 - V3 - V4, 0))
 
         unknowns = [V4, I3, I4]
         solutions = sympy.solve(equations, unknowns)
         self.V4_input.text = str(solutions[V4])
         solutions_text = ""
-        print('Solutions')
         for solution in solutions:
-            print('  ', solution, '=', solutions[solution])
             solutions_text += f"{solution} = {solutions[solution]}\n"
         self.label_solutions.text = solutions_text
 
