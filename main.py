@@ -873,11 +873,14 @@ class KirchhoffScreen(Screen):
 
         unknowns = [V4, I3, I4]
         solutions = sympy.solve(equations, unknowns)
-        self.V4_input.text = str(solutions[V4])
+        for k, v in solutions.items():
+            solutions[k] = float(str(v)[:4])
+
         solutions_text = ""
         for solution in solutions:
             solutions_text += f"{solution} = {solutions[solution]}\n"
         self.label_solutions.text = solutions_text
+        self.V4_input.text = str(solutions[V4])
 
 
 class OhmCalcScreen(Screen):
