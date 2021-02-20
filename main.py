@@ -826,19 +826,17 @@ class KirchhoffScreen(Screen):
 
         # A list to contain the IDs of the fields which are missing values.
         empty_fields = []
+        # A list to contain the IDs of the fields with negative values.
         negative_fields = []
 
         fields_to_check = [self.VT_input,
                            self.V1_input,
                            self.V2_input,
                            self.V3_input]
-        for field in fields_to_check:
-            if field.text == "":
-                empty_fields.append(field.id)
-            if "-" in field.text:
-                negative_fields.append(field.id)
 
-        v_sum = float(self.V1_input.text) + float(self.V2_input.text)
+        empty_fields = [field.id for field in fields_to_check if "" == field.text]
+
+        negative_fields = [field.id for field in fields_to_check if "-" in field.text]
 
         if empty_fields:
             message = f"Please enter a value in {', '.join(empty_fields)}"
@@ -852,7 +850,7 @@ class KirchhoffScreen(Screen):
             popup.title = "Negative values are not allowed!"
             popup.label_text = message
             popup.open()
-        elif v_sum > float(self.VT_input.text):
+        elif (float(self.V1_input.text) + float(self.V2_input.text)) > float(self.VT_input.text):
             message = f"The sum of V1, and V2/V3 cannot be greater than Vt"
             popup = KirchhoffPopup()
             popup.title = "Invalid voltage."
