@@ -822,18 +822,23 @@ class KirchhoffScreen(Screen):
 
     def validate_inputs(self, instance):
         """Validate appropiate inputs (before calculating results)."""
-        #TODO: Validate that the inputs have values.
+        #TODO: Validate all possible cases.
 
         # A list to contain the IDs of the fields which are missing values.
         empty_fields = []
         negative_fields = []
 
-        fields_to_check = [self.VT_input, self.V1_input, self.V2_input, self.V3_input]
+        fields_to_check = [self.VT_input,
+                           self.V1_input,
+                           self.V2_input,
+                           self.V3_input]
         for field in fields_to_check:
             if field.text == "":
                 empty_fields.append(field.id)
             if "-" in field.text:
                 negative_fields.append(field.id)
+
+        v_sum = float(self.V1_input.text) + float(self.V2_input.text)
 
         if empty_fields:
             message = f"Please enter a value in {', '.join(empty_fields)}"
@@ -847,8 +852,14 @@ class KirchhoffScreen(Screen):
             popup.title = "Negative values are not allowed!"
             popup.label_text = message
             popup.open()
+        elif v_sum > float(self.VT_input.text):
+            message = f"The sum of V1, and V2/V3 cannot be greater than Vt"
+            popup = KirchhoffPopup()
+            popup.title = "Invalid voltage."
+            popup.label_text = message
+            popup.open()
         else:
-            # If there are no empty fields, continue with the calculations.
+            # If there are no invalid fields, continue with the calculations.
             self.calculate_kirchhoff_values()
 
     def calculate_kirchhoff_values(self):
