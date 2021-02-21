@@ -799,10 +799,48 @@ class KirchhoffScreen(Screen):
         self.float_layout.add_widget(self.results_layout)
 
         # Add rows for the results "table".
-        self.label_equations = Label(text=f"I3 = I1 - 12\nV2 = V3\nI4 = I1\nV4 = Vt - V1 - V3")
+        self.label_equations = Label(text="I3 = I1 - 12\n"
+                                          "V2 = V3\n"
+                                          "I4 = I1\n"
+                                          "V4 = Vt - V1 - V3")
         self.results_layout.add_widget(self.label_equations)
-        self.label_solutions = Label(text=f"")
+        self.label_solutions = Label(text="")
         self.results_layout.add_widget(self.label_solutions)
+
+        # Add a selection between the two Kirchhoff laws.
+        self.laws_selection_layout = GridLayout(cols=2,
+                                                rows=2,
+                                                spacing=0,
+                                                pos_hint={"center_x": 0.5,
+                                                          "top": 0.95},
+                                                size_hint=(0.9, 0.12))
+        self.float_layout.add_widget(self.laws_selection_layout)
+
+        # Add a radio button group with the 2 options.
+        self.current_checkbox = CheckBox()
+        self.current_checkbox.group = "option"
+        self.current_checkbox.id = "current_checkbox"
+        self.laws_selection_layout.add_widget(self.current_checkbox)
+        # Attach a callback.
+        self.current_checkbox.bind(active=self.on_checkbox_Active)
+
+        self.voltage_checkbox = CheckBox()
+        self.voltage_checkbox.group = "option"
+        self.voltage_checkbox.id = "voltage_checkbox"
+        self.laws_selection_layout.add_widget(self.voltage_checkbox)
+        # Attach a callback.
+        self.voltage_checkbox.bind(active=self.on_checkbox_Active)
+
+        # Add a label for each radio button.
+        current_label = Label(text="Current",
+                              halign='center',
+                              font_size="10sp")
+        self.laws_selection_layout.add_widget(current_label)
+
+        voltage_label = Label(text="Voltage",
+                              halign='center',
+                              font_size="10sp")
+        self.laws_selection_layout.add_widget(voltage_label)
 
         # Add a "Calculate" button.
         self.calculate_button = WhiteRoundedButton(text="Calculate",
@@ -812,6 +850,26 @@ class KirchhoffScreen(Screen):
                                                              "bottom": 1})
         self.calculate_button.bind(on_press=self.validate_inputs)
         self.float_layout.add_widget(self.calculate_button)
+
+    # Callback for the checkbox
+    def on_checkbox_Active(self, checkboxInstance, isActive):
+        """Deactivate the other two input fields and reset values."""
+        if checkboxInstance.id == "voltage_checkbox":
+            self.I1_input.disabled = True
+            self.I2_input.disabled = True
+            self.I3_input.disabled = True
+            self.VT_input.disabled = False
+            self.V1_input.disabled = False
+            self.V2_input.disabled = False
+            self.V3_input.disabled = False
+        elif checkboxInstance.id == "current_checkbox":
+            self.I1_input.disabled = False
+            self.I2_input.disabled = False
+            self.I3_input.disabled = False
+            self.VT_input.disabled = True
+            self.V1_input.disabled = True
+            self.V2_input.disabled = True
+            self.V3_input.disabled = True
 
     def v2v3_equality(self, instance, value):
         """On the key press, make sure V2 and V3 have the same text."""
