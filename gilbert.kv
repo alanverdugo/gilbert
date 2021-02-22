@@ -196,7 +196,7 @@
 <WhiteRoundedButton@Button>
     # This custom button is very similar to "MenuScreenButton"
     # but it does not have any icons
-    id: purple_rounded_button
+    id: white_rounded_button
     # Make the button "invisible", since we are going to manipulate its canvas.
     background_color: (0, 0, 0, 0)
     background_normal: ""
@@ -329,8 +329,37 @@
     Label:
         markup: True
         text: "1 - Select which value you want to calculate:\n([b]Volts[/b], [b]Amperes[/b] or [b]Ohms[/b]).\n\n2 - Enter the two remaining values in their respective input boxes.\n\n3 - Press the 'Calculate' button.\n\nThe result will be displayed in its input box."
-        # Make the text of the label wrap if it does not
-        # fit the label rectangle.
+        # Make the text of the label wrap if it does not fit the label rectangle.
+        halign: "center"
+        valign: "middle"
+        text_size: self.width, None
+        height: self.texture_size[1]
+
+<KirchhoffInstructionsPopup@Popup>
+    title: 'Instructions - Kirchhoff simulator'
+    title_align: "center"
+    separator_color: purple_separator_color
+    auto_dismiss: True
+    size_hint: 0.5, 0.5
+    Label:
+        markup: True
+        text: "Select [b]Voltage[/b] or [b]Current[/b], enter the values in the active text boxes and click the [b]Calculate[/b] button."
+        # Make the text of the label wrap if it does not fit the label rectangle.
+        halign: "center"
+        valign: "middle"
+        text_size: self.width, None
+        height: self.texture_size[1]
+
+<KirchhoffFormulasPopup@Popup>
+    title: 'Formulas - Kirchhoff simulator'
+    title_align: "center"
+    separator_color: purple_separator_color
+    auto_dismiss: True
+    size_hint: 0.5, 0.5
+    Label:
+        markup: True
+        text: "I3 = I1 - 12\nV2 = V3\nI4 = I1\nV4 = Vt - V1 - V3"
+        # Make the text of the label wrap if it does not fit the label rectangle.
         halign: "center"
         valign: "middle"
         text_size: self.width, None
@@ -345,8 +374,7 @@
     Label:
         markup: True
         text: "In order to calculate a value, you must enter the other two values.\n\nFor example, if you want to calculate the Resistance, you must provide the values for Amperes and Volts."
-        # Make the text of the label wrap if it does not
-        # fit the label rectangle.
+        # Make the text of the label wrap if it does not fit the label rectangle.
         halign: "center"
         valign: "middle"
         text_size: self.width, None
@@ -363,13 +391,11 @@
     Label:
         markup: True
         text: root.label_text
-        # Make the text of the label wrap if it does not
-        # fit the label rectangle.
+        # Make the text of the label wrap if it does not fit the label rectangle.
         halign: "center"
         valign: "middle"
         text_size: self.width, None
         height: self.texture_size[1]
-
 
 <DraggableImage>:
     drag_rectangle: self.x, self.y, self.right, self.top
