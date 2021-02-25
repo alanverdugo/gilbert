@@ -898,7 +898,7 @@ class KirchhoffScreen(Screen):
             self.V2_input.disabled = False
             self.V3_input.disabled = False
         elif checkboxInstance.id == "current_checkbox":
-            self.I1_input.disabled = False
+            self.I1_input.disabled = False 
             self.I2_input.disabled = False
             self.I3_input.disabled = False
             self.VT_input.disabled = True
@@ -944,7 +944,9 @@ class KirchhoffScreen(Screen):
             popup.label_text = message
             popup.open()
         elif (float(self.V1_input.text) + float(self.V2_input.text)) > float(self.VT_input.text):
-            message = f"The sum of V1, and V2/V3 cannot be greater than Vt"
+            message = f"The sum of [b]V1[/b] ({self.V1_input.text}), and " \
+                      f"[b]V2[/b]/[b]V3[/b] ({self.V2_input.text}) cannot be greater " \
+                      f"than [b]Vt[/b] ({self.VT_input.text})"
             popup = KirchhoffPopup()
             popup.title = "Invalid voltage."
             popup.label_text = message
