@@ -725,7 +725,8 @@ class KirchhoffScreen(Screen):
                                   input_type="number",
                                   multiline=False,
                                   input_filter="float",
-                                  halign='center')
+                                  halign='center',
+                                  id="I1")
         self.I1_grid_layout.add_widget(self.I1_input)
 
         # Add a box layout for the I2 Label+input combo (to make it easier
@@ -744,7 +745,8 @@ class KirchhoffScreen(Screen):
                                   input_type="number",
                                   multiline=False,
                                   input_filter="float",
-                                  halign='center')
+                                  halign='center',
+                                  id="I2")
         self.I2_grid_layout.add_widget(self.I2_input)
 
         # Add a box layout for the I3 Label+input combo (to make it easier
@@ -763,7 +765,8 @@ class KirchhoffScreen(Screen):
                                   input_type="number",
                                   multiline=False,
                                   input_filter="float",
-                                  halign='center')
+                                  halign='center',
+                                  id="I3")
         self.I3_grid_layout.add_widget(self.I3_input)
 
         # Add a box layout for the I4 Label+input combo (to make it easier
@@ -783,7 +786,8 @@ class KirchhoffScreen(Screen):
                                   multiline=False,
                                   input_filter="float",
                                   halign='center',
-                                  disabled=True)
+                                  disabled=True,
+                                  id="I4")
         self.I4_grid_layout.add_widget(self.I4_input)
 
         # Add a box layout for the VT Label+input combo (to make it easier
@@ -898,7 +902,7 @@ class KirchhoffScreen(Screen):
             self.V2_input.disabled = False
             self.V3_input.disabled = False
         elif checkboxInstance.id == "current_checkbox":
-            self.I1_input.disabled = False 
+            self.I1_input.disabled = False
             self.I2_input.disabled = False
             self.I3_input.disabled = False
             self.VT_input.disabled = True
@@ -916,19 +920,18 @@ class KirchhoffScreen(Screen):
     def validate_inputs(self, instance):
         """Validate appropiate inputs (before calculating results)."""
         #TODO: Validate all possible cases.
+        # Check if the users wants to calculate Voltage or Current.
+        if self.voltage_checkbox.active:
+            fields_to_check = [self.VT_input,
+                               self.V1_input,
+                               self.V2_input,
+                               self.V3_input]
+        else:
+            fields_to_check = [self.I1_input]
 
         # A list to contain the IDs of the fields which are missing values.
-        empty_fields = []
-        # A list to contain the IDs of the fields with negative values.
-        negative_fields = []
-
-        fields_to_check = [self.VT_input,
-                           self.V1_input,
-                           self.V2_input,
-                           self.V3_input]
-
         empty_fields = [field.id for field in fields_to_check if "" == field.text]
-
+        # A list to contain the IDs of the fields with negative values.
         negative_fields = [field.id for field in fields_to_check if "-" in field.text]
 
         if empty_fields:
@@ -943,7 +946,8 @@ class KirchhoffScreen(Screen):
             popup.title = "Negative values are not allowed!"
             popup.label_text = message
             popup.open()
-        elif (float(self.V1_input.text) + float(self.V2_input.text)) > float(self.VT_input.text):
+        elif self.voltage_checkbox.active and \
+            (float(self.V1_input.text) + float(self.V2_input.text)) > float(self.VT_input.text):
             message = f"The sum of [b]V1[/b] ({self.V1_input.text}), and " \
                       f"[b]V2[/b]/[b]V3[/b] ({self.V2_input.text}) cannot be greater " \
                       f"than [b]Vt[/b] ({self.VT_input.text})"
@@ -960,27 +964,38 @@ class KirchhoffScreen(Screen):
         Vt, V1, V2, V3, V4, I1, I2, I3, I4 = sympy.symbols('Vt, V1, V2, V3, V4, I1, I2, I3, I4')
         # TODO: If the student has entered values, solve the equations and show the values.
         # Otherwise, the sympy.solve function will show the equations (so let's show that!)
-        Vt = float(self.VT_input.text)
-        V1 = float(self.V1_input.text)
-        if self.V2_input.text.isdigit() and self.V3_input.text == "":
-            self.V3_input.text = self.V2_input.text
-        if self.V3_input.text.isdigit() and self.V2_input.text == "":
-            self.V2_input.text = self.V3_input.text
-        V2 = float(self.V2_input.text)
-        V3 = float(self.V3_input.text)
 
         equations = []
-        #equations.append(sympy.Eq(V2, V3))
-        #equations.append(sympy.Eq(I3, I1 - I2))
-        #equations.append(sympy.Eq(I4, I2 + I3))
-        equations.append(sympy.Eq(Vt - V1 - V3 - V4, 0))
 
-        unknowns = [V4, I3, I4]
+        if self.voltage_checkbox.active:
+            equations.append(sympy.Eq(Vt - V1 - V3 - V4, 0))
+            Vt = float(self.VT_input.text)
+            V1 = float(self.V1_input.text)
+            if self.V2_input.text.isdigit() and self.V3_input.text == "":
+                self.V3_input.text = self.V2_input.text
+            if self.V3_input.text.isdigit() and self.V2_input.text == "":
+                self.V2_input.text = self.V3_input.text
+            V2 = float(self.V2_input.text)
+            V3 = float(self.V3_input.text)
+
+            unknowns = [V4]
+        elif self.current_checkbox.active:
+            I1 = float(self.I1_input.text)
+            if self.I3_input.text == "":
+                I2 = float(self.I2_input.text)
+                equations.append(sympy.Eq(I3, I1 - I2))
+                unknowns = [I4, I3]
+            if self.I2_input.text == "":
+                I3 = float(self.I3_input.text)
+                equations.append(sympy.Eq(I2, I1 - I3))
+                unknowns = [I4, I2]
+            equations.append(sympy.Eq(I4, I2 + I3))
+
         solutions = sympy.solve(equations, unknowns)
         for k, v in solutions.items():
             solutions[k] = float(str(v)[:4])
 
-        self.V4_input.text = str(solutions[V4])
+        self.V4_input.text = str(solutions.get(V4, ""))
 
         solutions_text = ""
         for solution in solutions:
