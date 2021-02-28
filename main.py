@@ -955,6 +955,16 @@ class KirchhoffScreen(Screen):
             popup.title = "Invalid voltage."
             popup.label_text = message
             popup.open()
+        elif self.current_checkbox.active and \
+            self.I2_input.text != "" and self.I3_input.text != "" and \
+            (float(self.I2_input.text) + float(self.I3_input.text)) > float(self.I1_input.text):
+            message = f"The sum of [b]I2[/b] ({self.I2_input.text}), and " \
+                      f"[b]I3[/b]/[b]V3[/b] ({self.I3_input.text}) cannot be greater " \
+                      f"than [b]I1[/b] ({self.I1_input.text})"
+            popup = KirchhoffPopup()
+            popup.title = "Invalid current."
+            popup.label_text = message
+            popup.open()
         else:
             # If there are no invalid fields, continue with the calculations.
             self.calculate_kirchhoff_values()
@@ -999,14 +1009,34 @@ class KirchhoffScreen(Screen):
                 equations.append(sympy.Eq(I4, I3 + I2))
 
             if self.I3_input.text == "" and self.I2_input.text != "":
-                I2 = float(self.I2_input.text)
-                equations.append(sympy.Eq(I3, I1 - I2))
-                unknowns.append(I3)
+                if float(self.I2_input.text) > float(self.I1_input.text):
+                    message = "The sum of I2 and I3 should be equal to I1.\n"\
+                              "Please correct the values or delete one of "\
+                              "them in order to calculate the other one."
+                    popup = KirchhoffPopup()
+                    popup.title = "Results:"
+                    popup.separator_color = (1, 0, 0, 1)
+                    popup.label_text = message
+                    popup.open()
+                else:
+                    I2 = float(self.I2_input.text)
+                    equations.append(sympy.Eq(I3, I1 - I2))
+                    unknowns.append(I3)
 
             if self.I2_input.text == "" and self.I3_input.text != "":
-                I3 = float(self.I3_input.text)
-                equations.append(sympy.Eq(I2, I1 - I3))
-                unknowns.append(I2)
+                if float(self.I3_input.text) > float(self.I1_input.text):
+                    message = "The sum of I2 and I3 should be equal to I1.\n"\
+                              "Please correct the values or delete one of "\
+                              "them in order to calculate the other one."
+                    popup = KirchhoffPopup()
+                    popup.title = "Results:"
+                    popup.separator_color = (1, 0, 0, 1)
+                    popup.label_text = message
+                    popup.open()
+                else:
+                    I3 = float(self.I3_input.text)
+                    equations.append(sympy.Eq(I2, I1 - I3))
+                    unknowns.append(I2)
 
         solutions = sympy.solve(equations, unknowns)
 
