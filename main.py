@@ -968,7 +968,6 @@ class KirchhoffScreen(Screen):
         equations = []
 
         if self.voltage_checkbox.active:
-            equations.append(sympy.Eq(Vt - V1 - V3 - V4, 0))
             Vt = float(self.VT_input.text)
             V1 = float(self.V1_input.text)
             if self.V2_input.text.isdigit() and self.V3_input.text == "":
@@ -977,35 +976,64 @@ class KirchhoffScreen(Screen):
                 self.V2_input.text = self.V3_input.text
             V2 = float(self.V2_input.text)
             V3 = float(self.V3_input.text)
+            equations.append(sympy.Eq(Vt - V1 - V3 - V4, 0))
 
             unknowns = [V4]
         elif self.current_checkbox.active:
             I1 = float(self.I1_input.text)
-            if self.I3_input.text == "":
+            unknowns = [I4]
+
+            if self.I2_input.text != "" and self.I3_input.text != "" and \
+                (float(self.I2_input.text) + float(self.I3_input.text) != float(self.I1_input.text)):
+                message = "The sum of I2 and I3 should be equal to I1.\n"\
+                          "Please correct the values or delete one of "\
+                          "them in order to calculate the other one."
+                popup = KirchhoffPopup()
+                popup.title = "Results:"
+                popup.separator_color = (1, 0, 0, 1)
+                popup.label_text = message
+                popup.open()
+            elif self.I2_input.text != "" and self.I3_input.text != "":
+                I3 = float(self.I3_input.text)
+                I2 = float(self.I2_input.text)
+                equations.append(sympy.Eq(I4, I3 + I2))
+
+            if self.I3_input.text == "" and self.I2_input.text != "":
                 I2 = float(self.I2_input.text)
                 equations.append(sympy.Eq(I3, I1 - I2))
-                unknowns = [I4, I3]
-            if self.I2_input.text == "":
+                unknowns.append(I3)
+
+            if self.I2_input.text == "" and self.I3_input.text != "":
                 I3 = float(self.I3_input.text)
                 equations.append(sympy.Eq(I2, I1 - I3))
-                unknowns = [I4, I2]
-            equations.append(sympy.Eq(I4, I2 + I3))
+                unknowns.append(I2)
 
         solutions = sympy.solve(equations, unknowns)
-        for k, v in solutions.items():
-            solutions[k] = float(str(v)[:4])
 
-        self.V4_input.text = str(solutions.get(V4, ""))
+        if isinstance(solutions, dict):
+            # If solutions is not a dict, it means no solutions were found.
+            # So, let's not do anything.
+            for k, v in solutions.items():
+                solutions[k] = str(v)[:4]
 
-        solutions_text = ""
-        for solution in solutions:
-            solutions_text += f"{solution} = {solutions[solution]}\n"
-        message = f"{solutions_text}"
-        popup = KirchhoffPopup()
-        popup.title = "Results:"
-        popup.separator_color = (0, 1, 0, 1)
-        popup.label_text = message
-        popup.open()
+            if self.V4_input.text == "" and self.voltage_checkbox.active:
+                self.V4_input.text = str(solutions.get(V4, ""))
+            if self.I4_input.text == "" and self.current_checkbox.active:
+                self.I4_input.text = str(solutions.get(I4, ""))
+            if self.I3_input.text == "" and self.current_checkbox.active:
+                self.I3_input.text = str(solutions.get(I3, ""))
+            if self.I2_input.text == "" and self.current_checkbox.active:
+                self.I2_input.text = str(solutions.get(I2, ""))
+
+            solutions_text = ""
+            for solution in solutions:
+                solutions_text += f"{solution} = {solutions[solution]}\n"
+            message = f"{solutions_text}"
+            popup = KirchhoffPopup()
+            popup.title = "Results:"
+            popup.separator_color = (0, 1, 0, 1)
+            popup.label_text = message
+            popup.open()
 
 
 class OhmCalcScreen(Screen):
