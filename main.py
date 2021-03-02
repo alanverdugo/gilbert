@@ -862,6 +862,7 @@ class KirchhoffScreen(Screen):
         # Add the reset button.
         self.reset_button = ResetButton(text="Reset",
                                         font_size="15sp")
+        self.reset_button.bind(on_press=self.reset_kirchhoff_values)
         self.buttons_grid_layout.add_widget(self.reset_button)
 
         # Add the formulas button.
@@ -968,6 +969,23 @@ class KirchhoffScreen(Screen):
         else:
             # If there are no invalid fields, continue with the calculations.
             self.calculate_kirchhoff_values()
+
+    def reset_kirchhoff_values(self, instance):
+        """Reset all the values to their original status."""
+        fields = [self.I1_input,
+                  self.I2_input,
+                  self.I3_input,
+                  self.I4_input,
+                  self.VT_input,
+                  self.V1_input,
+                  self.V2_input,
+                  self.V3_input,
+                  self.V4_input]
+
+        for field in fields:
+            field.text = ""
+
+        self.current_checkbox.state = "down"
 
     def calculate_kirchhoff_values(self):
         """Calculate values according to the currently selected option."""
