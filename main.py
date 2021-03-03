@@ -837,17 +837,17 @@ class KirchhoffScreen(Screen):
         # Add a label for each radio button.
         current_label = Label(text="Current",
                               halign='center',
-                              font_size="10sp")
+                              font_size="15sp")
         self.laws_selection_layout.add_widget(current_label)
 
         voltage_label = Label(text="Voltage",
                               halign='center',
-                              font_size="10sp")
+                              font_size="15sp")
         self.laws_selection_layout.add_widget(voltage_label)
         # Add another grid layout for the buttons.
         self.buttons_grid_layout = GridLayout(cols=4,
                                               rows=1,
-                                              spacing=20,
+                                              spacing=10,
                                               pos_hint={"center_x": 0.5,
                                                         "top": 0.2},
                                               size_hint=(0.9, 0.1))
