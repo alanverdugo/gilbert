@@ -626,7 +626,7 @@ class KirchhoffScreen(Screen):
         # to move it all together).
         self.V1_grid_layout = BoxLayout(orientation="horizontal",
                                         spacing=0,
-                                        size_hint=(0.15, 0.05),
+                                        size_hint=(0.2, 0.05),
                                         pos_hint={"right": 0.45, "top": 0.8})
         # Voltage 1 label.
         self.V1_label = Label(text="V1 =",
@@ -647,7 +647,7 @@ class KirchhoffScreen(Screen):
         # to move it all together).
         self.V2_grid_layout = BoxLayout(orientation="horizontal",
                                         spacing=0,
-                                        size_hint=(0.15, 0.05),
+                                        size_hint=(0.2, 0.05),
                                         pos_hint={"right": 0.55, "top": 0.6})
         # Voltage 2 label.
         self.V2_label = Label(text="V2 =",
@@ -669,8 +669,8 @@ class KirchhoffScreen(Screen):
         # to move it all together).
         self.V3_grid_layout = BoxLayout(orientation="horizontal",
                                         padding=0,
-                                        size_hint=(0.15, 0.05),
-                                        pos_hint={"right": 0.9, "top": 0.6})
+                                        size_hint=(0.2, 0.05),
+                                        pos_hint={"right": 0.95, "top": 0.6})
         self.float_layout.add_widget(self.V3_grid_layout)
         # Voltage 3 label.
         self.V3_label = Label(text="V3=",
@@ -691,7 +691,7 @@ class KirchhoffScreen(Screen):
         # to move it all together).
         self.V4_grid_layout = BoxLayout(orientation="horizontal",
                                         padding=0,
-                                        size_hint=(0.15, 0.05),
+                                        size_hint=(0.2, 0.05),
                                         pos_hint={"right": 0.45, "top": 0.3})
         self.float_layout.add_widget(self.V4_grid_layout)
         # Voltage 4 label.
@@ -713,7 +713,7 @@ class KirchhoffScreen(Screen):
         # to move it all together).
         self.I1_grid_layout = BoxLayout(orientation="horizontal",
                                         padding=0,
-                                        size_hint=(0.15, 0.05),
+                                        size_hint=(0.2, 0.05),
                                         pos_hint={"right": 0.65, "top": 0.8})
         self.float_layout.add_widget(self.I1_grid_layout)
         # Current 1 label.
@@ -733,7 +733,7 @@ class KirchhoffScreen(Screen):
         # to move it all together).
         self.I2_grid_layout = BoxLayout(orientation="horizontal",
                                         spacing=0,
-                                        size_hint=(0.15, 0.05),
+                                        size_hint=(0.2, 0.05),
                                         pos_hint={"right": 0.55, "top": 0.5})
         self.float_layout.add_widget(self.I2_grid_layout)
         # Resistance 2 label.
@@ -753,8 +753,8 @@ class KirchhoffScreen(Screen):
         # to move it all together).
         self.I3_grid_layout = BoxLayout(orientation="horizontal",
                                         spacing=0,
-                                        size_hint=(0.15, 0.05),
-                                        pos_hint={"right": 0.9, "top": 0.5})
+                                        size_hint=(0.2, 0.05),
+                                        pos_hint={"right": 0.95, "top": 0.5})
         self.float_layout.add_widget(self.I3_grid_layout)
         # Resistance 3 label.
         self.I3_label = Label(text="I3 =",
@@ -773,7 +773,7 @@ class KirchhoffScreen(Screen):
         # to move it all together).
         self.I4_grid_layout = BoxLayout(orientation="horizontal",
                                         padding=0,
-                                        size_hint=(0.15, 0.05),
+                                        size_hint=(0.2, 0.05),
                                         pos_hint={"right": 0.65, "top": 0.3})
         self.float_layout.add_widget(self.I4_grid_layout)
         # Current 4 label.
@@ -794,7 +794,7 @@ class KirchhoffScreen(Screen):
         # to move it all together).
         self.VT_grid_layout = BoxLayout(orientation="horizontal",
                                         padding=0,
-                                        size_hint=(0.15, 0.05),
+                                        size_hint=(0.2, 0.05),
                                         pos_hint={"right": 0.22, "top": 0.55})
         self.float_layout.add_widget(self.VT_grid_layout)
         # VT label.
@@ -849,31 +849,31 @@ class KirchhoffScreen(Screen):
                                               rows=1,
                                               spacing=10,
                                               pos_hint={"center_x": 0.5,
-                                                        "top": 0.2},
+                                                        "bottom": 1},
                                               size_hint=(0.9, 0.1))
         self.float_layout.add_widget(self.buttons_grid_layout)
 
         # Add the instructions button.
         self.instructions_button = PurpleRoundedButton(text="Instructions",
-                                                       font_size="15sp")
+                                                       font_size="13sp")
         self.instructions_button.bind(on_press=self.show_instructions)
         self.buttons_grid_layout.add_widget(self.instructions_button)
 
         # Add the reset button.
         self.reset_button = ResetButton(text="Reset",
-                                        font_size="15sp")
+                                        font_size="13sp")
         self.reset_button.bind(on_press=self.reset_kirchhoff_values)
         self.buttons_grid_layout.add_widget(self.reset_button)
 
         # Add the formulas button.
         self.formulas_button = PurpleRoundedButton(text="Formulas",
-                                                   font_size="15sp")
+                                                   font_size="13sp")
         self.formulas_button.bind(on_press=self.show_formulas)
         self.buttons_grid_layout.add_widget(self.formulas_button)
 
         # Add a "Calculate" button.
         self.calculate_button = PurpleRoundedButton(text="Calculate",
-                                                    font_size="15sp")
+                                                    font_size="13sp")
         self.calculate_button.bind(on_press=self.validate_inputs)
         self.buttons_grid_layout.add_widget(self.calculate_button)
 
@@ -1011,6 +1011,14 @@ class KirchhoffScreen(Screen):
             I1 = float(self.I1_input.text)
             unknowns = [I4]
 
+            if self.I1_input.text != "" and self.I2_input.text == "" and self.I3_input.text == "":
+                message = "Please enter a value in either [b]I2[/b] or [b]I3[/b]."
+                popup = KirchhoffPopup()
+                popup.title = "Warning!"
+                popup.separator_color = (1, 0, 0, 1)
+                popup.label_text = message
+                popup.open()
+
             if self.I2_input.text != "" and self.I3_input.text != "" and \
                 (float(self.I2_input.text) + float(self.I3_input.text) != float(self.I1_input.text)):
                 message = "The sum of I2 and I3 should be equal to I1.\n"\
@@ -1032,7 +1040,7 @@ class KirchhoffScreen(Screen):
                               "Please correct the values or delete one of "\
                               "them in order to calculate the other one."
                     popup = KirchhoffPopup()
-                    popup.title = "Results:"
+                    popup.title = "Warning!"
                     popup.separator_color = (1, 0, 0, 1)
                     popup.label_text = message
                     popup.open()
@@ -1047,7 +1055,7 @@ class KirchhoffScreen(Screen):
                               "Please correct the values or delete one of "\
                               "them in order to calculate the other one."
                     popup = KirchhoffPopup()
-                    popup.title = "Results:"
+                    popup.title = "Warning!"
                     popup.separator_color = (1, 0, 0, 1)
                     popup.label_text = message
                     popup.open()
