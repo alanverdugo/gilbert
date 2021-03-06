@@ -1070,7 +1070,7 @@ class KirchhoffScreen(Screen):
             # If solutions is not a dict, it means no solutions were found.
             # So, let's not do anything.
             for k, v in solutions.items():
-                solutions[k] = str(v)[:4]
+                solutions[k] = str(round(v, 2))
 
             if self.V4_input.text == "" and self.voltage_checkbox.active:
                 self.V4_input.text = str(solutions.get(V4, ""))

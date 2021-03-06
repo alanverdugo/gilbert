@@ -95,6 +95,19 @@ If the build is successful, the application should be installed and start runnin
 
 ### Build a release version of the application
 
+First export the environment variables that Google expects in order to build the .apk file(s):
+
+```bash
+export P4A_RELEASE_KEYSTORE=/path/toplaystore.keystore
+export P4A_RELEASE_KEYSTORE_PASSWD=<keystore_password>
+export P4A_RELEASE_KEYALIAS_PASSWD=<keyalias_password>
+export P4A_RELEASE_KEYALIAS=<alias_for_the_file>
+```
+
+At this moment it is recommended to update the `version` value in `buildozer.spec`
+
+Then, execute the release build:
+
 ```bash
 buildozer android release
 ```
@@ -110,6 +123,21 @@ android.arch = armeabi-v7a
 **Note:** Currently, Google asks to target 32 and 64 bit architectures, so we need to provide one `.apk` file for each of them. In order to do this, the `buildozer.spec` file needs to be edited and use `armeabi-v7a` for 32 bits, execute `buildozer android release`, then edit the file again. Use `arm64-v8a` for 64 bits, execute `buildozer android release` again.
 
 This will produce two `.apk` files, which will need to be uploaded to Google.
+
+**Note 2:** If the release fails with an error like this:
+> Please install the mpmath package with a version >= 0.19
+It is because the `sympy` package has the requirement. The way to solve that is explained in StackOverflow: https://stackoverflow.com/a/64597102
+
+Basically, follow these steps:
+
+1 - You should install mpmath on your python interpreter
+
+2 - Copy the mpmath folder
+
+3 - Find the sympy folder on you project project_folder/.buildozer/android/platform/build-armeabi-v7a/build/other_builds/sympy/armeabi-v7a__ndk_target_21/sympy some folders should be named different
+
+4 - Paste the mpmath folder into folder from 3 step
+
 
 ---
 
