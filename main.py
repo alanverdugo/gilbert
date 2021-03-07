@@ -820,19 +820,19 @@ class KirchhoffScreen(Screen):
         self.float_layout.add_widget(self.laws_selection_layout)
 
         # Add a radio button group with the 2 options.
-        self.current_checkbox = CheckBox()
-        self.current_checkbox.group = "option"
-        self.current_checkbox.id = "current_checkbox"
-        self.laws_selection_layout.add_widget(self.current_checkbox)
+        self.kirchhoff_current_checkbox = CheckBox()
+        self.kirchhoff_current_checkbox.group = "option_kirchhoff"
+        self.kirchhoff_current_checkbox.id = "current_checkbox"
+        self.laws_selection_layout.add_widget(self.kirchhoff_current_checkbox)
         # Attach a callback.
-        self.current_checkbox.bind(active=self.on_checkbox_Active)
+        self.kirchhoff_current_checkbox.bind(active=self.on_checkbox_Active)
 
-        self.voltage_checkbox = CheckBox()
-        self.voltage_checkbox.group = "option"
-        self.voltage_checkbox.id = "voltage_checkbox"
-        self.laws_selection_layout.add_widget(self.voltage_checkbox)
+        self.kirchhoff_voltage_checkbox = CheckBox()
+        self.kirchhoff_voltage_checkbox.group = "option_kirchhoff"
+        self.kirchhoff_voltage_checkbox.id = "voltage_checkbox"
+        self.laws_selection_layout.add_widget(self.kirchhoff_voltage_checkbox)
         # Attach a callback.
-        self.voltage_checkbox.bind(active=self.on_checkbox_Active)
+        self.kirchhoff_voltage_checkbox.bind(active=self.on_checkbox_Active)
 
         # Add a label for each radio button.
         current_label = Label(text="Current",
@@ -879,7 +879,7 @@ class KirchhoffScreen(Screen):
 
         # Once all the items are in place, activate one of the
         # radio buttons by default.
-        self.current_checkbox.state = "down"
+        self.kirchhoff_current_checkbox.state = "down"
 
     def show_instructions(self, instance):
         """Display instructions for this section."""
@@ -920,9 +920,8 @@ class KirchhoffScreen(Screen):
 
     def validate_inputs(self, instance):
         """Validate appropiate inputs (before calculating results)."""
-        #TODO: Validate all possible cases.
         # Check if the users wants to calculate Voltage or Current.
-        if self.voltage_checkbox.active:
+        if self.kirchhoff_voltage_checkbox.active:
             fields_to_check = [self.VT_input,
                                self.V1_input,
                                self.V2_input,
@@ -947,7 +946,7 @@ class KirchhoffScreen(Screen):
             popup.title = "Negative values are not allowed!"
             popup.label_text = message
             popup.open()
-        elif self.voltage_checkbox.active and \
+        elif self.kirchhoff_voltage_checkbox.active and \
             (float(self.V1_input.text) + float(self.V2_input.text)) > float(self.VT_input.text):
             message = f"The sum of [b]V1[/b] ({self.V1_input.text}), and " \
                       f"[b]V2[/b]/[b]V3[/b] ({self.V2_input.text}) cannot be greater " \
@@ -956,7 +955,7 @@ class KirchhoffScreen(Screen):
             popup.title = "Invalid voltage."
             popup.label_text = message
             popup.open()
-        elif self.current_checkbox.active and \
+        elif self.kirchhoff_current_checkbox.active and \
             self.I2_input.text != "" and self.I3_input.text != "" and \
             (float(self.I2_input.text) + float(self.I3_input.text)) > float(self.I1_input.text):
             message = f"The sum of [b]I2[/b] ({self.I2_input.text}), and " \
@@ -985,7 +984,7 @@ class KirchhoffScreen(Screen):
         for field in fields:
             field.text = ""
 
-        self.current_checkbox.state = "down"
+        self.kirchhoff_current_checkbox.state = "down"
 
     def calculate_kirchhoff_values(self):
         """Calculate values according to the currently selected option."""
@@ -995,7 +994,7 @@ class KirchhoffScreen(Screen):
 
         equations = []
 
-        if self.voltage_checkbox.active:
+        if self.kirchhoff_voltage_checkbox.active:
             Vt = float(self.VT_input.text)
             V1 = float(self.V1_input.text)
             if self.V2_input.text.isdigit() and self.V3_input.text == "":
@@ -1007,7 +1006,7 @@ class KirchhoffScreen(Screen):
             equations.append(sympy.Eq(Vt - V1 - V3 - V4, 0))
 
             unknowns = [V4]
-        elif self.current_checkbox.active:
+        elif self.kirchhoff_current_checkbox.active:
             I1 = float(self.I1_input.text)
             unknowns = [I4]
 
@@ -1070,15 +1069,15 @@ class KirchhoffScreen(Screen):
             # If solutions is not a dict, it means no solutions were found.
             # So, let's not do anything.
             for k, v in solutions.items():
-                solutions[k] = str(round(v, 2))
+                solutions[k] = round(float(v), 3)
 
-            if self.V4_input.text == "" and self.voltage_checkbox.active:
+            if self.kirchhoff_voltage_checkbox.active:
                 self.V4_input.text = str(solutions.get(V4, ""))
-            if self.I4_input.text == "" and self.current_checkbox.active:
+            if self.kirchhoff_current_checkbox.active:
                 self.I4_input.text = str(solutions.get(I4, ""))
-            if self.I3_input.text == "" and self.current_checkbox.active:
+            if self.I3_input.text == "" and self.kirchhoff_current_checkbox.active:
                 self.I3_input.text = str(solutions.get(I3, ""))
-            if self.I2_input.text == "" and self.current_checkbox.active:
+            if self.I2_input.text == "" and self.kirchhoff_current_checkbox.active:
                 self.I2_input.text = str(solutions.get(I2, ""))
 
             solutions_text = ""
