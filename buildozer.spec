@@ -36,7 +36,7 @@ version = 1.6.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,pil,pygments,docutils,sqlite3,sympy
+requirements = python3,kivy,pil,pygments,docutils,sqlite3,sympy,ffpyplayer
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes

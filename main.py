@@ -28,7 +28,7 @@ from kivy.uix.settings import SettingsWithTabbedPanel
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.rst import RstDocument
 from kivy.uix.popup import Popup
-from kivy.uix.behaviors import DragBehavior
+from kivy.uix.videoplayer import VideoPlayer
 
 # Layouts
 from kivy.uix.floatlayout import FloatLayout
@@ -186,14 +186,6 @@ class AboutScreen(Screen):
     Custom Screen Class for the About section.
 
     It inherits from Screen.
-    """
-
-
-class DraggableImage(DragBehavior, Image):
-    """
-    An image that you can drag and maybe drop.
-
-    It inherits from Image and DragBehaviour.
     """
 
 
@@ -601,19 +593,6 @@ class KirchhoffScreen(Screen):
         self.float_layout = FloatLayout()
         self.add_widget(self.float_layout)
 
-        # Add the equation.
-        #self.equation_image = Image(source="assets/images/I_318px-law_triangle.png",
-        #                            keep_ratio=False,
-        #                            size_hint=(None, None),
-        #                            width="150sp",
-        #                            height="150sp",
-        #                            allow_stretch=True,
-        #                            pos_hint={"center_x": 0.5, "top": 0.97})
-
-        # Add a draggable image.
-        #self.draggable_image = DraggableImage()
-        #self.float_layout.add_widget(self.draggable_image)
-
         # Add the circuit image.
         self.circuit_image = Image(source="assets/images/circuit_tall.png",
                                    keep_ratio=False,
@@ -845,7 +824,7 @@ class KirchhoffScreen(Screen):
                               font_size="15sp")
         self.laws_selection_layout.add_widget(voltage_label)
         # Add another grid layout for the buttons.
-        self.buttons_grid_layout = GridLayout(cols=4,
+        self.buttons_grid_layout = GridLayout(cols=5,
                                               rows=1,
                                               spacing=10,
                                               pos_hint={"center_x": 0.5,
@@ -871,6 +850,12 @@ class KirchhoffScreen(Screen):
         self.formulas_button.bind(on_press=self.show_formulas)
         self.buttons_grid_layout.add_widget(self.formulas_button)
 
+        # Add a "Example" button.
+        self.example_button = PurpleRoundedButton(text="Example",
+                                                    font_size="13sp")
+        self.example_button.bind(on_press=self.play_example_video)
+        self.buttons_grid_layout.add_widget(self.example_button)
+
         # Add a "Calculate" button.
         self.calculate_button = PurpleRoundedButton(text="Calculate",
                                                     font_size="13sp")
@@ -880,6 +865,17 @@ class KirchhoffScreen(Screen):
         # Once all the items are in place, activate one of the
         # radio buttons by default.
         self.kirchhoff_current_checkbox.state = "down"
+
+    def play_example_video(self, instance):
+        """Play an example video for this section."""
+        self.video_layout = FloatLayout(size_hint=(0.5, 0.7),
+                                        pos_hint={"right": 0.5, "top": 0.5})
+        self.player = VideoPlayer(source='01-intro.mp4',
+                                  state="stop",
+                                  options={'allow_stretch': False})
+        self.video_layout.add_widget(self.player)
+        self.float_layout.add_widget(self.video_layout)
+        self.player.state = 'play'
 
     def show_instructions(self, instance):
         """Display instructions for this section."""
