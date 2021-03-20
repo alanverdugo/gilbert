@@ -137,9 +137,6 @@
         Rectangle:
             size: self.size
             pos: self.pos
-    #DraggableImage:
-    #    size_hint: 0.25, 0.2
-    #    text: 'Drag me'
 
 <OhmScreen@Screen>
     # Set background color for the Ohm simulator.
@@ -396,3 +393,17 @@
         valign: "middle"
         text_size: self.width, None
         height: self.texture_size[1]
+
+<ExampleVideoPopup@Popup>
+    title: 'Example'
+    title_align: "center"
+    auto_dismiss: True
+    size_hint: 0.5, 0.8
+    # Custom properties:
+    video_state: "play"
+    file_source: ""
+    VideoPlayer:
+        source: root.file_source
+        allow_fullscreen: False
+        options: {"allow_stretch": False}
+        state: root.video_state

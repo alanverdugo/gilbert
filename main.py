@@ -85,6 +85,14 @@ class QuestionLabel(Label):
     """
 
 
+class ExampleVideoPopup(Popup):
+    """
+    Custom PopUp to show usage instructions.
+
+    It inherits from from kivy.uix.popup
+    """
+
+
 class StudyInstructionsPopup(Popup):
     """
     Custom PopUp to show usage instructions.
@@ -868,14 +876,15 @@ class KirchhoffScreen(Screen):
 
     def play_example_video(self, instance):
         """Play an example video for this section."""
-        self.video_layout = FloatLayout(size_hint=(0.5, 0.7),
-                                        pos_hint={"right": 0.5, "top": 0.5})
-        self.player = VideoPlayer(source='01-intro.mp4',
-                                  state="stop",
-                                  options={'allow_stretch': False})
-        self.video_layout.add_widget(self.player)
-        self.float_layout.add_widget(self.video_layout)
-        self.player.state = 'play'
+        popup = ExampleVideoPopup()
+        popup.file_source = "01-intro.mp4"
+        # Make sure the video is stopped when the popup is dismissed.
+        popup.bind(on_dismiss=self.stop_video)
+        popup.open()
+
+    def stop_video(self, instance):
+        """Stop the video when the popup is dismissed."""
+        instance.video_state = "stop"
 
     def show_instructions(self, instance):
         """Display instructions for this section."""
