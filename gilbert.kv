@@ -394,16 +394,37 @@
         text_size: self.width, None
         height: self.texture_size[1]
 
-<ExampleVideoPopup@Popup>
+<CarouselLayout@Screen>:
+    name: 'Carousel'
+    fullscreen: True
+    BoxLayout:
+        orientation: "vertical"
+        Carousel:
+            id: carousel
+            loop: True
+            size_hint_y: 0.8
+            top: 1
+
+            Label:
+                text: 'Slide 0'
+            Label:
+                text: 'Slide 1'
+            Label:
+                text: 'Slide 2'
+        BoxLayout:
+            size_hint_y: 0.2
+            bottom: 1
+            Button:
+                text: 'Prev'
+                on_release: carousel.load_previous()
+            Button:
+                text: 'Next'
+                on_release: carousel.load_next()
+
+
+<ExampleCarouselPopup@Popup>
     title: 'Example'
     title_align: "center"
     auto_dismiss: True
     size_hint: 0.5, 0.8
-    # Custom properties:
-    video_state: "play"
-    file_source: ""
-    VideoPlayer:
-        source: root.file_source
-        allow_fullscreen: False
-        options: {"allow_stretch": False}
-        state: root.video_state
+    CarouselLayout

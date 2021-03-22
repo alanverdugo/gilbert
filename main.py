@@ -28,7 +28,6 @@ from kivy.uix.settings import SettingsWithTabbedPanel
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.rst import RstDocument
 from kivy.uix.popup import Popup
-from kivy.uix.videoplayer import VideoPlayer
 
 # Layouts
 from kivy.uix.floatlayout import FloatLayout
@@ -85,9 +84,9 @@ class QuestionLabel(Label):
     """
 
 
-class ExampleVideoPopup(Popup):
+class ExampleCarouselPopup(Popup):
     """
-    Custom PopUp to show usage instructions.
+    Custom PopUp to show example carousel.
 
     It inherits from from kivy.uix.popup
     """
@@ -795,6 +794,7 @@ class KirchhoffScreen(Screen):
                                   input_filter="float",
                                   halign='center',
                                   id="VT")
+        #self.VT_input.bind(text=self.add_units)
         self.VT_grid_layout.add_widget(self.VT_input)
 
         # Add a selection between the two Kirchhoff laws.
@@ -861,7 +861,7 @@ class KirchhoffScreen(Screen):
         # Add a "Example" button.
         self.example_button = PurpleRoundedButton(text="Example",
                                                     font_size="13sp")
-        self.example_button.bind(on_press=self.play_example_video)
+        self.example_button.bind(on_press=self.show_example_carousel)
         self.buttons_grid_layout.add_widget(self.example_button)
 
         # Add a "Calculate" button.
@@ -874,17 +874,16 @@ class KirchhoffScreen(Screen):
         # radio buttons by default.
         self.kirchhoff_current_checkbox.state = "down"
 
-    def play_example_video(self, instance):
-        """Play an example video for this section."""
-        popup = ExampleVideoPopup()
-        popup.file_source = "01-intro.mp4"
-        # Make sure the video is stopped when the popup is dismissed.
-        popup.bind(on_dismiss=self.stop_video)
-        popup.open()
+    def add_units(self, instance, id):
+        """Add units to the text input when the text is updated."""
+        print("key press detected!")
+        if "v" not in instance.text and (instance.text not in ["", "v"]):
+            instance.text = instance.text + "v"
 
-    def stop_video(self, instance):
-        """Stop the video when the popup is dismissed."""
-        instance.video_state = "stop"
+    def show_example_carousel(self, instance):
+        """Show the example carousel popup."""
+        popup = ExampleCarouselPopup()
+        popup.open()
 
     def show_instructions(self, instance):
         """Display instructions for this section."""
