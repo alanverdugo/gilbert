@@ -332,21 +332,6 @@
         text_size: self.width, None
         height: self.texture_size[1]
 
-<KirchhoffInstructionsPopup@Popup>
-    title: 'Instructions - Kirchhoff simulator'
-    title_align: "center"
-    separator_color: purple_separator_color
-    auto_dismiss: True
-    size_hint: 0.5, 0.5
-    Label:
-        markup: True
-        text: "Select [b]Voltage[/b] or [b]Current[/b] at the top of the screen, enter the values in the active text boxes and click the [b]Calculate[/b] button."
-        # Make the text of the label wrap if it does not fit the label rectangle.
-        halign: "center"
-        valign: "middle"
-        text_size: self.width, None
-        height: self.texture_size[1]
-
 <KirchhoffFormulasPopup@Popup>
     title: 'Formulas - Kirchhoff simulator'
     title_align: "center"
@@ -394,37 +379,61 @@
         text_size: self.width, None
         height: self.texture_size[1]
 
-<CarouselLayout@Screen>:
+<KirchhoffInstructionsCarouselLayout@Screen>:
     name: 'Carousel'
     fullscreen: True
     BoxLayout:
         orientation: "vertical"
         Carousel:
-            id: carousel
-            loop: True
+            id: KirchhoffInstructionsCarousel
+            loop: False
             size_hint_y: 0.8
             top: 1
-
-            Label:
-                text: 'Slide 0'
-            Label:
-                text: 'Slide 1'
-            Label:
-                text: 'Slide 2'
+            BoxLayout:
+                orientation: "vertical"
+                Label:
+                    markup: True
+                    text_size: self.width, None
+                    height: self.texture_size[1]
+                    halign: 'center'
+                    text: 'Select [b]Current[/b] or [b]Voltage[/b] at the top of the screen'
+                    size_hint: (1, 0.2)
+                Image:
+                    source: "assets/images/kirchhoff/instructions_01.png"
+            BoxLayout:
+                orientation: "vertical"
+                Label:
+                    markup: True
+                    text_size: self.width, None
+                    height: self.texture_size[1]
+                    halign: 'center'
+                    text: 'Enter the values in the active text boxes'
+                Image:
+                    source: "assets/images/kirchhoff/instructions_01.png"
+            BoxLayout:
+                orientation: "vertical"
+                Label:
+                    markup: True
+                    text_size: self.width, None
+                    height: self.texture_size[1]
+                    halign: 'center'
+                    text: 'Click the [b]Calculate[/b] button.'
+                Image:
+                    source: "assets/images/kirchhoff/instructions_01.png"
         BoxLayout:
             size_hint_y: 0.2
             bottom: 1
             Button:
                 text: 'Prev'
-                on_release: carousel.load_previous()
+                on_release: KirchhoffInstructionsCarousel.load_previous()
             Button:
                 text: 'Next'
-                on_release: carousel.load_next()
+                on_release: KirchhoffInstructionsCarousel.load_next()
 
 
-<ExampleCarouselPopup@Popup>
-    title: 'Example'
+<KirchhoffInstructionsCarouselPopup@Popup>
+    title: 'Instructions'
     title_align: "center"
     auto_dismiss: True
     size_hint: 0.5, 0.8
-    CarouselLayout
+    KirchhoffInstructionsCarouselLayout
