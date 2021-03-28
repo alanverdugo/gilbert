@@ -124,6 +124,14 @@ class KirchhoffInstructionsCarouselPopup(Popup):
     """
 
 
+class KirchhoffExamplesCarouselPopup(Popup):
+    """
+    Custom PopUp to show usage instructions.
+
+    It inherits from from kivy.uix.popup
+    """
+
+
 class KirchhoffFormulasPopup(Popup):
     """
     Custom PopUp to show formulas.
@@ -604,8 +612,8 @@ class KirchhoffScreen(Screen):
         # to move it all together).
         self.V1_box_layout = BoxLayout(orientation="horizontal",
                                        spacing=5,
-                                       size_hint=(0.2, 0.05),
-                                       pos_hint={"right": 0.45, "top": 0.8})
+                                       size_hint=(0.3, 0.05),
+                                       pos_hint={"right": 0.4, "top": 0.8})
         # Voltage 1 label.
         self.V1_label = Label(text="V1=",
                               size_hint_x=0.2,
@@ -660,7 +668,7 @@ class KirchhoffScreen(Screen):
         self.V3_box_layout = BoxLayout(orientation="horizontal",
                                        spacing=5,
                                        size_hint=(0.2, 0.05),
-                                       pos_hint={"right": 0.95, "top": 0.6})
+                                       pos_hint={"right": 0.98, "top": 0.6})
         self.float_layout.add_widget(self.V3_box_layout)
         # Voltage 3 label.
         self.V3_label = Label(text="V3=",
@@ -687,12 +695,12 @@ class KirchhoffScreen(Screen):
         # to move it all together).
         self.V4_box_layout = BoxLayout(orientation="horizontal",
                                        spacing=5,
-                                       size_hint=(0.2, 0.05),
-                                       pos_hint={"right": 0.45, "top": 0.3})
+                                       size_hint=(0.3, 0.05),
+                                       pos_hint={"right": 0.4, "top": 0.3})
         self.float_layout.add_widget(self.V4_box_layout)
         # Voltage 4 label.
         self.V4_label = Label(text="V4=",
-                              size_hint_x=0.2,
+                              size_hint_x=0.25,
                               pos_hint={'right': 1},
                               markup=True)
         self.V4_box_layout.add_widget(self.V4_label)
@@ -715,8 +723,8 @@ class KirchhoffScreen(Screen):
         # to move it all together).
         self.I1_box_layout = BoxLayout(orientation="horizontal",
                                        spacing=5,
-                                       size_hint=(0.2, 0.05),
-                                       pos_hint={"right": 0.65, "top": 0.8})
+                                       size_hint=(0.3, 0.05),
+                                       pos_hint={"right": 0.8, "top": 0.8})
         self.float_layout.add_widget(self.I1_box_layout)
         # Current 1 label.
         self.I1_label = Label(text="I1=",
@@ -739,15 +747,16 @@ class KirchhoffScreen(Screen):
 
         # Add a box layout for the I2 Label+input combo (to make it easier
         # to move it all together).
-        self.I2_grid_layout = BoxLayout(orientation="horizontal",
-                                        spacing=0,
-                                        size_hint=(0.2, 0.05),
-                                        pos_hint={"right": 0.55, "top": 0.5})
-        self.float_layout.add_widget(self.I2_grid_layout)
+        self.I2_box_layout = BoxLayout(orientation="horizontal",
+                                       spacing=5,
+                                       size_hint=(0.2, 0.05),
+                                       pos_hint={"right": 0.55, "top": 0.5})
+        self.float_layout.add_widget(self.I2_box_layout)
         # Resistance 2 label.
-        self.I2_label = Label(text="I2 =",
+        self.I2_label = Label(text="I2=",
+                              size_hint_x=0.2,
                               pos_hint={'right': 1})
-        self.I2_grid_layout.add_widget(self.I2_label)
+        self.I2_box_layout.add_widget(self.I2_label)
         # Resistance 2 input box.
         self.I2_input = TextInput(font_size="18sp",
                                   input_type="number",
@@ -755,19 +764,25 @@ class KirchhoffScreen(Screen):
                                   input_filter="float",
                                   halign='center',
                                   id="I2")
-        self.I2_grid_layout.add_widget(self.I2_input)
+        self.I2_box_layout.add_widget(self.I2_input)
+        # Current 2 units label.
+        self.I2_units_label = Label(text="A",
+                                    size_hint_x=0.15,
+                                    pos_hint={'left': 1})
+        self.I2_box_layout.add_widget(self.I2_units_label)
 
         # Add a box layout for the I3 Label+input combo (to make it easier
         # to move it all together).
-        self.I3_grid_layout = BoxLayout(orientation="horizontal",
-                                        spacing=0,
-                                        size_hint=(0.2, 0.05),
-                                        pos_hint={"right": 0.95, "top": 0.5})
-        self.float_layout.add_widget(self.I3_grid_layout)
+        self.I3_box_layout = BoxLayout(orientation="horizontal",
+                                       spacing=5,
+                                       size_hint=(0.2, 0.05),
+                                       pos_hint={"right": 0.98, "top": 0.5})
+        self.float_layout.add_widget(self.I3_box_layout)
         # Resistance 3 label.
-        self.I3_label = Label(text="I3 =",
+        self.I3_label = Label(text="I3=",
+                              size_hint_x=0.2,
                               pos_hint={'right': 1})
-        self.I3_grid_layout.add_widget(self.I3_label)
+        self.I3_box_layout.add_widget(self.I3_label)
         # Resistance 3 input box.
         self.I3_input = TextInput(font_size="18sp",
                                   input_type="number",
@@ -775,19 +790,25 @@ class KirchhoffScreen(Screen):
                                   input_filter="float",
                                   halign='center',
                                   id="I3")
-        self.I3_grid_layout.add_widget(self.I3_input)
+        self.I3_box_layout.add_widget(self.I3_input)
+        # Current 3 units label.
+        self.I3_units_label = Label(text="A",
+                                    size_hint_x=0.15,
+                                    pos_hint={'left': 1})
+        self.I3_box_layout.add_widget(self.I3_units_label)
 
         # Add a box layout for the I4 Label+input combo (to make it easier
         # to move it all together).
-        self.I4_grid_layout = BoxLayout(orientation="horizontal",
-                                        padding=0,
-                                        size_hint=(0.2, 0.05),
-                                        pos_hint={"right": 0.65, "top": 0.3})
-        self.float_layout.add_widget(self.I4_grid_layout)
+        self.I4_box_layout = BoxLayout(orientation="horizontal",
+                                       spacing=5,
+                                       size_hint=(0.3, 0.05),
+                                       pos_hint={"right": 0.8, "top": 0.3})
+        self.float_layout.add_widget(self.I4_box_layout)
         # Current 4 label.
         self.I4_label = Label(text="I4=",
+                              size_hint_x=0.25,
                               pos_hint={'right': 1})
-        self.I4_grid_layout.add_widget(self.I4_label)
+        self.I4_box_layout.add_widget(self.I4_label)
         # Current 4 input box.
         self.I4_input = TextInput(font_size="18sp",
                                   input_type="number",
@@ -796,18 +817,23 @@ class KirchhoffScreen(Screen):
                                   halign='center',
                                   disabled=True,
                                   id="I4")
-        self.I4_grid_layout.add_widget(self.I4_input)
+        self.I4_box_layout.add_widget(self.I4_input)
+        # Current 4 units label.
+        self.I4_units_label = Label(text="A",
+                                    size_hint_x=0.15,
+                                    pos_hint={'left': 1})
+        self.I4_box_layout.add_widget(self.I4_units_label)
 
         # Add a box layout for the VT Label+input combo (to make it easier
         # to move it all together).
         self.VT_box_layout = BoxLayout(orientation="horizontal",
                                        spacing=5,
                                        size_hint=(0.2, 0.05),
-                                       pos_hint={"right": 0.22, "top": 0.55})
+                                       pos_hint={"right": 0.23, "top": 0.55})
         self.float_layout.add_widget(self.VT_box_layout)
         # VT label.
         self.VT_label = Label(text="VT=",
-                              size_hint_x=0.2,
+                              size_hint_x=0.25,
                               pos_hint={'right': 1})
         self.VT_box_layout.add_widget(self.VT_label)
         # VT input box.
@@ -887,7 +913,7 @@ class KirchhoffScreen(Screen):
 
         # Add a "Example" button.
         self.example_button = PurpleRoundedButton(text="Example",
-                                                    font_size="13sp")
+                                                  font_size="13sp")
         self.example_button.bind(on_press=self.show_example_carousel)
         self.buttons_grid_layout.add_widget(self.example_button)
 
@@ -903,7 +929,7 @@ class KirchhoffScreen(Screen):
 
     def show_example_carousel(self, instance):
         """Show the example carousel popup."""
-        popup = ExampleCarouselPopup()
+        popup = KirchhoffExamplesCarouselPopup()
         popup.open()
 
     def show_instructions_carousel(self, instance):
