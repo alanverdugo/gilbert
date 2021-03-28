@@ -384,7 +384,12 @@
     text_size: self.width, None
     height: self.texture_size[1]
     halign: 'center'
-    size_hint: (1, 0.2)
+    size_hint: (1, 0.3)
+
+<CarouselImage@Image>:
+    size_hinx_y: 1
+    size_hinx_y: None
+    allow_stretch: True
 
 <KirchhoffInstructionsCarouselLayout@Screen>:
     name: 'Carousel'
@@ -400,22 +405,28 @@
                 orientation: "vertical"
                 CarouselLabel:
                     text: 'Select [b]Current[/b] or [b]Voltage[/b] at the top of the screen'
-                Image:
-                    source: "assets/images/kirchhoff/instructions_01.png"
+                CarouselImage:
+                    source: "assets/images/kirchhoff/instructions/01.png"
             BoxLayout:
                 orientation: "vertical"
                 CarouselLabel:
                     text: 'Enter the values in the active text boxes'
-                Image:
-                    source: "assets/images/kirchhoff/instructions_01.png"
+                CarouselImage:
+                    source: "assets/images/kirchhoff/instructions/02.png"
             BoxLayout:
                 orientation: "vertical"
                 CarouselLabel:
-                    text: 'Click the [b]Calculate[/b] button.'
-                Image:
-                    source: "assets/images/kirchhoff/instructions_01.png"
+                    text: 'Click on the [b]Calculate[/b] button to show the results.'
+                CarouselImage:
+                    source: "assets/images/kirchhoff/instructions/03.png"
+            BoxLayout:
+                orientation: "vertical"
+                CarouselLabel:
+                    text: 'Click on the [b]Example[/b] button for further instructions.'
+                CarouselImage:
+                    source: "assets/images/kirchhoff/instructions/04.png"
         BoxLayout:
-            size_hint_y: 0.2
+            size_hint_y: 0.1
             bottom: 1
             Button:
                 text: 'Prev'
@@ -429,7 +440,7 @@
     title: 'Instructions'
     title_align: "center"
     auto_dismiss: True
-    size_hint: 0.5, 0.8
+    size_hint: 0.6, 0.9
     KirchhoffInstructionsCarouselLayout
 
 <KirchhoffExamplesCarouselLayout@Screen>:
@@ -445,23 +456,53 @@
             BoxLayout:
                 orientation: "vertical"
                 CarouselLabel:
-                    text: 'Select [b]Current[/b] or [b]Voltage[/b] at the top of the screen'
-                Image:
-                    source: "assets/images/kirchhoff/instructions_01.png"
+                    text: 'To calculate the [b]Current[/b], select [b]Current[/b] at the top of the screen and enter a value in [b]I1[/b].'
+                CarouselImage:
+                    source: "assets/images/kirchhoff/example_current/01.png"
             BoxLayout:
                 orientation: "vertical"
                 CarouselLabel:
-                    text: 'Enter the values in the active text boxes'
-                Image:
-                    source: "assets/images/kirchhoff/instructions_01.png"
+                    text: 'Enter a value in either [b]I2[/b] or [b]I3[/b].'
+                CarouselImage:
+                    source: "assets/images/kirchhoff/example_current/02.png"
             BoxLayout:
                 orientation: "vertical"
                 CarouselLabel:
-                    text: 'Click the [b]Calculate[/b] button.'
-                Image:
-                    source: "assets/images/kirchhoff/instructions_01.png"
+                    text: 'Click on the [b]Calculate[/b] button. The remaining value (in this case [b]I3[/b]) will be calculated.'
+                CarouselImage:
+                    source: "assets/images/kirchhoff/example_current/03.png"
+            BoxLayout:
+                orientation: "vertical"
+                CarouselLabel:
+                    text: 'Click again on the [b]Calculate[/b] button. [b]I4[/b] will be calculated.'
+                CarouselImage:
+                    source: "assets/images/kirchhoff/example_current/04.png"
+            BoxLayout:
+                orientation: "vertical"
+                CarouselLabel:
+                    text: 'To calculate the [b]Voltage[/b], select [b]Voltage[/b] at the top of the screen and enter a value in [b]VT[/b].'
+                CarouselImage:
+                    source: "assets/images/kirchhoff/example_voltage/01.png"
+            BoxLayout:
+                orientation: "vertical"
+                CarouselLabel:
+                    text: 'Enter a value in [b]V1[/b].'
+                CarouselImage:
+                    source: "assets/images/kirchhoff/example_voltage/02.png"
+            BoxLayout:
+                orientation: "vertical"
+                CarouselLabel:
+                    text: 'Enter a value in either [b]V2[/b] or [b]V3[/b]. Since they must be equal values, the remaining value will be automatically populated.'
+                CarouselImage:
+                    source: "assets/images/kirchhoff/example_voltage/03.png"
+            BoxLayout:
+                orientation: "vertical"
+                CarouselLabel:
+                    text: 'Click on the [b]Calculate[/b] button. [b]V4[/b] will be calculated.'
+                CarouselImage:
+                    source: "assets/images/kirchhoff/example_voltage/04.png"
         BoxLayout:
-            size_hint_y: 0.2
+            size_hint_y: 0.1
             bottom: 1
             Button:
                 text: 'Prev'
@@ -474,5 +515,5 @@
     title: 'Examples'
     title_align: "center"
     auto_dismiss: True
-    size_hint: 0.5, 0.8
+    size_hint: 0.6, 0.9
     KirchhoffExamplesCarouselLayout

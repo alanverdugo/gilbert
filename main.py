@@ -616,7 +616,7 @@ class KirchhoffScreen(Screen):
                                        pos_hint={"right": 0.4, "top": 0.8})
         # Voltage 1 label.
         self.V1_label = Label(text="V1=",
-                              size_hint_x=0.2,
+                              size_hint_x=0.5,
                               pos_hint={'right': 1})
         self.V1_box_layout.add_widget(self.V1_label)
         # Add the grid layout to the general float layout.
@@ -643,7 +643,7 @@ class KirchhoffScreen(Screen):
                                        pos_hint={"right": 0.55, "top": 0.6})
         # Voltage 2 label.
         self.V2_label = Label(text="V2=",
-                              size_hint_x=0.2,
+                              size_hint_x=0.5,
                               pos_hint={'right': 1})
         self.V2_box_layout.add_widget(self.V2_label)
         # Add the grid layout to the general float layout.
@@ -672,7 +672,7 @@ class KirchhoffScreen(Screen):
         self.float_layout.add_widget(self.V3_box_layout)
         # Voltage 3 label.
         self.V3_label = Label(text="V3=",
-                              size_hint_x=0.2,
+                              size_hint_x=0.5,
                               pos_hint={'right': 1},
                               markup=True)
         self.V3_box_layout.add_widget(self.V3_label)
@@ -700,7 +700,7 @@ class KirchhoffScreen(Screen):
         self.float_layout.add_widget(self.V4_box_layout)
         # Voltage 4 label.
         self.V4_label = Label(text="V4=",
-                              size_hint_x=0.25,
+                              size_hint_x=0.5,
                               pos_hint={'right': 1},
                               markup=True)
         self.V4_box_layout.add_widget(self.V4_label)
@@ -833,7 +833,7 @@ class KirchhoffScreen(Screen):
         self.float_layout.add_widget(self.VT_box_layout)
         # VT label.
         self.VT_label = Label(text="VT=",
-                              size_hint_x=0.25,
+                              size_hint_x=0.5,
                               pos_hint={'right': 1})
         self.VT_box_layout.add_widget(self.VT_label)
         # VT input box.
@@ -894,7 +894,7 @@ class KirchhoffScreen(Screen):
         self.float_layout.add_widget(self.buttons_grid_layout)
 
         # Add the instructions button.
-        self.instructions_button = PurpleRoundedButton(text="Instructions",
+        self.instructions_button = PurpleRoundedButton(text="Guide",
                                                        font_size="13sp")
         self.instructions_button.bind(on_press=self.show_instructions_carousel)
         self.buttons_grid_layout.add_widget(self.instructions_button)
@@ -1039,10 +1039,8 @@ class KirchhoffScreen(Screen):
 
     def calculate_kirchhoff_values(self):
         """Calculate values according to the currently selected option."""
-        Vt, V1, V2, V3, V4, I1, I2, I3, I4 = sympy.symbols('Vt, V1, V2, V3, V4, I1, I2, I3, I4')
-        # TODO: If the student has entered values, solve the equations and show the values.
-        # Otherwise, the sympy.solve function will show the equations (so let's show that!)
-
+        Vt, V1, V2, V3, V4, I1, I2, I3, I4 = \
+            sympy.symbols('Vt, V1, V2, V3, V4, I1, I2, I3, I4')
         equations = []
 
         if self.kirchhoff_voltage_checkbox.active:
@@ -1256,7 +1254,7 @@ class OhmCalcScreen(Screen):
         self.float_layout.add_widget(self.buttons_grid_layout)
 
         # Add the instructions button.
-        self.instructions_button = WhiteRoundedButton(text="Instructions",
+        self.instructions_button = WhiteRoundedButton(text="Guide",
                                                       font_size="15sp")
         self.instructions_button.bind(on_press=self.show_instructions)
         self.buttons_grid_layout.add_widget(self.instructions_button)
