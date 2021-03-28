@@ -754,7 +754,7 @@ class KirchhoffScreen(Screen):
         self.float_layout.add_widget(self.I2_box_layout)
         # Resistance 2 label.
         self.I2_label = Label(text="I2=",
-                              size_hint_x=0.2,
+                              size_hint_x=0.25,
                               pos_hint={'right': 1})
         self.I2_box_layout.add_widget(self.I2_label)
         # Resistance 2 input box.
@@ -780,7 +780,7 @@ class KirchhoffScreen(Screen):
         self.float_layout.add_widget(self.I3_box_layout)
         # Resistance 3 label.
         self.I3_label = Label(text="I3=",
-                              size_hint_x=0.2,
+                              size_hint_x=0.25,
                               pos_hint={'right': 1})
         self.I3_box_layout.add_widget(self.I3_label)
         # Resistance 3 input box.
